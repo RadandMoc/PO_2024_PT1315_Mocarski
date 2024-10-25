@@ -3,15 +3,15 @@ package agh.ics.oop;
 import agh.ics.oop.model.MoveDirection;
 
 public class OptionsParser {
-    public static MoveDirection[] whereMove(String[] args)
+    public static MoveDirection[] whereMove(String[] directions)
     {
         int tableLength = 0;
-        for (String st: args)
-            tableLength += st.length();
+        for (String text: directions)
+            tableLength += text.length();
         MoveDirection[] moves = new MoveDirection[tableLength];
         char c;
         int iterator = 0;
-        for(String text : args)
+        for(String text : directions)
         {
             for (int i = 0; i < text.length(); i++) {
                 c = text.charAt(i);
@@ -36,8 +36,7 @@ public class OptionsParser {
         {
             if(i != null)
             {
-                betterTable[indexOfVal] = i;
-                indexOfVal++;
+                betterTable[indexOfVal++] = i;
             }
         }
         return betterTable;
@@ -46,10 +45,10 @@ public class OptionsParser {
     private static MoveDirection whereAnimalMove(char c)
     {
         MoveDirection returner = switch (c) {
-            case 'f' -> MoveDirection.Forward;
-            case 'b' -> MoveDirection.Backward;
-            case 'r' -> MoveDirection.Right;
-            case 'l' -> MoveDirection.Left;
+            case 'f' -> MoveDirection.FORWARD;
+            case 'b' -> MoveDirection.BACKWARD;
+            case 'r' -> MoveDirection.RIGHT;
+            case 'l' -> MoveDirection.LEFT;
             default ->  null;
         };
         return returner;
