@@ -25,11 +25,11 @@ public class Vector2d {
         return y;
     }
 
-    private boolean precedes(Vector2d other){
+    protected boolean precedes(Vector2d other){
         return (x <= other.getX()) && (y <= other.getY());
     }
 
-    private boolean follows(Vector2d other){
+    protected boolean follows(Vector2d other){
         return (x >= other.getX()) && (y >= other.getY());
     }
 
@@ -37,19 +37,19 @@ public class Vector2d {
         return new Vector2d(x+other.getX(),y+other.getY());
     }
 
-    private Vector2d subtract(Vector2d other){
+    protected Vector2d subtract(Vector2d other){
         return new Vector2d(x-other.getX(),y-other.getY());
     }
 
-    private Vector2d upperRight(Vector2d other){
+    protected Vector2d upperRight(Vector2d other){
         return new Vector2d(max(x,other.getX()),max(y,other.getY()));
     }
 
-    private Vector2d lowerLeft(Vector2d other){
+    protected Vector2d lowerLeft(Vector2d other){
         return new Vector2d(min(x,other.getX()),min(y,other.getY()));
     }
 
-    private Vector2d opposite(){
+    protected Vector2d opposite(){
         return new Vector2d(-x,-y);
     }
 
@@ -63,6 +63,6 @@ public class Vector2d {
 
     @Override
     public int hashCode(){
-        return (37*x + y)%2147483647;
+        return (37*x + y);
     }
 }

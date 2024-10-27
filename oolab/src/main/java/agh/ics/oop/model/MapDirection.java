@@ -4,7 +4,7 @@ public enum MapDirection {
     NORTH,
     SOUTH,
     WEST,
-    EAST
+    EAST;
 
     @Override
     public String toString(){
@@ -16,7 +16,7 @@ public enum MapDirection {
         };
     }
 
-    private MapDirection next(){
+    protected MapDirection next(){
         return switch(this) {
             case NORTH -> MapDirection.EAST;
             case SOUTH -> MapDirection.WEST;
@@ -25,7 +25,7 @@ public enum MapDirection {
         };
     }
 
-    private MapDirection previous(){
+    protected MapDirection previous(){
         return switch(this) {
             case NORTH -> MapDirection.WEST;
             case SOUTH -> MapDirection.EAST;
