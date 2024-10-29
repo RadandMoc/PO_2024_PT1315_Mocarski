@@ -1,6 +1,6 @@
 package agh.ics.oop.model;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
 public class Vector2dTest {
@@ -13,7 +13,7 @@ public class Vector2dTest {
         // When
         copy = vec;
         // Then
-        Assertions.assertEquals(vec,copy);
+        assertEquals(vec,copy);
     }
 
     @Test
@@ -25,7 +25,7 @@ public class Vector2dTest {
         // When
         are_references_equal = vec1 == vec2;
         // Then
-        Assertions.assertTrue(vec1.equals(vec2) && (!are_references_equal));
+        assertTrue(vec1.equals(vec2) && (!are_references_equal));
     }
 
     @Test
@@ -39,7 +39,7 @@ public class Vector2dTest {
         // When
         are_references_equal = vec1 == vec2 || vec2 == vec3 || vec3 == vec4;
         // Then
-        Assertions.assertFalse(vec1.equals(vec2) || vec3.equals(vec4) || are_references_equal || vec2.equals(vec3));
+        assertFalse(vec1.equals(vec2) || vec3.equals(vec4) || are_references_equal || vec2.equals(vec3));
     }
 
     @Test
@@ -51,7 +51,7 @@ public class Vector2dTest {
         // When
         funcAnswer = vec.toString();
         // Then
-        Assertions.assertTrue(correct_text.equals(funcAnswer));
+        assertEquals(correct_text, funcAnswer);
     }
 
     @Test
@@ -63,7 +63,7 @@ public class Vector2dTest {
         // When
         funcAnswer = vec1.precedes(vec2);
         // Then
-        Assertions.assertTrue(funcAnswer);
+        assertTrue(funcAnswer);
     }
 
     @Test
@@ -75,7 +75,7 @@ public class Vector2dTest {
         // When
         funcAnswer = vec1.precedes(vec2);
         // Then
-        Assertions.assertTrue(funcAnswer);
+        assertTrue(funcAnswer);
     }
 
     @Test
@@ -87,7 +87,7 @@ public class Vector2dTest {
         // When
         funcAnswer = vec1.precedes(vec2);
         // Then
-        Assertions.assertFalse(funcAnswer);
+        assertFalse(funcAnswer);
     }
 
     @Test
@@ -99,7 +99,7 @@ public class Vector2dTest {
         // When
         funcAnswer = vec1.follows(vec2);
         // Then
-        Assertions.assertTrue(funcAnswer);
+        assertTrue(funcAnswer);
     }
 
     @Test
@@ -111,7 +111,7 @@ public class Vector2dTest {
         // When
         funcAnswer = vec1.follows(vec2);
         // Then
-        Assertions.assertTrue(funcAnswer);
+        assertTrue(funcAnswer);
     }
 
     @Test
@@ -123,11 +123,11 @@ public class Vector2dTest {
         // When
         funcAnswer = vec1.follows(vec2);
         // Then
-        Assertions.assertFalse(funcAnswer);
+        assertFalse(funcAnswer);
     }
 
     @Test
-    public void forVectorsWithDifferentValues_callUpperRight_thenCompareToWithProperlyVector(){
+    public void forVectorsWithDifferentValues_callUpperRight_thenCompareToProperlyVector(){
         // Given
         Vector2d vec1 = new Vector2d(1,3);
         Vector2d vec2 = new Vector2d(3,1);
@@ -135,11 +135,11 @@ public class Vector2dTest {
         // When
         funcAnswer = vec1.upperRight(vec2);
         // Then
-        Assertions.assertEquals(funcAnswer, new Vector2d(3,3));
+        assertEquals(new Vector2d(3,3),funcAnswer);
     }
 
     @Test
-    public void forVectorsWithDifferentValues_callLowerLeft_thenCompareToWithProperlyVector(){
+    public void forVectorsWithDifferentValues_callLowerLeft_thenCompareToProperlyVector(){
         // Given
         Vector2d vec1 = new Vector2d(1,3);
         Vector2d vec2 = new Vector2d(3,1);
@@ -147,11 +147,11 @@ public class Vector2dTest {
         // When
         funcAnswer = vec1.lowerLeft(vec2);
         // Then
-        Assertions.assertEquals(funcAnswer, new Vector2d(1,1));
+        assertEquals(new Vector2d(1,1),funcAnswer);
     }
 
     @Test
-    public void forVectorsWithDifferentValues_callAdd_thenCompareToWithProperlyVector(){
+    public void forVectorsWithDifferentValues_callAdd_thenCompareToProperlyVector(){
         // Given
         Vector2d vec1 = new Vector2d(1,3);
         Vector2d vec2 = new Vector2d(3,1);
@@ -159,11 +159,11 @@ public class Vector2dTest {
         // When
         funcAnswer = vec1.add(vec2);
         // Then
-        Assertions.assertEquals(funcAnswer, new Vector2d(4,4));
+        assertEquals(new Vector2d(4,4),funcAnswer);
     }
 
     @Test
-    public void forVectorsWithDifferentValues_callSubtract_thenCompareToWithProperlyVector(){
+    public void forVectorsWithDifferentValues_callSubtract_thenCompareToProperlyVector(){
         // Given
         Vector2d vec1 = new Vector2d(1,3);
         Vector2d vec2 = new Vector2d(3,1);
@@ -171,17 +171,17 @@ public class Vector2dTest {
         // When
         funcAnswer = vec1.subtract(vec2);
         // Then
-        Assertions.assertEquals(funcAnswer, new Vector2d(-2,2));
+        assertEquals(new Vector2d(-2,2),funcAnswer);
     }
 
     @Test
-    public void forVectorsWithDifferentValues_callOpposite_thenCompareToWithProperlyVector(){
+    public void forVectorsWithDifferentValues_callOpposite_thenCompareToProperlyVector(){
         // Given
         Vector2d vec1 = new Vector2d(1,3);
         Vector2d funcAnswer;
         // When
         funcAnswer = vec1.opposite();
         // Then
-        Assertions.assertEquals(funcAnswer, new Vector2d(-1,-3));
+        assertEquals(new Vector2d(-1,-3),funcAnswer);
     }
 }

@@ -1,6 +1,6 @@
 package agh.ics.oop.model;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
 public class MapDirectionTest {
@@ -18,7 +18,7 @@ public class MapDirectionTest {
         south = south.next();
         west = west.next();
         // Then
-        Assertions.assertTrue(north == MapDirection.EAST && east == MapDirection.SOUTH && south == MapDirection.WEST && west == MapDirection.NORTH);
+        assertTrue(MapDirection.EAST == north && MapDirection.SOUTH == east && MapDirection.WEST == south && MapDirection.NORTH == west);
     }
 
     @Test
@@ -34,7 +34,7 @@ public class MapDirectionTest {
         south = south.previous();
         west = west.previous();
         // Then
-        Assertions.assertTrue(north == MapDirection.WEST && east == MapDirection.NORTH && south == MapDirection.EAST && west == MapDirection.SOUTH);
+        assertTrue(MapDirection.WEST == north && MapDirection.NORTH == east && MapDirection.EAST == south && MapDirection.SOUTH == west);
     }
 
     /*@Test // Czy akceptujecie również wzorzec AAA do testów? Identyczne do GWT a chyba ładniejsze
