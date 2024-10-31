@@ -40,7 +40,7 @@ public enum MapDirection {
         };
     }
 
-    private Vector2d toUnitVector(){
+    protected Vector2d toUnitVector(){
         return direction;
     }
 }
