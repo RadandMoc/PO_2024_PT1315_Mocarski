@@ -3,12 +3,15 @@ package agh.ics.oop;
 import agh.ics.oop.model.Animal;
 import agh.ics.oop.model.MoveDirection;
 import agh.ics.oop.model.Vector2d;
+import java.util.List;
 
 public class World {
     public static void main(String[] args)
     {
-        Animal exampleAnimal = new Animal();
-        System.out.println(exampleAnimal.toString());
+        List<MoveDirection> directions = OptionsParser.whereMove(args);
+        List<Vector2d> positions = List.of(new Vector2d(2,2), new Vector2d(3,4));
+        Simulation simulation = new Simulation(positions, directions);
+        simulation.run();
     }
 
     private static void run(MoveDirection[] directions)

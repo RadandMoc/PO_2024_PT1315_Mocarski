@@ -2,55 +2,31 @@ package agh.ics.oop;
 
 import agh.ics.oop.model.MoveDirection;
 
-public class OptionsParser {
-    public static MoveDirection[] whereMove(String[] directions)
-    {
-        int tableLength = 0;
-        for (String text: directions)
-            tableLength += text.length();
-        MoveDirection[] moves = new MoveDirection[tableLength];
-        char c;
-        int iterator = 0;
-        for(String text : directions)
-        {
-            for (int i = 0; i < text.length(); i++) {
-                c = text.charAt(i);
-                moves[iterator]=OptionsParser.whereAnimalMove(c);
-                iterator++;
-            }
-        }
-        return OptionsParser.optimizeTable(moves);
-    }
+import java.util.ArrayList;
+import java.util.List;
 
-    private static MoveDirection[] optimizeTable(MoveDirection[] table)
-    {
-        int len = table.length;
-        for (MoveDirection i : table)
-        {
-            if(i == null)
-                len--;
-        }
-        MoveDirection[] betterTable = new MoveDirection[len];
-        int indexOfVal = 0;
-        for (MoveDirection i : table)
-        {
-            if(i != null)
-            {
-                betterTable[indexOfVal++] = i;
+public class OptionsParser {
+    public static List<MoveDirection> whereMove(String[] directions){
+        List<MoveDirection> result = new ArrayList<>();
+        MoveDirection add;
+        for (String text: directions){
+            if(text.length()==1){
+                add = whereAnimalMove(text.charAt(0));
+                if(add!=null)
+                    result.add(add);
             }
         }
-        return betterTable;
+        return result;
     }
 
     private static MoveDirection whereAnimalMove(char c)
     {
-        MoveDirection returner = switch (c) {
+        return switch (c) {
             case 'f' -> MoveDirection.FORWARD;
             case 'b' -> MoveDirection.BACKWARD;
             case 'r' -> MoveDirection.RIGHT;
             case 'l' -> MoveDirection.LEFT;
             default ->  null;
         };
-        return returner;
     }
 }
