@@ -65,4 +65,19 @@ public class SimulationIntegrationTest {
         // Then
         assertEquals(expectedSim,sim);
     }
+
+    @Test
+    public void checkFullRotationWithMove(){
+        // Given
+        String[] moves = new String[]{"r","f","r","r","r"};
+        List<MoveDirection> directions = OptionsParser.whereMove(moves);
+        List<Vector2d> positions = List.of(new Vector2d(2,2));
+        Simulation sim = new Simulation(positions,directions);
+        List<Vector2d> expectedPositions = List.of(new Vector2d(3,2));
+        Simulation expectedSim = new Simulation(expectedPositions,new ArrayList<>());
+        // When
+        sim.run();
+        // Then
+        assertEquals(expectedSim,sim);
+    }
 }

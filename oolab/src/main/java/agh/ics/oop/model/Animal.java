@@ -1,12 +1,13 @@
 package agh.ics.oop.model;
 
-import agh.ics.oop.Simulation;
-
 import java.util.Objects;
 
 public class Animal {
     private MapDirection orientation;
     private Vector2d localization;
+    private GameMap map; // Już tłumaczę dlaczego tu, a nie np w simulation. Może się okazać,
+    // że każde zwierze ma inaczej ograniczony obszar (np. jest w oborze na obszarze od 5,5 do 7,7,
+    // lub jest w kurniku 2,2 do 4,3 itp.) Chciałem dać nazwę klasy map, ale ta jest zarezerwowana dla klasy javowej.
 
     public MapDirection getOrientation() {
         return orientation;
@@ -21,9 +22,7 @@ public class Animal {
     }
 
     protected void setLocalization(Vector2d newLocalization){
-        if(newLocalization != null &&
-                newLocalization.upperRight(Simulation.upperRightMapPoint).equals(Simulation.upperRightMapPoint) &&
-                newLocalization.lowerLeft(Simulation.lowerLeftMapPoint).equals(Simulation.lowerLeftMapPoint)){
+        if(map.isPointInMap(newLocalization)){
             localization = newLocalization;
         }
     }
@@ -31,6 +30,7 @@ public class Animal {
     public Animal(Vector2d localization){
         this.localization = localization;
         orientation = MapDirection.NORTH;
+        map = new GameMap();
     }
 
     public Animal(){

@@ -9,10 +9,11 @@ import java.util.List;
 import java.util.Objects;
 
 public class Simulation {
-    public static final Vector2d upperRightMapPoint = new Vector2d(4,4);
-    public static final Vector2d lowerLeftMapPoint = new Vector2d(0,0);
     private List<Animal> animals = new ArrayList<>();
     private List<MoveDirection> moves = new ArrayList<>();
+    // Stosuję ArrayList, ponieważ przewiduję, że metody te będą głównie odczytywane.
+    // Zmiany będą dokonywane przede wszystkim na obiektach, a referencje nie będą się zmieniać
+    // A skoro przechowywane wartości są często odczytywane i rzadko zmieniane, ArrayList będzie najlepsze
 
     public Simulation(List<Vector2d> animalsPositions, List<MoveDirection> moves){
         List<Animal> animalsToAdd = new ArrayList<>();
