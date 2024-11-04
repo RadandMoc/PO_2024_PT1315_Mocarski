@@ -9,6 +9,13 @@ public class Animal {
     // że każde zwierze ma inaczej ograniczony obszar (np. jest w oborze na obszarze od 5,5 do 7,7,
     // lub jest w kurniku 2,2 do 4,3 itp.) Chciałem dać nazwę klasy map, ale ta jest zarezerwowana dla klasy javowej.
 
+    public GameMap getMap() { return map; }
+
+    protected void setMap(GameMap gameMap){
+        if(gameMap != null)
+            map = gameMap;
+    }
+
     public MapDirection getOrientation() {
         return orientation;
     }
