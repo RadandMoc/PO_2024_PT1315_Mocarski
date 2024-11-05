@@ -8,6 +8,7 @@ public class Animal {
     private GameMap map; // Już tłumaczę dlaczego tu, a nie np w simulation. Może się okazać,
     // że każde zwierze ma inaczej ograniczony obszar (np. jest w oborze na obszarze od 5,5 do 7,7,
     // lub jest w kurniku 2,2 do 4,3 itp.) Chciałem dać nazwę klasy map, ale ta jest zarezerwowana dla klasy javowej.
+    private static final GameMap defaultMap = new GameMap();
 
     public GameMap getMap() { return map; }
 
@@ -37,7 +38,7 @@ public class Animal {
     public Animal(Vector2d localization){
         this.localization = localization;
         orientation = MapDirection.NORTH;
-        map = new GameMap();
+        map = defaultMap;
     }
 
     public Animal(){
