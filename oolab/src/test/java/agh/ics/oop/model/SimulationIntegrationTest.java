@@ -80,4 +80,29 @@ public class SimulationIntegrationTest {
         // Then
         assertEquals(expectedSim,sim);
     }
+
+    @Test
+    public void checkAnimalInterpretation(){
+        // Given
+        Animal toRight = new Animal();
+        Animal forward = new Animal();
+        Animal toLeft = new Animal();
+        Animal back = new Animal();
+        Animal correctRight = new Animal();
+        correctRight.setOrientation(MapDirection.EAST);
+        Animal correctForw = new Animal(new Vector2d(2,3));
+        Animal correctLeft = new Animal();
+        correctLeft.setOrientation(MapDirection.WEST);
+        Animal correctBack = new Animal(new Vector2d(2,1));
+        // When
+        toRight.move(MoveDirection.RIGHT);
+        forward.move(MoveDirection.FORWARD);
+        toLeft.move(MoveDirection.LEFT);
+        back.move(MoveDirection.BACKWARD);
+        // Then
+        assertEquals(correctRight,toRight);
+        assertEquals(correctForw,forward);
+        assertEquals(correctLeft,toLeft);
+        assertEquals(correctBack,back);
+    }
 }
