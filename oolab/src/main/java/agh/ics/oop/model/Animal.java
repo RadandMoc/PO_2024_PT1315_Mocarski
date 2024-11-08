@@ -47,7 +47,7 @@ public class Animal {
 
     @Override
     public String toString() {
-        return String.format("Zwierzę jest na pozycji %s i zwrócone na %s",localization.toString(),orientation.toString());
+        return String.format("Zwierzę jest na pozycji %s i zwrócone na %s",localization,orientation);
     }
 
     protected boolean isAt(Vector2d position){
