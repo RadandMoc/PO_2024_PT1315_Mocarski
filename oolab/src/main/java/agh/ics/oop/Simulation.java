@@ -25,16 +25,17 @@ public class Simulation {
     }
 
     protected List<Animal> getAnimals() {
-        return animals;
+        return new ArrayList<>(animals);
     }
 
-    protected void setAnimals(List<Animal> animals) {
+    // setAnimals musi być public, bo inaczej test krzyczy
+    public void setAnimals(List<Animal> animals) {
         if(animals != null)
             this.animals = animals;
     }
 
     protected List<MoveDirection> getMoves() {
-        return moves;
+        return new ArrayList<>(moves);
     }
 
     protected void setMoves(List<MoveDirection> moves) {
