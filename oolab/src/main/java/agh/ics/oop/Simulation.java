@@ -24,16 +24,16 @@ public class Simulation {
         setMoves(moves);
     }
 
-    public List<Animal> getAnimals() {
+    protected List<Animal> getAnimals() {
         return animals;
     }
 
-    public void setAnimals(List<Animal> animals) {
+    protected void setAnimals(List<Animal> animals) {
         if(animals != null)
             this.animals = animals;
     }
 
-    public List<MoveDirection> getMoves() {
+    protected List<MoveDirection> getMoves() {
         return moves;
     }
 
