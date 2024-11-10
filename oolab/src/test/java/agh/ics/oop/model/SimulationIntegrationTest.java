@@ -84,6 +84,7 @@ public class SimulationIntegrationTest {
     @Test
     public void checkAnimalInterpretation(){
         // Given
+        RectangularMap map = new RectangularMap(5,5);
         Animal toRight = new Animal();
         Animal forward = new Animal();
         Animal toLeft = new Animal();
@@ -95,10 +96,10 @@ public class SimulationIntegrationTest {
         correctLeft.setOrientation(MapDirection.WEST);
         Animal correctBack = new Animal(new Vector2d(2,1));
         // When
-        toRight.move(MoveDirection.RIGHT);
-        forward.move(MoveDirection.FORWARD);
-        toLeft.move(MoveDirection.LEFT);
-        back.move(MoveDirection.BACKWARD);
+        toRight.move(MoveDirection.RIGHT,map);
+        forward.move(MoveDirection.FORWARD,map);
+        toLeft.move(MoveDirection.LEFT,map);
+        back.move(MoveDirection.BACKWARD,map);
         // Then
         assertEquals(correctRight,toRight);
         assertEquals(correctForw,forward);

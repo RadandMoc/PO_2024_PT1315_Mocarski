@@ -1,8 +1,6 @@
 package agh.ics.oop;
 
-import agh.ics.oop.model.Animal;
-import agh.ics.oop.model.MoveDirection;
-import agh.ics.oop.model.Vector2d;
+import agh.ics.oop.model.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,10 +8,8 @@ import java.util.Objects;
 
 public class Simulation {
     private final List<Animal> animals = new ArrayList<>();
-    private List<MoveDirection> moves = new ArrayList<>();
-    // Stosuję ArrayList, ponieważ przewiduję, że metody te będą głównie odczytywane.
-    // Zmiany będą dokonywane przede wszystkim na obiektach, a referencje nie będą się zmieniać
-    // A skoro przechowywane wartości są często odczytywane i rzadko zmieniane, ArrayList będzie najlepsze
+    private final List<MoveDirection> moves = new ArrayList<>();
+    private final WorldMap map = new RectangularMap(5,5);
 
     public Simulation(List<Vector2d> animalsPositions, List<MoveDirection> moves){
         List<Animal> animalsToAdd = new ArrayList<>();
@@ -21,7 +17,7 @@ public class Simulation {
             animalsToAdd.add(new Animal(position));
         }
         setAnimals(animalsToAdd);
-        setMoves(moves);
+        this.moves.addAll(moves);
     }
 
     protected List<Animal> getAnimals() {
@@ -40,11 +36,6 @@ public class Simulation {
         return new ArrayList<>(moves);
     }
 
-    protected void setMoves(List<MoveDirection> moves) {
-        if(moves != null)
-            this.moves = moves;
-    }
-
     public void run(){
         List<Animal> localAnimals = animals;
         int numOfAnimals = localAnimals.size();
@@ -52,11 +43,11 @@ public class Simulation {
         Animal animal;
         for(MoveDirection move : getMoves()){
             animal = localAnimals.get(lastAnimalIdx);
-            animal.move(move);
-            System.out.printf("%d: %s%n",lastAnimalIdx,animal);
+            animal.move(move,map);
+            System.out.printf(map.toString());
             lastAnimalIdx = (lastAnimalIdx+1)%numOfAnimals;
         }
-        setMoves(new ArrayList<>());
+        this.moves.clear();
     }
 
     @Override
