@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class Simulation {
-    private List<Animal> animals = new ArrayList<>();
+    private final List<Animal> animals = new ArrayList<>();
     private List<MoveDirection> moves = new ArrayList<>();
     // Stosuję ArrayList, ponieważ przewiduję, że metody te będą głównie odczytywane.
     // Zmiany będą dokonywane przede wszystkim na obiektach, a referencje nie będą się zmieniać
@@ -30,8 +30,10 @@ public class Simulation {
 
     // setAnimals musi być public, bo inaczej test krzyczy
     public void setAnimals(List<Animal> animals) {
-        if(animals != null)
-            this.animals = animals;
+        if(animals != null) {
+            this.animals.clear();
+            this.animals.addAll(animals);
+        }
     }
 
     protected List<MoveDirection> getMoves() {
@@ -44,14 +46,14 @@ public class Simulation {
     }
 
     public void run(){
-        List<Animal> localAnimals = getAnimals();
+        List<Animal> localAnimals = animals;
         int numOfAnimals = localAnimals.size();
         int lastAnimalIdx = 0;
         Animal animal;
         for(MoveDirection move : getMoves()){
             animal = localAnimals.get(lastAnimalIdx);
             animal.move(move);
-            System.out.printf("%d: %s%n",lastAnimalIdx,animal.toString());
+            System.out.printf("%d: %s%n",lastAnimalIdx,animal);
             lastAnimalIdx = (lastAnimalIdx+1)%numOfAnimals;
         }
         setMoves(new ArrayList<>());
@@ -63,7 +65,7 @@ public class Simulation {
         if (other == null || getClass() != other.getClass())
             return false;
         Simulation sim = (Simulation) other;
-        return (getAnimals().equals(sim.getAnimals())) && getMoves().equals(sim.getMoves());
+        return (animals.equals(sim.animals)) && getMoves().equals(sim.getMoves());
     }
 
     @Override
