@@ -1,17 +1,24 @@
 package agh.ics.oop;
 
-import agh.ics.oop.model.Animal;
-import agh.ics.oop.model.MoveDirection;
-import agh.ics.oop.model.Vector2d;
+import agh.ics.oop.model.*;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class World {
     public static void main(String[] args)
     {
         List<MoveDirection> directions = OptionsParser.whereMove(args);
-        List<Vector2d> positions = List.of(new Vector2d(2,2), new Vector2d(3,4));
-        Simulation simulation = new Simulation(positions, directions);
-        simulation.run();
+        List<Animal> animals = List.of(new Animal(new Vector2d(2,2)), new Animal(new Vector2d(3,4)));
+        RectangularMap rect = new RectangularMap(5,5);
+        Simulation<Animal,Vector2d> anSimulation = new Simulation<Animal,Vector2d>(animals, new ArrayList<>(directions),rect);
+        anSimulation.run();
+
+        List<String> texts = List.of("Ala","ma","psa","a","Tomek","ma","kota");
+        TextMap txtMap = new TextMap();
+        Simulation<String,Integer> tSim = new Simulation<String,Integer>(texts,directions,txtMap);
+        tSim.run();
     }
 
     private static void run(MoveDirection[] directions)

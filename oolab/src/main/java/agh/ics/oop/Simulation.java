@@ -8,26 +8,21 @@ import java.util.Objects;
 
 public class Simulation<T, P> {
     private final List<T> objects = new ArrayList<>();
-    private final List<MoveDirection> moves = new ArrayList<>();
+    private final List<MoveDirection> moves;
     private final WorldMap<T, P> map;
 
-    public Simulation(WorldMap<T, P> map, List<P> initialPositions, List<MoveDirection> moves){
-        List<Animal> animalsToAdd = new ArrayList<>();
-        for (Vector2d position : initialPositions){
-            Animal pet = new Animal(position);
-            if(map.place(pet))
-                animalsToAdd.add(pet);
-        }
-        setObjects(animalsToAdd);
-        this.moves.addAll(moves);
-    }
+    public Simulation(List<T> listOfObjects, List<MoveDirection> moves, WorldMap<T, P> map){
+        this.moves = moves;
+        this.map = map;
 
-    protected List<Animal> getObjects() {
-        return new ArrayList<>(objects);
+        for (T obj: listOfObjects){
+            if (map.place(obj))
+                objects.add(obj);
+        }
     }
 
     // setAnimals musi być public, bo inaczej test krzyczy
-    public void setObjects(List<Animal> objects) {
+    public void setObjects(List<T> objects) {
         if(objects != null) {
             this.objects.clear();
             this.objects.addAll(objects);
@@ -39,15 +34,16 @@ public class Simulation<T, P> {
     }
 
     public void run(){
-        List<Animal> localAnimals = objects;
-        int numOfAnimals = localAnimals.size();
+        List<T> localObjects = objects;
+        int numOfObj = localObjects.size();
         int lastAnimalIdx = 0;
-        Animal animal;
+        T animal;
         for(MoveDirection move: getMoves()){
-            animal = localAnimals.get(lastAnimalIdx);
+            animal = localObjects.get(lastAnimalIdx);
             map.move(animal,move);
+            System.out.println(lastAnimalIdx);
             System.out.println(map);
-            lastAnimalIdx = (lastAnimalIdx+1)%numOfAnimals;
+            lastAnimalIdx = (lastAnimalIdx+1)%numOfObj;
         }
         this.moves.clear();
     }

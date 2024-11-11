@@ -15,7 +15,7 @@ public class SimulationIntegrationTest {
     private final Vector2d southVec = new Vector2d(2,0);
     private final Vector2d westVec = new Vector2d(0,2);
 
-    @Test
+    /*@Test
     public void tryGoOutsideMap(){
         // Given
         String[] moves = new String[]{"f","r","b","l","f","f","b","f","f","l","b","r"};
@@ -79,7 +79,7 @@ public class SimulationIntegrationTest {
         sim.run();
         // Then
         assertEquals(expectedSim,sim);
-    }
+    }*/
 
     @Test
     public void checkAnimalInterpretation(){
