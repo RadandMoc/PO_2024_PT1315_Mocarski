@@ -15,8 +15,8 @@ public class Simulation {
         List<Animal> animalsToAdd = new ArrayList<>();
         for (Vector2d position : animalsPositions){
             Animal pet = new Animal(position);
-            animalsToAdd.add(pet);
-            map.place(pet);
+            if(map.place(pet))
+                animalsToAdd.add(pet);
         }
         setAnimals(animalsToAdd);
         this.moves.addAll(moves);
