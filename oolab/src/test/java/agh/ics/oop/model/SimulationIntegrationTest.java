@@ -44,7 +44,7 @@ public class SimulationIntegrationTest {
         expectedAnimals.add(new Animal(southVec));
         expectedAnimals.add(new Animal(westVec));
         expectedAnimals.getLast().setOrientation(MapDirection.WEST);
-        expectedSim.setAnimals(expectedAnimals);
+        expectedSim.setObjects(expectedAnimals);
         // When
         sim.run();
         // Then
