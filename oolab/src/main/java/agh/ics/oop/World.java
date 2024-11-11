@@ -15,7 +15,7 @@ public class World {
         Simulation<Animal,Vector2d> anSimulation = new Simulation<Animal,Vector2d>(animals, new ArrayList<>(directions),rect);
         anSimulation.run();
 
-        List<String> texts = List.of("Ala","ma","psa","a","Tomek","ma","kota");
+        List<String> texts = List.of("Ala","ma","psa","a","Tomek",new String("ma"),"kota");
         TextMap txtMap = new TextMap();
         Simulation<String,Integer> tSim = new Simulation<String,Integer>(texts,directions,txtMap);
         tSim.run();

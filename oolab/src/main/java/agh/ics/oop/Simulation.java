@@ -41,7 +41,6 @@ public class Simulation<T, P> {
         for(MoveDirection move: getMoves()){
             animal = localObjects.get(lastAnimalIdx);
             map.move(animal,move);
-            System.out.println(lastAnimalIdx);
             System.out.println(map);
             lastAnimalIdx = (lastAnimalIdx+1)%numOfObj;
         }

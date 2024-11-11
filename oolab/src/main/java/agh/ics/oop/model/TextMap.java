@@ -17,10 +17,19 @@ public class TextMap implements WorldNumberPositionMap<String, Integer> {
 
     @Override
     public void move(String text, MoveDirection direction) {
-        int index = texts.indexOf(text);
-        if (index == -1)
-            return;
+        int index = -1;
 
+        for (int i = 0; i < texts.size(); i++) {
+            if (texts.get(i) == text) {
+                index = i;
+                break;
+            }
+        }
+        if (index == -1){
+            index = texts.indexOf(text);
+            if (index == -1)
+                return;
+        }
         if (direction == MoveDirection.RIGHT || direction == MoveDirection.FORWARD) {
             if (index < texts.size() - 1)
                 swap(index, index + 1);
