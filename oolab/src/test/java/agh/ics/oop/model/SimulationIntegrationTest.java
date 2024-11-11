@@ -58,7 +58,7 @@ public class SimulationIntegrationTest {
         List<MoveDirection> directions = OptionsParser.whereMove(moves);
         List<Vector2d> positions = List.of(northVec,eastVec,southVec,westVec);
         Simulation sim = new Simulation(positions,directions);
-        List<Vector2d> expectedPositions = List.of(new Vector2d(2,1),new Vector2d(3,2),new Vector2d(2,3),new Vector2d(1,2));
+        List<Vector2d> expectedPositions = List.of(new Vector2d(2,2),new Vector2d(3,2),new Vector2d(2,1),new Vector2d(1,2));
         Simulation expectedSim = new Simulation(expectedPositions,new ArrayList<>());
         // When
         sim.run();

@@ -14,7 +14,9 @@ public class Simulation {
     public Simulation(List<Vector2d> animalsPositions, List<MoveDirection> moves){
         List<Animal> animalsToAdd = new ArrayList<>();
         for (Vector2d position : animalsPositions){
-            animalsToAdd.add(new Animal(position));
+            Animal pet = new Animal(position);
+            animalsToAdd.add(pet);
+            map.place(pet);
         }
         setAnimals(animalsToAdd);
         this.moves.addAll(moves);
@@ -41,10 +43,10 @@ public class Simulation {
         int numOfAnimals = localAnimals.size();
         int lastAnimalIdx = 0;
         Animal animal;
-        for(MoveDirection move : getMoves()){
+        for(MoveDirection move: getMoves()){
             animal = localAnimals.get(lastAnimalIdx);
-            animal.move(move,map);
-            System.out.printf(map.toString());
+            map.move(animal,move);
+            System.out.println(map);
             lastAnimalIdx = (lastAnimalIdx+1)%numOfAnimals;
         }
         this.moves.clear();
