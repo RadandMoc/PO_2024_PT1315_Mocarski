@@ -14,6 +14,8 @@ public class SimulationIntegrationTest {
     private final Vector2d eastVec = new Vector2d(4,2);
     private final Vector2d southVec = new Vector2d(2,0);
     private final Vector2d westVec = new Vector2d(0,2);
+    // Ogólnie to te testy nie wymagały większych przeróbek, a nadal testują zachowanie symulacji w sposób poprawny
+    // Nie dodawałem nowych testów, bo tak jak uprzednio zrobiłem mapę, to i tutaj jej właściwości integracyjne są testowane
 
     @Test
     public void tryGoOutsideMap(){
