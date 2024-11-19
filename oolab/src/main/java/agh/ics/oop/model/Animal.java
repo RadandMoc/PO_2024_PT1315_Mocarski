@@ -2,9 +2,9 @@ package agh.ics.oop.model;
 
 import java.util.Objects;
 
-public class Animal {
+public class Animal implements WorldElement {
     private MapDirection orientation;
-    private Vector2d localization;
+    private Vector2d position;
 
     public MapDirection getOrientation() {
         return orientation;
@@ -14,17 +14,18 @@ public class Animal {
         this.orientation = orientation;
     }
 
-    public Vector2d getLocalization(){
-        return localization;
+    @Override
+    public Vector2d getPosition(){
+        return position;
     }
 
-    private void setLocalization(Vector2d newLocalization){
-        if(newLocalization != null)
-            localization = newLocalization;
+    private void setPosition(Vector2d newPosition){
+        if(newPosition != null)
+            position = newPosition;
     }
 
-    public Animal(Vector2d localization){
-        this.localization = localization;
+    public Animal(Vector2d position){
+        this.position = position;
         orientation = MapDirection.NORTH;
     }
 
@@ -43,7 +44,7 @@ public class Animal {
     }
 
     protected boolean isAt(Vector2d position){
-        return localization.equals(position);
+        return this.position.equals(position);
     }
 
     public void move(MoveDirection direction, MoveValidator validator){
@@ -51,11 +52,11 @@ public class Animal {
         switch (direction){
             case MoveDirection.RIGHT -> setOrientation(orientation.next());
             case MoveDirection.LEFT -> setOrientation(orientation.previous());
-            case MoveDirection.BACKWARD -> potentialMove = localization.subtract(orientation.toUnitVector());
-            case MoveDirection.FORWARD -> potentialMove = localization.add(orientation.toUnitVector());
+            case MoveDirection.BACKWARD -> potentialMove = position.subtract(orientation.toUnitVector());
+            case MoveDirection.FORWARD -> potentialMove = position.add(orientation.toUnitVector());
         }
         if(validator.canMoveTo(potentialMove))
-            setLocalization(potentialMove);
+            setPosition(potentialMove);
     }
 
     @Override
@@ -64,11 +65,11 @@ public class Animal {
         if (other == null || getClass() != other.getClass())
             return false;
         Animal animal = (Animal) other;
-        return (orientation.toUnitVector().equals(animal.orientation.toUnitVector()) && localization.equals(((Animal) other).localization));
+        return (orientation.toUnitVector().equals(animal.orientation.toUnitVector()) && position.equals(((Animal) other).position));
     }
 
     @Override
     public int hashCode(){
-        return Objects.hash(orientation,localization);
+        return Objects.hash(orientation, position);
     }
 }
