@@ -14,6 +14,8 @@ public class SimulationIntegrationTest {
     private final Vector2d eastVec = new Vector2d(4,2);
     private final Vector2d southVec = new Vector2d(2,0);
     private final Vector2d westVec = new Vector2d(0,2);
+    // Ogólnie to te testy nie wymagały większych przeróbek, a nadal testują zachowanie symulacji w sposób poprawny
+    // Nie dodawałem nowych testów, bo tak jak uprzednio zrobiłem mapę, to i tutaj jej właściwości integracyjne są testowane
 
     @Test
     public void tryGoOutsideMap(){
@@ -58,7 +60,7 @@ public class SimulationIntegrationTest {
         List<MoveDirection> directions = OptionsParser.whereMove(moves);
         List<Vector2d> positions = List.of(northVec,eastVec,southVec,westVec);
         Simulation sim = new Simulation(positions,directions);
-        List<Vector2d> expectedPositions = List.of(new Vector2d(2,1),new Vector2d(3,2),new Vector2d(2,3),new Vector2d(1,2));
+        List<Vector2d> expectedPositions = List.of(new Vector2d(2,2),new Vector2d(3,2),new Vector2d(2,1),new Vector2d(1,2));
         Simulation expectedSim = new Simulation(expectedPositions,new ArrayList<>());
         // When
         sim.run();
@@ -84,6 +86,7 @@ public class SimulationIntegrationTest {
     @Test
     public void checkAnimalInterpretation(){
         // Given
+        RectangularMap map = new RectangularMap(5,5);
         Animal toRight = new Animal();
         Animal forward = new Animal();
         Animal toLeft = new Animal();
@@ -95,10 +98,10 @@ public class SimulationIntegrationTest {
         correctLeft.setOrientation(MapDirection.WEST);
         Animal correctBack = new Animal(new Vector2d(2,1));
         // When
-        toRight.move(MoveDirection.RIGHT);
-        forward.move(MoveDirection.FORWARD);
-        toLeft.move(MoveDirection.LEFT);
-        back.move(MoveDirection.BACKWARD);
+        toRight.move(MoveDirection.RIGHT,map);
+        forward.move(MoveDirection.FORWARD,map);
+        toLeft.move(MoveDirection.LEFT,map);
+        back.move(MoveDirection.BACKWARD,map);
         // Then
         assertEquals(correctRight,toRight);
         assertEquals(correctForw,forward);

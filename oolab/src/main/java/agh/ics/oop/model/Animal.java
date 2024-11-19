@@ -5,17 +5,6 @@ import java.util.Objects;
 public class Animal {
     private MapDirection orientation;
     private Vector2d localization;
-    private GameMap map; // Już tłumaczę dlaczego tu, a nie np w simulation. Może się okazać,
-    // że każde zwierze ma inaczej ograniczony obszar (np. jest w oborze na obszarze od 5,5 do 7,7,
-    // lub jest w kurniku 2,2 do 4,3 itp.) Chciałem dać nazwę klasy map, ale ta jest zarezerwowana dla klasy javowej.
-    private static final GameMap defaultMap = new GameMap();
-
-    public GameMap getMap() { return map; }
-
-    protected void setMap(GameMap gameMap){
-        if(gameMap != null)
-            map = gameMap;
-    }
 
     public MapDirection getOrientation() {
         return orientation;
@@ -30,15 +19,13 @@ public class Animal {
     }
 
     protected void setLocalization(Vector2d newLocalization){
-        if(map.isPointInMap(newLocalization)){
+        if(newLocalization != null)
             localization = newLocalization;
-        }
     }
 
     public Animal(Vector2d localization){
         this.localization = localization;
         orientation = MapDirection.NORTH;
-        map = defaultMap;
     }
 
     public Animal(){
@@ -47,20 +34,28 @@ public class Animal {
 
     @Override
     public String toString() {
-        return String.format("Zwierzę jest na pozycji %s i zwrócone na %s",localization,orientation);
+        return switch (this.orientation){
+            case NORTH -> "^";
+            case SOUTH -> "v";
+            case WEST -> "<";
+            case EAST -> ">";
+        };
     }
 
     protected boolean isAt(Vector2d position){
         return localization.equals(position);
     }
 
-    public void move(MoveDirection direction){
+    public void move(MoveDirection direction, MoveValidator validator){
+        Vector2d potentialMove = null;
         switch (direction){
             case MoveDirection.RIGHT -> setOrientation(orientation.next());
             case MoveDirection.LEFT -> setOrientation(orientation.previous());
-            case MoveDirection.BACKWARD -> setLocalization(localization.subtract(orientation.toUnitVector()));
-            case MoveDirection.FORWARD -> setLocalization(localization.add(orientation.toUnitVector()));
+            case MoveDirection.BACKWARD -> potentialMove = localization.subtract(orientation.toUnitVector());
+            case MoveDirection.FORWARD -> potentialMove = localization.add(orientation.toUnitVector());
         }
+        if(validator.canMoveTo(potentialMove))
+            setLocalization(potentialMove);
     }
 
     @Override
