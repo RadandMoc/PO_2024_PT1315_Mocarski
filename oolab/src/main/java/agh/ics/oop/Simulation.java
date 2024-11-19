@@ -9,9 +9,9 @@ import java.util.Objects;
 public class Simulation {
     private final List<Animal> animals = new ArrayList<>();
     private final List<MoveDirection> moves = new ArrayList<>();
-    private final WorldMap map = new RectangularMap(5,5);
+    private final WorldMap map;
 
-    public Simulation(List<Vector2d> animalsPositions, List<MoveDirection> moves){
+    public Simulation(List<Vector2d> animalsPositions, List<MoveDirection> moves, WorldMap map){
         List<Animal> animalsToAdd = new ArrayList<>();
         for (Vector2d position : animalsPositions){
             Animal pet = new Animal(position);
@@ -20,6 +20,11 @@ public class Simulation {
         }
         setAnimals(animalsToAdd);
         this.moves.addAll(moves);
+        this.map = map;
+    }
+
+    public Simulation(List<Vector2d> animalsPositions, List<MoveDirection> moves) {
+        this(animalsPositions,moves,new RectangularMap(5,5));
     }
 
     protected List<Animal> getAnimals() {

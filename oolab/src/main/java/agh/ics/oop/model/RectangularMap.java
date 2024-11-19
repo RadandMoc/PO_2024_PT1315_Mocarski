@@ -13,11 +13,11 @@ public class RectangularMap implements WorldMap {
     private final Vector2d upperRight;
     private final MapVisualizer visualizer = new MapVisualizer(this);
 
-    public RectangularMap(int height, int width){
-        this(height,width,new Vector2d(0,0));
+    public RectangularMap(int width, int height){
+        this(width,height,new Vector2d(0,0));
     }
 
-    public RectangularMap(int height, int width, Vector2d lowerLeftPoint){
+    public RectangularMap(int width, int height, Vector2d lowerLeftPoint){
         this.height = height;
         this.width = width;
         lowerLeft = lowerLeftPoint;
@@ -52,11 +52,8 @@ public class RectangularMap implements WorldMap {
     }
 
     @Override
-    public boolean canMoveTo(Vector2d position) {
-        if (position == null || isOccupied(position))
-            return false;
-        return (position.precedes(upperRight) &&
-                position.follows(lowerLeft));
+    public boolean canMoveTo(Vector2d position) { // sprawdzić, czy miejsce nie jest zajmowane przez trawę
+        return (position != null && position.precedes(upperRight) && position.follows(lowerLeft) && (!isOccupied(position)));
     }
 
     @Override

@@ -18,7 +18,7 @@ public class Animal {
         return localization;
     }
 
-    protected void setLocalization(Vector2d newLocalization){
+    private void setLocalization(Vector2d newLocalization){
         if(newLocalization != null)
             localization = newLocalization;
     }
