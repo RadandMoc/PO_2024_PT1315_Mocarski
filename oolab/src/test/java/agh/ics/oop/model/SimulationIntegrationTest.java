@@ -135,13 +135,32 @@ public class SimulationIntegrationTest {
         for (int i = 0; i < 20; i++) {
             directions.add(MoveDirection.FORWARD);
         }
-        List<Vector2d> positions = List.of(new Vector2d(2,2));
+        List<Vector2d> positions = List.of(new Vector2d(5,1));
         Simulation sim = new Simulation(positions,directions, map);
         Object an;
         // When
         sim.run();
-        an = map.objectAt(new Vector2d(2,22));
+        an = map.objectAt(new Vector2d(5,21));
         // Then
         assertInstanceOf(Animal.class, an);
+    }
+
+    @Test
+    public void getElementsFromGWorldMaps(){
+        // Given
+        GrassField map1 = new GrassField(3,25);
+        List<MoveDirection> directions = new ArrayList<>(0);
+        List<Vector2d> positions = List.of(new Vector2d(2,2));
+        Simulation sim1 = new Simulation(positions,directions, map1);
+        RectangularMap map2 = new RectangularMap(3,25);
+        Simulation sim2 = new Simulation(positions,directions, map2);
+        List<WorldElement> grassFieldElements;
+        List<WorldElement> rectangularElements;
+        // When
+        grassFieldElements = map1.getElements();
+        rectangularElements = map2.getElements();
+        // Then
+        assertEquals(4,grassFieldElements.size());
+        assertEquals(1,rectangularElements.size());
     }
 }

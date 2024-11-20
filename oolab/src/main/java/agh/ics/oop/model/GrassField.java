@@ -3,6 +3,7 @@ package agh.ics.oop.model;
 import agh.ics.oop.model.util.MapVisualizer;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -80,5 +81,14 @@ public class GrassField extends AbstractWorldMap {
             }
         }
         return visualizer.draw(lowLeft,upRight);
+    }
+
+    @Override
+    public List<WorldElement> getElements(){
+        List<WorldElement>result = super.getElements();
+        for(Map.Entry<Vector2d, Grass> item : grass.entrySet()){
+            result.add(item.getValue());
+        }
+        return result;
     }
 }
