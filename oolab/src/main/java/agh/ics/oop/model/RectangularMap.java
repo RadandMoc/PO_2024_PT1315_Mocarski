@@ -23,18 +23,8 @@ public class RectangularMap extends AbstractWorldMap {
     }
 
     @Override
-    public boolean isOccupied(Vector2d position) {
-        return animals.containsKey(position);
-    }
-
-    @Override
-    public Animal objectAt(Vector2d position) {
-        return animals.get(position);
-    }
-
-    @Override
     public boolean canMoveTo(Vector2d position) { // sprawdzić, czy miejsce nie jest zajmowane przez trawę
-        return (position != null && position.precedes(upperRight) && position.follows(lowerLeft) && (!isOccupied(position)));
+        return (super.canMoveTo(position) && position.precedes(upperRight) && position.follows(lowerLeft));
     }
 
     @Override
