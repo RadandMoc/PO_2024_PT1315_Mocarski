@@ -117,14 +117,17 @@ public class SimulationIntegrationTest {
         Object g1;
         Object g2;
         Object g3;
+        Integer noOfGrass;
         // When
-        g1 = map.objectAt(new Vector2d(1,0));
-        g2 = map.objectAt(new Vector2d(5,0));
-        g3 = map.objectAt(new Vector2d(5,3));
+        g1 = map.objectAt(new Vector2d(4,1));
+        g2 = map.objectAt(new Vector2d(1,6));
+        g3 = map.objectAt(new Vector2d(2,1));
+        noOfGrass = map.getElements().size();
         // Then
         assertInstanceOf(Grass.class, g1);
         assertInstanceOf(Grass.class, g2);
         assertInstanceOf(Grass.class, g3);
+        assertEquals(3,noOfGrass);
     }
 
     @Test

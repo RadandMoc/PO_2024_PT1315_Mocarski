@@ -42,14 +42,14 @@ public interface WorldMap extends MoveValidator {
      * Return a world element at a given position.
      *
      * @param position The position of the animal.
-     * @return animal or null if the position is not occupied.
+     * @return world element or null if the position is not occupied.
      */
     WorldElement objectAt(Vector2d position);
 
     /**
-     * Return full list of every element existing on the map
+     * Return full collection (usually list) of every element existing on the map
      *
-     * @return list of objects on the map
+     * @return collection (usually list) of objects on the map
      */
     Collection<WorldElement> getElements();
 }

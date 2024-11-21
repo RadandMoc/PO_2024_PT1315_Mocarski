@@ -1,7 +1,5 @@
 package agh.ics.oop.model;
 
-import agh.ics.oop.model.util.MapVisualizer;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +8,9 @@ import java.util.Random;
 public class GrassField extends AbstractWorldMap {
     private final Map<Vector2d, Grass> grass = new HashMap<>();
     private final Random random;
+    /*  Zastanów się, jakie problemy wygenerowałaby tutaj jedna wspólna kolekcja.
+    * słownik byłby problematyczny, bo trawa i zwierzę mogą być na tej samej pozycji, a słownik by to mocno utrudnił (nie mogą być dwa obiekty pod tymi samymi kluczami)
+    * z kolei słownik jest tu najwygodniejszy, gdyż szybko dostaje się do wartości w danej lokalizacji (foreacha nie trzeba tyle stosować)  */
 
     public GrassField(int grassNo){
         this(grassNo,new Random().nextInt());
@@ -17,13 +18,13 @@ public class GrassField extends AbstractWorldMap {
 
     public GrassField(int grassNo, int randomSeed){
         random = new Random(randomSeed);
-        int limit = (int) Math.floor(Math.sqrt(grassNo * 10));
+        int limit = (int) Math.floor(Math.sqrt(grassNo * 10)+1);
         for (int i = 0; i < grassNo; i++) {
-            setGrass(limit);
+            addGrassInRandomPosition(limit);
         }
     }
 
-    private void setGrass(int limit){
+    private void addGrassInRandomPosition(int limit){
         Vector2d position;
         do {
             position = new Vector2d(random.nextInt(limit+1), random.nextInt(limit+1));
@@ -38,10 +39,10 @@ public class GrassField extends AbstractWorldMap {
 
     @Override
     public WorldElement objectAt(Vector2d position) {
-        WorldElement an = super.objectAt(position);
-        if(an==null)
-            an = grass.get(position);
-        return an;
+        WorldElement elem = super.objectAt(position);
+        if(elem==null)
+            elem = grass.get(position);
+        return elem;
     }
 
     @Override
@@ -86,9 +87,7 @@ public class GrassField extends AbstractWorldMap {
     @Override
     public List<WorldElement> getElements(){
         List<WorldElement>result = super.getElements();
-        for(Map.Entry<Vector2d, Grass> item : grass.entrySet()){
-            result.add(item.getValue());
-        }
+        result.addAll(grass.values());
         return result;
     }
 }

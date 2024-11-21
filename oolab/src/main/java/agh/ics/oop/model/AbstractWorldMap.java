@@ -46,9 +46,7 @@ public abstract class AbstractWorldMap implements WorldMap {
     @Override
     public List<WorldElement> getElements(){
         List<WorldElement> result = new ArrayList<>(0);
-        for(Map.Entry<Vector2d, Animal> item : animals.entrySet()){
-            result.add(item.getValue());
-        }
+        result.addAll(animals.values());
         return result;
     }
 }
