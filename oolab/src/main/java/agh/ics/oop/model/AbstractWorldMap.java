@@ -21,7 +21,7 @@ public abstract class AbstractWorldMap implements WorldMap {
 
     @Override
     public boolean place(Animal animal) {
-        if(animal != null && canMoveTo(animal.getPosition())) {
+        if(canMoveTo(animal.getPosition())) {
             animals.put(animal.getPosition(),animal);
             return true;
         }
@@ -45,8 +45,6 @@ public abstract class AbstractWorldMap implements WorldMap {
 
     @Override
     public List<WorldElement> getElements(){
-        List<WorldElement> result = new ArrayList<>(0);
-        result.addAll(animals.values());
-        return result;
+        return new ArrayList<>(animals.values());
     }
 }

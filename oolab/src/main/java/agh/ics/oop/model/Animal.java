@@ -65,7 +65,7 @@ public class Animal implements WorldElement {
         if (other == null || getClass() != other.getClass())
             return false;
         Animal animal = (Animal) other;
-        return (orientation.toUnitVector().equals(animal.orientation.toUnitVector()) && position.equals(((Animal) other).position));
+        return (orientation.toUnitVector().equals(animal.orientation.toUnitVector()) && position.equals(animal.position));
     }
 
     @Override

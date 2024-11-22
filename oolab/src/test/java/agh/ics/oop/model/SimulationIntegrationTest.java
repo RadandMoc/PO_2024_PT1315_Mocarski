@@ -119,9 +119,9 @@ public class SimulationIntegrationTest {
         Object g3;
         Integer noOfGrass;
         // When
-        g1 = map.objectAt(new Vector2d(4,1));
-        g2 = map.objectAt(new Vector2d(1,6));
-        g3 = map.objectAt(new Vector2d(2,1));
+        g1 = map.objectAt(new Vector2d(0,1));
+        g2 = map.objectAt(new Vector2d(6,0));
+        g3 = map.objectAt(new Vector2d(6,1));
         noOfGrass = map.getElements().size();
         // Then
         assertInstanceOf(Grass.class, g1);

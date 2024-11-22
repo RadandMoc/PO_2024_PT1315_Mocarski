@@ -2,10 +2,7 @@ package agh.ics.oop.model;
 
 import agh.ics.oop.model.util.MapVisualizer;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 public class GrassField extends AbstractWorldMap {
     private final Map<Vector2d, Grass> grass = new HashMap<>();
@@ -18,7 +15,7 @@ public class GrassField extends AbstractWorldMap {
         this(grassNo,new Random().nextInt());
     }
 
-    public GrassField(int grassNo, int randomSeed){
+    GrassField(int grassNo, int randomSeed){
         random = new Random(randomSeed);
         int limit = (int) Math.floor(Math.sqrt(grassNo * 10)+1);
         RandomPositionGenerator generator = new RandomPositionGenerator(limit, limit, grassNo, randomSeed);
@@ -55,26 +52,24 @@ public class GrassField extends AbstractWorldMap {
         Vector2d lowLeft = null;
         Vector2d upRight = null;
         Vector2d key;
-        for(Map.Entry<Vector2d, Grass> item : grass.entrySet()){
+        for(Vector2d item : grass.keySet()){
             if(lowLeft != null){
-                key = item.getKey();
-                upRight = upRight.upperRight(key);
-                lowLeft = lowLeft.lowerLeft(key);
+                upRight = upRight.upperRight(item);
+                lowLeft = lowLeft.lowerLeft(item);
             }
             else{
-                lowLeft = item.getKey();
-                upRight = lowLeft;
+                lowLeft = item;
+                upRight = item;
             }
         }
-        for(Map.Entry<Vector2d, Animal> item : animals.entrySet()){
+        for(Vector2d item : animals.keySet()){
             if(lowLeft != null){
-                key = item.getKey();
-                upRight = upRight.upperRight(key);
-                lowLeft = lowLeft.lowerLeft(key);
+                upRight = upRight.upperRight(item);
+                lowLeft = lowLeft.lowerLeft(item);
             }
             else{
-                lowLeft = item.getKey();
-                upRight = lowLeft;
+                lowLeft = item;
+                upRight = item;
             }
         }
         return visualizer.draw(lowLeft,upRight);
