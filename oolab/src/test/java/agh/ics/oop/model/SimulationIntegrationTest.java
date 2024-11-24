@@ -6,8 +6,9 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class SimulationIntegrationTest {
     private final Vector2d northVec = new Vector2d(2,4);
@@ -18,7 +19,7 @@ public class SimulationIntegrationTest {
     // Nie dodawałem nowych testów, bo tak jak uprzednio zrobiłem mapę, to i tutaj jej właściwości integracyjne są testowane
 
     @Test
-    public void tryGoOutsideMap(){
+    public void tryGoOutsideRectangularMap(){
         // Given
         String[] moves = new String[]{"f","r","b","l","f","f","b","f","f","l","b","r"};
         List<MoveDirection> directions = OptionsParser.whereMove(moves);
@@ -32,7 +33,7 @@ public class SimulationIntegrationTest {
     }
 
     @Test
-    public void tryGoOutsideMapAndCheckOrientations(){
+    public void tryGoOutsideRectangularMapAndCheckOrientations(){
         // Given
         String[] moves = new String[]{"f","r","b","l","f","f","b","f"};
         List<MoveDirection> directions = OptionsParser.whereMove(moves);
@@ -107,5 +108,62 @@ public class SimulationIntegrationTest {
         assertEquals(correctForw,forward);
         assertEquals(correctLeft,toLeft);
         assertEquals(correctBack,back);
+    }
+
+    @Test
+    public void checkGrassFieldGeneratorGrass(){
+        // Given
+        GrassField map = new GrassField(3,25);
+        Object g1;
+        Object g2;
+        Object g3;
+        Integer noOfGrass;
+        // When
+        g1 = map.objectAt(new Vector2d(0,1));
+        g2 = map.objectAt(new Vector2d(6,0));
+        g3 = map.objectAt(new Vector2d(6,1));
+        noOfGrass = map.getElements().size();
+        // Then
+        assertInstanceOf(Grass.class, g1);
+        assertInstanceOf(Grass.class, g2);
+        assertInstanceOf(Grass.class, g3);
+        assertEquals(3,noOfGrass);
+    }
+
+    @Test
+    public void checkGrassFieldSimulation(){
+        // Given
+        GrassField map = new GrassField(3,25);
+        List<MoveDirection> directions = new ArrayList<>(0);
+        for (int i = 0; i < 20; i++) {
+            directions.add(MoveDirection.FORWARD);
+        }
+        List<Vector2d> positions = List.of(new Vector2d(5,1));
+        Simulation sim = new Simulation(positions,directions, map);
+        Object an;
+        // When
+        sim.run();
+        an = map.objectAt(new Vector2d(5,21));
+        // Then
+        assertInstanceOf(Animal.class, an);
+    }
+
+    @Test
+    public void getElementsFromGWorldMaps(){
+        // Given
+        GrassField map1 = new GrassField(3,25);
+        List<MoveDirection> directions = new ArrayList<>(0);
+        List<Vector2d> positions = List.of(new Vector2d(2,2));
+        Simulation sim1 = new Simulation(positions,directions, map1);
+        RectangularMap map2 = new RectangularMap(3,25);
+        Simulation sim2 = new Simulation(positions,directions, map2);
+        List<WorldElement> grassFieldElements;
+        List<WorldElement> rectangularElements;
+        // When
+        grassFieldElements = map1.getElements();
+        rectangularElements = map2.getElements();
+        // Then
+        assertEquals(4,grassFieldElements.size());
+        assertEquals(1,rectangularElements.size());
     }
 }

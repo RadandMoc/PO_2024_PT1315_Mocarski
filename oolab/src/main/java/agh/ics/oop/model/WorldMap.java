@@ -3,6 +3,9 @@ package agh.ics.oop.model;
 import agh.ics.oop.model.MoveDirection;
 import agh.ics.oop.model.Vector2d;
 
+import java.util.Collection;
+import java.util.List;
+
 /**
  * The interface responsible for interacting with the map of the world.
  * Assumes that Vector2d and MoveDirection classes are defined.
@@ -36,10 +39,17 @@ public interface WorldMap extends MoveValidator {
     boolean isOccupied(Vector2d position);
 
     /**
-     * Return an animal at a given position.
+     * Return a world element at a given position.
      *
      * @param position The position of the animal.
-     * @return animal or null if the position is not occupied.
+     * @return world element or null if the position is not occupied.
      */
-    Animal objectAt(Vector2d position);
+    WorldElement objectAt(Vector2d position);
+
+    /**
+     * Return full collection (usually list) of every element existing on the map
+     *
+     * @return collection (usually list) of objects on the map
+     */
+    Collection<WorldElement> getElements();
 }
