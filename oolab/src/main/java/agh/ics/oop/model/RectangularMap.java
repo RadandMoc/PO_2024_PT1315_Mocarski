@@ -26,9 +26,4 @@ public class RectangularMap extends AbstractWorldMap {
     public boolean canMoveTo(Vector2d position) { // sprawdzić, czy miejsce nie jest zajmowane przez trawę
         return (super.canMoveTo(position) && position.precedes(upperRight) && position.follows(lowerLeft));
     }
-
-    @Override
-    public String toString(){
-        return visualizer.draw(lowerLeft,upperRight);
-    }
 }

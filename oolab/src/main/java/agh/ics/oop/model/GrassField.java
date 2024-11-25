@@ -39,19 +39,9 @@ public class GrassField extends AbstractWorldMap {
     }
 
     @Override
-    public String toString(){
-        // można by też to rozwiązać w ten sposób, że są prywatne pola z lewym dołem i prawą górą, ALE
-        // każdy ruch zwierzęcia musiałby sprawdzać pozycję przed ruchem i sprawdzić czy jest na obrzeżach
-        // jeśli tak, to w zależności od ruchu jaki by wykonał byłyby następujące opcje ruchu:
-        // 1. jeśli poszedł by rozszerzając mapę, powinno być zaktualizowane (powiększone parametry)
-        // 2. jeśli do wewnątrz obwodu należy zaktualizować całą listę jakiąś metodą czołgową.
-        // symulacja nie musi printować mapy co ruch, więc żeby nie pogorszyć programu potrzebny byłby bool
-        // do zapisania informacji, czy tostring musi mieć aktualizację.
-        // a więc to jest skomplikowane i niewiele zmieni.
-        // a do trawy nie wiem czy nie będzie coś jej żarło i nie będzie znikać, więc też mi się nie chciało
+    public Boundary getCurrentBounds(){
         Vector2d lowLeft = null;
         Vector2d upRight = null;
-        Vector2d key;
         for(Vector2d item : grass.keySet()){
             if(lowLeft != null){
                 upRight = upRight.upperRight(item);
@@ -62,17 +52,10 @@ public class GrassField extends AbstractWorldMap {
                 upRight = item;
             }
         }
-        for(Vector2d item : animals.keySet()){
-            if(lowLeft != null){
-                upRight = upRight.upperRight(item);
-                lowLeft = lowLeft.lowerLeft(item);
-            }
-            else{
-                lowLeft = item;
-                upRight = item;
-            }
-        }
-        return visualizer.draw(lowLeft,upRight);
+        Boundary bound = super.getCurrentBounds();
+        lowLeft = lowLeft.lowerLeft(bound.lowerLeft());
+        upRight = upRight.upperRight(bound.upperRight());
+        return new Boundary(lowLeft,upRight);
     }
 
     @Override

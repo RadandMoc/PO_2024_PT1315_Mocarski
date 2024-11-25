@@ -11,9 +11,13 @@ public class OptionsParser {
         MoveDirection add;
         for (String text: directions){
             if(text.length()==1){
-                add = whereAnimalMove(text.charAt(0));
-                if(add!=null)
+                try{
+                    add = whereAnimalMove(text.charAt(0));
                     result.add(add);
+                }
+                catch (IllegalArgumentException ignored){
+
+                }
             }
         }
         return result;
@@ -26,7 +30,7 @@ public class OptionsParser {
             case 'b' -> MoveDirection.BACKWARD;
             case 'r' -> MoveDirection.RIGHT;
             case 'l' -> MoveDirection.LEFT;
-            default ->  null;
+            default ->  throw new IllegalArgumentException(c + " is not legal move specification");
         };
     }
 }
