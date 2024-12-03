@@ -9,7 +9,6 @@ public abstract class AbstractWorldMap implements WorldMap {
     protected final Map<Vector2d, Animal> animals = new HashMap<>();
     protected final MapVisualizer visualizer = new MapVisualizer(this);
     private final List<MapChangeListener> observers = new ArrayList<>();
-    private boolean isPuttingAnimal = true;
 
     public void addObserver(MapChangeListener observer){
         observers.add(observer);
@@ -27,19 +26,13 @@ public abstract class AbstractWorldMap implements WorldMap {
 
     @Override
     public void move(Animal animal, MoveDirection direction) {
-        final Vector2d startPosition = animal.getPosition();
-        animal.move(direction,this);
-        isPuttingAnimal = false;
-        try {
-            place(animal);
-            animals.remove(startPosition);
-            mapChanged("Zwierzę poruszyło się na "+animal.getPosition());
-        }
-        catch (IncorrectPositionException e) {
-            System.out.println(e.getMessage());
-        }
-        finally {
-            isPuttingAnimal = true;
+        final Vector2d prevPos = animal.getPosition();
+        animal.move(direction, this);
+        final Vector2d newPos = animal.getPosition();
+        if (!prevPos.equals(newPos)){
+            animals.put(newPos, animal);
+            animals.remove(prevPos);
+            mapChanged("Poruszono zwierzę z pozycji %s na pozycję %s ".formatted(prevPos, newPos));
         }
     }
 
@@ -47,8 +40,7 @@ public abstract class AbstractWorldMap implements WorldMap {
     public void place(Animal animal) throws IncorrectPositionException {
         if(canMoveTo(animal.getPosition())) {
             animals.put(animal.getPosition(),animal);
-            if (isPuttingAnimal)
-                mapChanged("Dodano zwierzę na pozycji: "+animal.getPosition());
+            mapChanged("Dodano zwierzę na pozycji: "+animal.getPosition());
             return;
         }
         throw new IncorrectPositionException(animal.getPosition());
@@ -75,21 +67,7 @@ public abstract class AbstractWorldMap implements WorldMap {
     }
 
     @Override
-    public Boundary getCurrentBounds(){
-        Vector2d lowLeft = null;
-        Vector2d upRight = null;
-        for(Vector2d item : animals.keySet()){
-            if(lowLeft != null){
-                upRight = upRight.upperRight(item);
-                lowLeft = lowLeft.lowerLeft(item);
-            }
-            else{
-                lowLeft = item;
-                upRight = item;
-            }
-        }
-        return new Boundary(lowLeft,upRight);
-    }
+    public abstract Boundary getCurrentBounds();
 
     @Override
     public String toString(){

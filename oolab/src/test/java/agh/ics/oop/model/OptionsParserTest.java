@@ -5,39 +5,68 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class OptionsParserTest {
 
     @Test
-    public void forOptionsParser_callWhereMove_thenCheckLengthOfAnswersArrayIsCorrect(){
-        // Given
-        String[] text = new String[]{
-            "f","aa","b","c","r","ll","l","y"
-        };
-        int correctLength = 4;
-        List<MoveDirection> funcAnswer;
-        // When
-        funcAnswer = OptionsParser.whereMove(text);
-        // Then
-        assertEquals(correctLength,funcAnswer.size());
+    void convertAgrumentsTableToDirection_AllValidDirections_ReturnsCorrectMoveDirections() {
+        // given
+        String[] moves = {"f", "b", "r", "l"};
+        List<MoveDirection> expected = Arrays.asList(
+                MoveDirection.FORWARD,
+                MoveDirection.BACKWARD,
+                MoveDirection.RIGHT,
+                MoveDirection.LEFT
+        );
+
+        // when
+        List<MoveDirection> result = OptionsParser.whereMove(moves);
+
+        // then
+        assertEquals(expected, result);
     }
 
     @Test
-    public void forOptionsParser_callWhereMove_thenCheckValuesOfArrayAreCorrect(){
-        // Given
-        String[] text = new String[]{
-                "f","aa","b","c","r","ll","l","y"
-        };
-        List<MoveDirection> correctAnswer = new ArrayList<>();
-        correctAnswer.add(MoveDirection.FORWARD);
-        correctAnswer.add(MoveDirection.BACKWARD);
-        correctAnswer.add(MoveDirection.RIGHT);
-        correctAnswer.add(MoveDirection.LEFT);
-        List<MoveDirection> funcAnswer;
-        // When
-        funcAnswer = OptionsParser.whereMove(text);
-        // Then
-        assertEquals(correctAnswer,funcAnswer);
+    void convertAgrumentsTableToDirection_EmptyArray_ReturnsEmptyMoveDirections() {
+        // given
+        String[] moves = {};
+        List<MoveDirection> expected = Arrays.asList();
+
+        // when
+        List<MoveDirection> result = OptionsParser.whereMove(moves);
+
+        // then
+        assertEquals(expected, result);
+    }
+
+    @Test
+    void convertAgrumentsTableToDirection_InvalidDirections_IgnoresInvalidEntries() {
+        // given
+        String[] moves = {"f", "x", "r", "y"};
+
+        // when
+
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            OptionsParser.whereMove(moves);
+        });
+
+        // then
+
+        assertEquals("x is not legal move", exception.getMessage());
+    }
+
+    @Test
+    void convertArgumentsTableToDirection_AllInvalidDirections_ThrowsIllegalArgumentException() {
+        // given
+        String[] moves = {"x", "y", "z"};
+
+        // when & then
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            OptionsParser.whereMove(moves);
+        });
+
+        assertEquals("x is not legal move", exception.getMessage());
     }
 }

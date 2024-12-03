@@ -20,7 +20,7 @@ public class Simulation {
                 map.place(pet);
                 animalsToAdd.add(pet);
             } catch (IncorrectPositionException ignored) {
-
+                // ignoruję bo zwierzę się nie dodało bo już tam coś jest
             }
         }
         setAnimals(animalsToAdd);

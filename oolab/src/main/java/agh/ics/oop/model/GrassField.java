@@ -52,9 +52,16 @@ public class GrassField extends AbstractWorldMap {
                 upRight = item;
             }
         }
-        Boundary bound = super.getCurrentBounds();
-        lowLeft = lowLeft.lowerLeft(bound.lowerLeft());
-        upRight = upRight.upperRight(bound.upperRight());
+        for(Vector2d item : animals.keySet()){
+            if(lowLeft != null){
+                upRight = upRight.upperRight(item);
+                lowLeft = lowLeft.lowerLeft(item);
+            }
+            else{
+                lowLeft = item;
+                upRight = item;
+            }
+        }
         return new Boundary(lowLeft,upRight);
     }
 

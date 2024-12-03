@@ -11,13 +11,8 @@ public class OptionsParser {
         MoveDirection add;
         for (String text: directions){
             if(text.length()==1){
-                try{
-                    add = whereAnimalMove(text.charAt(0));
-                    result.add(add);
-                }
-                catch (IllegalArgumentException ignored){
-
-                }
+                add = whereAnimalMove(text.charAt(0));
+                result.add(add);
             }
         }
         return result;
