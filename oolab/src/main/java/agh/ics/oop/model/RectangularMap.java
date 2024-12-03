@@ -16,6 +16,7 @@ public class RectangularMap extends AbstractWorldMap {
     }
 
     public RectangularMap(int width, int height, Vector2d lowerLeftPoint){
+        super();
         this.height = height;
         this.width = width;
         lowerLeft = lowerLeftPoint;

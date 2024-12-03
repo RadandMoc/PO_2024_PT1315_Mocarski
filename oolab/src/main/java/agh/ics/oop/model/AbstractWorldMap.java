@@ -9,6 +9,12 @@ public abstract class AbstractWorldMap implements WorldMap {
     protected final Map<Vector2d, Animal> animals = new HashMap<>();
     protected final MapVisualizer visualizer = new MapVisualizer(this);
     private final List<MapChangeListener> observers = new ArrayList<>();
+    private final int mapId;
+    private static int counter = 0;
+
+    AbstractWorldMap(){
+        mapId = ++counter;
+    }
 
     public void addObserver(MapChangeListener observer){
         observers.add(observer);
@@ -68,6 +74,11 @@ public abstract class AbstractWorldMap implements WorldMap {
 
     @Override
     public abstract Boundary getCurrentBounds();
+
+    @Override
+    public int getId(){
+        return mapId;
+    }
 
     @Override
     public String toString(){

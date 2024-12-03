@@ -7,12 +7,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Simulation {
+public class Simulation  implements Runnable {
     private final List<Animal> animals = new ArrayList<>();
     private final List<MoveDirection> moves = new ArrayList<>();
     private final WorldMap map;
 
-    public Simulation(List<Vector2d> animalsPositions, List<MoveDirection> moves, WorldMap map){
+    public Simulation(List<Vector2d> animalsPositions, List<MoveDirection> moves, WorldMap map) {
         List<Animal> animalsToAdd = new ArrayList<>();
         for (Vector2d position : animalsPositions){
             Animal pet = new Animal(position);
@@ -48,6 +48,7 @@ public class Simulation {
         return new ArrayList<>(moves);
     }
 
+    @Override
     public void run(){
         List<Animal> localAnimals = animals;
         int numOfAnimals = localAnimals.size();
