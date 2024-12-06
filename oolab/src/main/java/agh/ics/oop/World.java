@@ -1,6 +1,7 @@
 package agh.ics.oop;
 
 import agh.ics.oop.model.*;
+import javafx.application.Application;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +41,7 @@ public class World {
         }
         */
 
+        /*
         try{
             //List<MoveDirection> directions = OptionsParser.whereMove(args);
             List<MoveDirection> directions = List.of(
@@ -53,7 +55,7 @@ public class World {
 
             List<Simulation> sims = new ArrayList<>();
             sims.add(simulation);
-            for (int i = 0; i < 1000; i++) {
+            for (int i = 0; i < 10; i++) {
                 directions = List.of(
                         MoveDirection.FORWARD, MoveDirection.FORWARD, MoveDirection.BACKWARD,
                         MoveDirection.FORWARD, MoveDirection.FORWARD, MoveDirection.BACKWARD,
@@ -80,6 +82,10 @@ public class World {
         }
 
         System.out.println("Program zakończył działanie");
+
+         */
+
+        Application.launch(SimulationApp.class, args);
     }
 
     private static void run(MoveDirection[] directions)
