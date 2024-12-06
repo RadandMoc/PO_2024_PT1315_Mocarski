@@ -12,8 +12,10 @@ public abstract class AbstractWorldMap implements WorldMap {
     private final int mapId;
     private static int counter = 0;
 
-    AbstractWorldMap(){
-        mapId = ++counter;
+    protected AbstractWorldMap(){
+        synchronized (AbstractWorldMap.class){
+            mapId = ++counter;
+        }
     }
 
     public void addObserver(MapChangeListener observer){

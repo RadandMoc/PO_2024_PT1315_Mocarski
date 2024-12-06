@@ -69,7 +69,11 @@ public class World {
             //eng.runSync();
             //eng.runAsync();
             eng.runAsyncInThreadPool();
-            eng.awaitSimulationsEnd();
+            try {
+                eng.awaitSimulationsEnd();
+            } catch (InterruptedException ignored){
+
+            }
         }
         catch (IllegalArgumentException e){
             System.out.println(e);

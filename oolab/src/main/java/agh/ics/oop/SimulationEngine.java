@@ -29,17 +29,13 @@ public class SimulationEngine {
         }
     }
 
-    public void awaitSimulationsEnd(){
-        try {
-            for (Thread thread : threads) {
-                thread.join(); // Czekamy na zakończenie bieżącego wątku
-            }
-            threadsInPool.shutdown();
-            if (!threadsInPool.awaitTermination(10, TimeUnit.SECONDS)) {
-                threadsInPool.shutdownNow();
-            }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+    public void awaitSimulationsEnd() throws InterruptedException{
+        for (Thread thread : threads) {
+            thread.join(); // Czekamy na zakończenie bieżącego wątku
+        }
+        threadsInPool.shutdown();
+        if (!threadsInPool.awaitTermination(10, TimeUnit.SECONDS)) {
+            threadsInPool.shutdownNow();
         }
     }
 
