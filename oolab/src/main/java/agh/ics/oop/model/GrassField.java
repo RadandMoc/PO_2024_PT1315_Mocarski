@@ -16,6 +16,7 @@ public class GrassField extends AbstractWorldMap {
     }
 
     GrassField(int grassNo, int randomSeed){
+        super();
         random = new Random(randomSeed);
         int limit = (int) Math.floor(Math.sqrt(grassNo * 10)+1);
         RandomPositionGenerator generator = new RandomPositionGenerator(limit, limit, grassNo, randomSeed);
