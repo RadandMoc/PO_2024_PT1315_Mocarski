@@ -55,6 +55,9 @@ public class Simulation  implements Runnable {
         int lastAnimalIdx = 0;
         Animal animal;
         for(MoveDirection move: getMoves()){
+            try {
+                Thread.sleep(500); // Pauza między ruchami
+            } catch (InterruptedException ignored) { }
             animal = localAnimals.get(lastAnimalIdx);
             map.move(animal,move);
             lastAnimalIdx = (lastAnimalIdx+1)%numOfAnimals;
