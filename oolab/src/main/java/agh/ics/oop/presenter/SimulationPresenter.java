@@ -4,117 +4,70 @@ import agh.ics.oop.Simulation;
 import agh.ics.oop.model.*;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.geometry.HPos;
-import javafx.geometry.VPos;
-import javafx.scene.control.Label;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.RowConstraints;
+import javafx.stage.Stage;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 import static agh.ics.oop.OptionsParser.whereMove;
 
+public class SimulationPresenter {
 
-public class SimulationPresenter implements MapChangeListener {
-    private WorldMap map = null;
-    @FXML
-    private GridPane mapGrid;
-    @FXML
-    private Label infoLabel;
     @FXML
     private TextField movesTextField;
 
-    private static final int CELL_WIDTH = 24;
-    private static final int CELL_HEIGHT = 24;
+    private final ExecutorService threadPool = Executors.newFixedThreadPool(4);
+    private final List<Stage> mapPresenterStages = new ArrayList<>();
+    private Stage primaryStage;
 
-
-    public void setMap(WorldMap map){
-        this.map = map;
+    public void setPrimaryStage(Stage stage) {
+        this.primaryStage = stage;
+        this.primaryStage.setOnCloseRequest(event -> closeAllMapPresenterStages());
     }
-
-    @Override
-    public void mapChanged(WorldMap worldMap, String message) {
-        setMap(worldMap);
-        Platform.runLater(() -> {
-            drawMap();
-            infoLabel.setText(message);
-        });
-    }
-
-    private void drawMap() {
-        Boundary boundary = map.getCurrentBounds();
-        int minx =  boundary.lowerLeft().getX();
-        int maxX =  boundary.upperRight().getX();
-        int minY =  boundary.lowerLeft().getY();
-        int maxY =  boundary.upperRight().getY();
-
-        clearGrid();
-        drawUpperLeft();
-        drawColumnNums(minx,maxX);
-        drawRowNums(minY,maxY);
-        drawMapObjects(minx, maxX, minY, maxY);
-        mapGrid.setGridLinesVisible(true);
-    }
-
-    private void drawUpperLeft(){
-        Label cornerLabel = new Label(" y/x ");
-        GridPane.setHalignment(cornerLabel, HPos.CENTER);
-        mapGrid.add(cornerLabel, 0, 0);
-    }
-
-    private void drawColumnNums(int min, int max) {
-        mapGrid.getColumnConstraints().add(new ColumnConstraints(CELL_WIDTH));
-        for (int i = min; i <= max; i++) {
-            mapGrid.getColumnConstraints().add(new ColumnConstraints(CELL_WIDTH));
-            Label label = new Label(Integer.toString(i));
-            GridPane.setHalignment(label, HPos.CENTER);
-            mapGrid.add(label, i - min + 1, 0);
-        }
-    }
-
-    private void drawRowNums(int min, int max) {
-        mapGrid.getRowConstraints().add(new RowConstraints(CELL_HEIGHT));
-        for (int i = min; i <= max; i++) {
-            mapGrid.getRowConstraints().add(new RowConstraints(CELL_HEIGHT));
-            Label label = new Label(Integer.toString(i));
-            GridPane.setHalignment(label, HPos.CENTER);
-            mapGrid.add(label, 0, max - i + 1);
-        }
-    }
-
-    public void drawMapObjects(int xMin, int xMax, int yMin, int yMax) {
-        for (int i = xMin; i <= xMax; i++) {
-            for (int j = yMin; j <= yMax; j++) {
-                Vector2d pos = new Vector2d(i, j);
-                Label cellLbl;
-                if (map.isOccupied(pos)) {
-                    cellLbl = new Label(map.objectAt(pos).toString());
-                } else {
-                    cellLbl = new Label(" ");
-                }
-
-                GridPane.setHalignment(cellLbl, HPos.CENTER);
-                GridPane.setValignment(cellLbl, VPos.CENTER);
-
-                mapGrid.add(cellLbl, i - xMin + 1, yMax - j + 1);
-            }
-        }
-    }
-
-    private void clearGrid() {
-        mapGrid.getChildren().retainAll(mapGrid.getChildren().getFirst()); // hack to retain visible grid lines
-        mapGrid.getColumnConstraints().clear();
-        mapGrid.getRowConstraints().clear();
-    }
-
     @FXML
     private void onSimulationStartClicked(){
         String moveList = movesTextField.getText();
         List<MoveDirection> directions = whereMove(moveList.split(" "));
         List<Vector2d> positions = List.of(new Vector2d(2,2),new Vector2d(3,4));
         AbstractWorldMap map = new GrassField(16);
-        map.addObserver(this);
-        Simulation simulation = new Simulation(positions, directions, map);
-        new Thread(simulation).start();
+        threadPool.submit(() -> Platform.runLater(() -> {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/map.fxml"));
+                Parent root = loader.load();
+                MapPresenter presenter = loader.getController();
+                map.addObserver(presenter);
+                Stage newStage = new Stage();
+                newStage.setScene(new Scene(root, 850, 550));
+                newStage.setTitle(moveList);
+                mapPresenterStages.add(newStage);
+                newStage.setOnCloseRequest(event -> {
+                    mapPresenterStages.remove(newStage);
+                    newStage.close();
+                });
+                newStage.show();
+                Simulation simulation = new Simulation(positions, directions, map);
+                new Thread(simulation).start();
+            } catch (IOException ignored) { }
+        }));
+    }
+
+    private void closeAllMapPresenterStages() {
+        for (Stage stage : mapPresenterStages) {
+            if (stage.isShowing()) {
+                stage.close();
+            }
+        }
+        mapPresenterStages.clear();
+        threadPool.shutdownNow();
+    }
+
+    public void shutdownThreadPool(){
+        threadPool.shutdown();
     }
 }
