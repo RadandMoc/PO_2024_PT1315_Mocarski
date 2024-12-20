@@ -66,7 +66,7 @@ public class MapPresenter implements MapChangeListener {
         }
     }
 
-    public void drawMapObjects(int xMin, int xMax, int yMin, int yMax) {
+    private void drawMapObjects(int xMin, int xMax, int yMin, int yMax) {
         for (int i = xMin; i <= xMax; i++) {
             for (int j = yMin; j <= yMax; j++) {
                 Vector2d pos = new Vector2d(i, j);
