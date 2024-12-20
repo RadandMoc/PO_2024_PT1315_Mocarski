@@ -28,7 +28,7 @@ public class SimulationPresenter implements MapChangeListener {
     private static final int CELL_HEIGHT = 24;
 
 
-    public void setMap(WorldMap map){
+    private void setMap(WorldMap map){
         this.map = map;
     }
 
