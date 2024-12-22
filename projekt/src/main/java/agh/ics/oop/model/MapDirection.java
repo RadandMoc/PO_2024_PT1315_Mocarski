@@ -33,7 +33,7 @@ public enum MapDirection {
     }
 
     public MapDirection change(int rotate){
-        return MapDirection.values()[(this.ordinal() + rotate) % 8];
+        return values()[(this.ordinal() + rotate) % values().length];
     }
 
     public Vector2d toUnitVector(){
