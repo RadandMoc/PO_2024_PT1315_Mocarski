@@ -12,6 +12,8 @@ public enum MapDirection {
 
     private final Vector2d diretctionToVector;
 
+
+
     MapDirection(Vector2d vector) {
         diretctionToVector = vector;
     }
@@ -31,7 +33,7 @@ public enum MapDirection {
     }
 
     public MapDirection change(int rotate){
-        return MapDirection.values()[(this.ordinal() + rotate) % 7];
+        return MapDirection.values()[(this.ordinal() + rotate) % 8];
     }
 
     public Vector2d toUnitVector(){
