@@ -29,6 +29,14 @@ public class Animal implements WorldElement{
         energy -= consequences.energy();
     }
 
+    public boolean ableToWalk(int requiredEnergy){
+        if (energy - requiredEnergy < 0){
+            isDead = true;
+            return false;
+        }
+        return true;
+    }
+
     @Override
     public Vector2d getPosition() {
         return position;
