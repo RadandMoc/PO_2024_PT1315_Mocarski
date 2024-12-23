@@ -26,4 +26,6 @@ public abstract class AbstractWorldMap {
             animals.get(animal.getPosition()).add(animal);
         }
     }
+
+    public abstract MoveResult animalMoveChanges(Vector2d animalPosition, MapDirection orientation);
 }

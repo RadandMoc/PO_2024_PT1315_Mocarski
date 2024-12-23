@@ -21,6 +21,13 @@ public class Animal implements WorldElement{
         this.genome = mutateMethod.Mutate(parentsGenome);
     }
 
+    public void move(AbstractWorldMap map){
+        MoveResult consequences = map.animalMoveChanges(position,orientation);
+        position = consequences.position();
+        orientation = consequences.orientation();
+        energy -= consequences.energy();
+    }
+
     @Override
     public Vector2d getPosition() {
         return position;
