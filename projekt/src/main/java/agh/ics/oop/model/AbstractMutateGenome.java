@@ -14,8 +14,8 @@ public abstract class AbstractMutateGenome implements MutateGenome {
     protected final Random random = new Random();
 
     public AbstractMutateGenome(int minNumOfMutation, int maxNumOfMutation) {
-        this.minMutation = min(minNumOfMutation, maxNumOfMutation);
-        this.maxMutation = max(minNumOfMutation, maxNumOfMutation);
+        this.minMutation = min(minNumOfMutation, maxNumOfMutation); // Można rzucać wyjątkiem kiedy min > max
+        this.maxMutation = max(minNumOfMutation, maxNumOfMutation); // ten wyjątek mógłby być łapany i wyświetlać w gui komunikat o podmiance
     }
 
 
