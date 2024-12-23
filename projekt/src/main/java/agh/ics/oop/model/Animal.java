@@ -22,6 +22,7 @@ public class Animal implements WorldElement{
     }
 
     public void move(AbstractWorldMap map){
+        orientation.change(genome.get(turnOfAnimal%genome.size()));
         MoveResult consequences = map.animalMoveChanges(position,orientation);
         position = consequences.position();
         orientation = consequences.orientation();
