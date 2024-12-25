@@ -33,7 +33,7 @@ public abstract class AbstractWorldMap
         }
     }
 
-    public void move(Animal animal){
+    private void move(Animal animal){
         Vector2d prevPos = animal.getPosition();
         animal.move(this);
         Vector2d currPos = animal.getPosition();
@@ -65,4 +65,56 @@ public abstract class AbstractWorldMap
     public abstract void generatePlants(int startedPlants);
 
     public abstract MoveResult animalMoveChanges(Vector2d animalPosition, MapDirection orientation);
+
+    public void animalsConsume(int energy){
+        for (var pos : animals.keySet()){
+            if (plants.containsKey(pos)){
+                Animal winner = bestByEnergy(animals.get(pos));
+                winner.changeEnergy(energy);
+                plants.remove(pos);
+                // trzeba pewnie losowacza ogarnac
+                // aktualizacja gui
+            }
+
+        }
+    }
+
+    private Set<Animal> bestComponent(Set<Animal> animalsOnField, ConsumeStatComponent choice){
+        int bestComponent = Integer.MIN_VALUE;
+        Set<Animal> bestAnimals = new HashSet<>();
+
+        for (Animal animal : animalsOnField) {
+            int component = animal.getStatistics().selectComponent(choice);
+            if (component > bestComponent) {
+                bestComponent = component;
+                bestAnimals.clear();
+                bestAnimals.add(animal);
+            } else if (component == bestComponent) {
+                bestAnimals.add(animal);
+            }
+        }
+
+        return bestAnimals;
+    }
+
+    private Animal bestByEnergy(Set<Animal> animalsOnField){
+        var bestAnimals = bestComponent(animalsOnField, ConsumeStatComponent.ENERGY);
+        if (bestAnimals.size() == 1) {return bestAnimals.iterator().next();}
+        return bestByLifetime(bestAnimals);
+    }
+
+    private Animal bestByLifetime(Set<Animal> animalsOnField){
+        var bestAnimals = bestComponent(animalsOnField, ConsumeStatComponent.LIFETIME);
+        if (bestAnimals.size() == 1) {return bestAnimals.iterator().next();}
+        return bestByNumOfChild(bestAnimals);
+    }
+
+    private Animal bestByNumOfChild(Set<Animal> animalsOnField){
+        var bestAnimals = bestComponent(animalsOnField, ConsumeStatComponent.NUMBER_OF_CHILDREN);
+        if (bestAnimals.size() == 1) {return bestAnimals.iterator().next();}
+
+        List<Animal> list = new ArrayList<>(bestAnimals);
+        Random rand = new Random();
+        return list.get(rand.nextInt(list.size()));
+    }
 }

@@ -20,8 +20,10 @@ import java.util.*;
         Random rand = new Random();
         double choice = rand.nextDouble();
         if (choice > 0.2){
-
+            // generate from preffered zone
         }
+        // generate from other zone
+
     }
 
 

@@ -26,7 +26,7 @@ public class Animal implements WorldElement{
         MoveResult consequences = map.animalMoveChanges(position,orientation);
         position = consequences.position();
         orientation = consequences.orientation();
-        energy -= consequences.energy();
+        this.changeEnergy(-consequences.energy());
     }
 
     public boolean ableToWalk(int requiredEnergy){
@@ -35,6 +35,14 @@ public class Animal implements WorldElement{
             return false;
         }
         return true;
+    }
+
+    public void changeEnergy(int energy){
+        this.energy += energy;
+    }
+
+    public ConsumeStatistics getStatistics() {
+        return new ConsumeStatistics(energy, turnOfAnimal, childs.size());
     }
 
     @Override
