@@ -7,13 +7,21 @@ public abstract class AbstractWorldMap
     protected final HashMap<Vector2d, HashSet<Animal>> animals = new HashMap<>();
     protected final HashMap<Vector2d, Plant> plants = new HashMap<>();
     private final List<MapChangeListener> observers = new ArrayList<>();
-    private final int height;
-    private final int width;
+    protected final int height;
+    protected final int width;
+    protected final Boundary boundary;
 
-    public AbstractWorldMap(int height,int width){
-        this.height = height;
-        this.width = width;
+    public AbstractWorldMap(int width, int height){
+        this(width, height, new Vector2d(0,0));
     }
+
+    public AbstractWorldMap(int width, int height, Vector2d leftDownBoundary){
+        this.width = width;
+        this.height = height;
+        Vector2d rightUpBoundary = new Vector2d(leftDownBoundary.getX() + width - 1, leftDownBoundary.getY() + height - 1);
+        boundary = new Boundary(leftDownBoundary,rightUpBoundary);
+    }
+
 
     public void place(WorldElement mapObj){
         if(mapObj instanceof Plant plant){
@@ -44,22 +52,17 @@ public abstract class AbstractWorldMap
         //pewnie przydałoby się jakies wywolanie listenera
     }
 
-
-    /*
-    public void clearDeathAnimal() {
+    public void clearDeathAnimal(EnergyLoss energyLoss) {
         animals.entrySet().forEach(entry -> {
             HashSet<Animal> animalsInSquare = entry.getValue();
             animalsInSquare.removeIf(animal ->
-                    !animal.ableToWalk(howManyEnergyToWalk(animal.getPosition()))
+                    !animal.ableToWalk(energyLoss.howManyEnergyToWalk(animal))
             );
         });
         // pewnie przydalby się update GUI
     }
 
-    */
-
-    public abstract void clearDeathAnimal();
-
+    public abstract void generatePlants(int startedPlants);
 
     public abstract MoveResult animalMoveChanges(Vector2d animalPosition, MapDirection orientation);
 }
