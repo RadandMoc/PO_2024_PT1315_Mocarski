@@ -246,7 +246,6 @@ public class Vector2dTest {
         Vector2d ans_vec_2;
         Vector2d ans_vec_3;
         Vector2d ans_vec_4;
-        Vector2d funcAnswer;
         // When
         ans_vec_1 = vec1.opposite();
         ans_vec_2 = vec2.opposite();
