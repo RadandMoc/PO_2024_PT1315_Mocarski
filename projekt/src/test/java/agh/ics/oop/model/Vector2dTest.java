@@ -139,60 +139,123 @@ public class Vector2dTest {
         Vector2d vec3 = new Vector2d(0,0);
         Vector2d vec4 = new Vector2d(-1,-2);
         Vector2d vec5 = new Vector2d(-2,-1);
-        Vector2d vecs_1_2;
+        Vector2d ans_vecs_1_2;
+        Vector2d ans_vecs_1_3;
+        Vector2d ans_vecs_1_4;
+        Vector2d ans_vecs_3_1;
+        Vector2d ans_vecs_3_4;
+        Vector2d ans_vecs_3_5;
+        Vector2d ans_vecs_4_5;
         // When
-        vecs_1_2 = vec1.upperRight(vec2);
-        vecs_1_3 = vec1.upperRight(vec2);
-        vecs_1_4 = vec1.upperRight(vec2);
-        vecs_1_5 = vec1.upperRight(vec2);
+        ans_vecs_1_2 = vec1.upperRight(vec2);
+        ans_vecs_1_3 = vec1.upperRight(vec3);
+        ans_vecs_1_4 = vec1.upperRight(vec4);
+        ans_vecs_3_1 = vec3.upperRight(vec1);
+        ans_vecs_3_4 = vec3.upperRight(vec4);
+        ans_vecs_3_5 = vec3.upperRight(vec5);
+        ans_vecs_4_5 = vec4.upperRight(vec5);
         // Then
-        assertEquals(new Vector2d(3,3),vecs_1_2);
+        assertEquals(new Vector2d(3,3),ans_vecs_1_2);
+        assertEquals(new Vector2d(1,3),ans_vecs_1_3);
+        assertEquals(new Vector2d(1,3),ans_vecs_1_4);
+        assertEquals(new Vector2d(1,3),ans_vecs_3_1);
+        assertEquals(new Vector2d(0,0),ans_vecs_3_4);
+        assertEquals(new Vector2d(0,0),ans_vecs_3_5);
+        assertEquals(new Vector2d(-1,-1),ans_vecs_4_5);
     }
 
     @Test
-    public void forVectorsWithDifferentValues_callLowerLeft_thenCompareToProperlyVector(){
+    public void lowerLeftTests(){
         // Given
         Vector2d vec1 = new Vector2d(1,3);
         Vector2d vec2 = new Vector2d(3,1);
-        Vector2d funcAnswer;
+        Vector2d vec3 = new Vector2d(0,0);
+        Vector2d vec4 = new Vector2d(-1,-2);
+        Vector2d vec5 = new Vector2d(-2,-1);
+        Vector2d ans_vecs_1_2;
+        Vector2d ans_vecs_1_3;
+        Vector2d ans_vecs_1_4;
+        Vector2d ans_vecs_3_1;
+        Vector2d ans_vecs_3_4;
+        Vector2d ans_vecs_3_5;
+        Vector2d ans_vecs_4_5;
         // When
-        funcAnswer = vec1.lowerLeft(vec2);
+        ans_vecs_1_2 = vec1.lowerLeft(vec2);
+        ans_vecs_1_3 = vec1.lowerLeft(vec3);
+        ans_vecs_1_4 = vec1.lowerLeft(vec4);
+        ans_vecs_3_1 = vec3.lowerLeft(vec1);
+        ans_vecs_3_4 = vec3.lowerLeft(vec4);
+        ans_vecs_3_5 = vec3.lowerLeft(vec5);
+        ans_vecs_4_5 = vec4.lowerLeft(vec5);
         // Then
-        assertEquals(new Vector2d(1,1),funcAnswer);
+        assertEquals(new Vector2d(1,1),ans_vecs_1_2);
+        assertEquals(new Vector2d(0,0),ans_vecs_1_3);
+        assertEquals(new Vector2d(-1,-2),ans_vecs_1_4);
+        assertEquals(new Vector2d(0,0),ans_vecs_3_1);
+        assertEquals(new Vector2d(-1,-2),ans_vecs_3_4);
+        assertEquals(new Vector2d(-2,-1),ans_vecs_3_5);
+        assertEquals(new Vector2d(-2,-2),ans_vecs_4_5);
     }
 
     @Test
-    public void forVectorsWithDifferentValues_callAdd_thenCompareToProperlyVector(){
+    public void addVectorsTests(){
         // Given
         Vector2d vec1 = new Vector2d(1,3);
         Vector2d vec2 = new Vector2d(3,1);
-        Vector2d funcAnswer;
+        Vector2d vec3 = new Vector2d(-1,-1);
+        Vector2d ans_vecs_1_2;
+        Vector2d ans_vecs_2_1;
+        Vector2d ans_vecs_1_3;
         // When
-        funcAnswer = vec1.add(vec2);
+        ans_vecs_1_2 = vec1.add(vec2);
+        ans_vecs_2_1 = vec2.add(vec1);
+        ans_vecs_1_3 = vec1.add(vec3);
         // Then
-        assertEquals(new Vector2d(4,4),funcAnswer);
+        assertEquals(new Vector2d(4,4),ans_vecs_1_2);
+        assertEquals(new Vector2d(4,4),ans_vecs_2_1);
+        assertEquals(new Vector2d(0,2),ans_vecs_1_3);
     }
 
     @Test
-    public void forVectorsWithDifferentValues_callSubtract_thenCompareToProperlyVector(){
+    public void subtractVectorsTests(){
         // Given
         Vector2d vec1 = new Vector2d(1,3);
         Vector2d vec2 = new Vector2d(3,1);
-        Vector2d funcAnswer;
+        Vector2d vec3 = new Vector2d(-1,-1);
+        Vector2d ans_vecs_1_2;
+        Vector2d ans_vecs_2_1;
+        Vector2d ans_vecs_1_3;
         // When
-        funcAnswer = vec1.subtract(vec2);
+        ans_vecs_1_2 = vec1.subtract(vec2);
+        ans_vecs_2_1 = vec2.subtract(vec1);
+        ans_vecs_1_3 = vec1.subtract(vec3);
         // Then
-        assertEquals(new Vector2d(-2,2),funcAnswer);
+        assertEquals(new Vector2d(-2,2),ans_vecs_1_2);
+        assertEquals(new Vector2d(2,-2),ans_vecs_2_1);
+        assertEquals(new Vector2d(2,4),ans_vecs_1_3);
     }
 
     @Test
-    public void forVectorsWithDifferentValues_callOpposite_thenCompareToProperlyVector(){
+    public void oppositVectorsTests(){
         // Given
         Vector2d vec1 = new Vector2d(1,3);
+        Vector2d vec2 = new Vector2d(0,0);
+        Vector2d vec3 = new Vector2d(-1,-3);
+        Vector2d vec4 = new Vector2d(-1,3);
+        Vector2d ans_vec_1;
+        Vector2d ans_vec_2;
+        Vector2d ans_vec_3;
+        Vector2d ans_vec_4;
         Vector2d funcAnswer;
         // When
-        funcAnswer = vec1.opposite();
+        ans_vec_1 = vec1.opposite();
+        ans_vec_2 = vec2.opposite();
+        ans_vec_3 = vec3.opposite();
+        ans_vec_4 = vec4.opposite();
         // Then
-        assertEquals(new Vector2d(-1,-3),funcAnswer);
+        assertEquals(new Vector2d(-1,-3),ans_vec_1);
+        assertEquals(new Vector2d(0,0),ans_vec_2);
+        assertEquals(new Vector2d(1,3),ans_vec_3);
+        assertEquals(new Vector2d(1,-3),ans_vec_4);
     }
 }
