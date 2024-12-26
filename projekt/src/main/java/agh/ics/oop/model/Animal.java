@@ -41,8 +41,12 @@ public class Animal implements WorldElement{
         this.energy += energy;
     }
 
-    public ConsumeStatistics getStatistics() {
-        return new ConsumeStatistics(energy, turnOfAnimal, childs.size());
+    public int selectComponent(ConsumeStatComponent type){
+        return switch (type) {
+            case ENERGY -> energy;
+            case LIFETIME -> turnOfAnimal;
+            case NUMBER_OF_CHILDREN -> childs.size();
+        };
     }
 
     @Override

@@ -84,7 +84,7 @@ public abstract class AbstractWorldMap
         Set<Animal> bestAnimals = new HashSet<>();
 
         for (Animal animal : animalsOnField) {
-            int component = animal.getStatistics().selectComponent(choice);
+            int component = animal.selectComponent(choice);
             if (component > bestComponent) {
                 bestComponent = component;
                 bestAnimals.clear();
