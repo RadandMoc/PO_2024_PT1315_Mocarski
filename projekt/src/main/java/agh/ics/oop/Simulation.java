@@ -1,13 +1,12 @@
 package agh.ics.oop;
 
-import agh.ics.oop.model.AbstractWorldMap;
-import agh.ics.oop.model.EnergyLoss;
-import agh.ics.oop.model.MutateGenome;
+import agh.ics.oop.model.*;
 
 public class Simulation {
     private final AbstractWorldMap map;
     private final MutateGenome typeOfMutation;
     private final EnergyLoss energyLoss;
+    private final StrongestAnimalFinder strongestAnimalFinder = new ConsumeConflictSolver();
 
     public Simulation(AbstractWorldMap selectedMap, int startedPlants, int startedAnimal, int startingEnergy,
                       int energyToBeingFullStuffed, int breadingEnergyLoss, int lenOfGenome, MutateGenome selectedMutatation, EnergyLoss energyLossMethod ){
@@ -27,7 +26,7 @@ public class Simulation {
     public void run(){
         map.clearDeathAnimal(energyLoss);
         map.movesAllAnimals();
-        map.animalsConsume();
+        map.animalsConsume(strongestAnimalFinder);
         //map.breeding()
         //map.generateNewPlants()
 
