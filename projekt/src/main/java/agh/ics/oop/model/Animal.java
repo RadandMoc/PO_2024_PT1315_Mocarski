@@ -49,6 +49,18 @@ public class Animal implements WorldElement{
         };
     }
 
+    public int getEnergy() {
+        return energy;
+    }
+
+    public int getLifeTime(){
+        return turnOfAnimal;
+    }
+
+    public int getNumOfChild(){
+        return childs.size();
+    }
+
     @Override
     public Vector2d getPosition() {
         return position;
