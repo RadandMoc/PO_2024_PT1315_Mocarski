@@ -10,16 +10,18 @@ public abstract class AbstractWorldMap
     protected final int height;
     protected final int width;
     protected final Boundary boundary;
+    private final int energyFromPlant;
 
-    public AbstractWorldMap(int width, int height){
-        this(width, height, new Vector2d(0,0));
+    public AbstractWorldMap(int width, int height, int plantEnergy){
+        this(width, height, new Vector2d(0,0), plantEnergy);
     }
 
-    public AbstractWorldMap(int width, int height, Vector2d leftDownBoundary){
+    public AbstractWorldMap(int width, int height, Vector2d leftDownBoundary, int plantEnergy){
         this.width = width;
         this.height = height;
         Vector2d rightUpBoundary = new Vector2d(leftDownBoundary.getX() + width - 1, leftDownBoundary.getY() + height - 1);
         boundary = new Boundary(leftDownBoundary,rightUpBoundary);
+        energyFromPlant = plantEnergy;
     }
 
 
@@ -44,21 +46,14 @@ public abstract class AbstractWorldMap
     }
 
     public void movesAllAnimals() {
-        animals.entrySet().stream()
-                .forEach(entry -> {
-                    HashSet<Animal> animalsInSquare = entry.getValue();
-                    animalsInSquare.forEach(this::move);
-                });
+        animals.forEach((key, animalsInSquare) -> animalsInSquare.forEach(this::move));
         //pewnie przydałoby się jakies wywolanie listenera
     }
 
     public void clearDeathAnimal(EnergyLoss energyLoss) {
-        animals.entrySet().forEach(entry -> {
-            HashSet<Animal> animalsInSquare = entry.getValue();
-            animalsInSquare.removeIf(animal ->
-                    !animal.ableToWalk(energyLoss.howManyEnergyToWalk(animal))
-            );
-        });
+        animals.forEach((key, animalsInSquare) -> animalsInSquare.removeIf(animal ->
+                !animal.ableToWalk(energyLoss.howManyEnergyToWalk(animal))
+        ));
         // pewnie przydalby się update GUI
     }
 
@@ -66,11 +61,11 @@ public abstract class AbstractWorldMap
 
     public abstract MoveResult animalMoveChanges(Vector2d animalPosition, MapDirection orientation);
 
-    public void animalsConsume(int energy){
+    public void animalsConsume(){
         for (var pos : animals.keySet()){
-            if (plants.containsKey(pos)){
+            if (plants.containsKey(pos) && !animals.get(pos).isEmpty()){
                 Animal winner = bestByEnergy(animals.get(pos));
-                winner.changeEnergy(energy);
+                winner.changeEnergy(energyFromPlant);
                 plants.remove(pos);
                 // trzeba pewnie losowacza ogarnac
                 // aktualizacja gui

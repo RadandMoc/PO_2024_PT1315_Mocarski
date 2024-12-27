@@ -7,8 +7,8 @@ import java.util.*;
     private final static double prefferedPlanZoneAreaPercent = 0.2f;
 
 
-    public GlobeMap(int width, int height, Vector2d leftDownBoundary) {
-        super(width, height, leftDownBoundary);
+    public GlobeMap(int width, int height, Vector2d leftDownBoundary, int plantEnergy) {
+        super(width, height, leftDownBoundary, plantEnergy);
         int equator_height =  (int) Math.round(height * prefferedPlanZoneAreaPercent);
         prefferdZoneDownHeight = (height - equator_height) / 2 + leftDownBoundary.getY();
         prefferdZoneUpHeight = prefferdZoneDownHeight + equator_height - 1;
