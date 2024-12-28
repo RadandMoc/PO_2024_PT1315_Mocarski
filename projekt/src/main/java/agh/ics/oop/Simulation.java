@@ -5,7 +5,6 @@ import agh.ics.oop.model.*;
 public class Simulation {
     private final AbstractWorldMap map;
     private final MutateGenome typeOfMutation;
-    private final EnergyLoss energyLoss;
     private final StrongestAnimalFinder strongestAnimalFinder = new ConsumeConflictSolver();
     private int currentTurn = 0;
 

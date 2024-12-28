@@ -12,7 +12,6 @@ public abstract class AbstractWorldMap
     protected final int width;
     protected final Boundary boundary;
     protected final EnergyLoss energyLoss;
-
     private final int energyFromPlant;
 
     public AbstractWorldMap(int width, int height, int plantEnergy, EnergyLoss energyLoss){
@@ -27,7 +26,6 @@ public abstract class AbstractWorldMap
         energyFromPlant = plantEnergy;
         this.energyLoss = energyLoss;
     }
-
 
     public void place(WorldElement mapObj){
         if(mapObj instanceof Plant plant){
@@ -78,7 +76,6 @@ public abstract class AbstractWorldMap
         }
     }
 
-
     public void breeding(int energyForAnimalsForBreeding, int startsEnergy, int actualTurn, MutateGenome mutateMethod, ReproductionStrategy repr){
         for (var pos : animals.keySet()){
             var animalsReadyToBreeding = animals.get(pos).stream().
@@ -91,5 +88,20 @@ public abstract class AbstractWorldMap
         }
     }
 
-
+    public void generateRandomAnimals(int numOfAnimals,int genomeLength,int startEnergy){
+        Random random = new Random();
+        int x;
+        int y;
+        for (int i = 0; i < numOfAnimals; i++) {
+            x = random.nextInt(width) + boundary.lowerLeft().getX();
+            y = random.nextInt(height) + boundary.lowerLeft().getY();
+            List<Byte>genome = new ArrayList<>();
+            for (int j = 0; j < genomeLength; j++) {
+                genome.add((byte)random.nextInt(8));
+            }
+            Vector2d pos = new Vector2d(x,y);
+            Animal animal = new Animal(pos,startEnergy,0,genome);
+            this.place(animal);
+        }
+    }
 }
