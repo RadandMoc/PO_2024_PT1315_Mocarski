@@ -14,11 +14,18 @@ public class Animal implements WorldElement{
     private final List<Animal> childs = new ArrayList<>();
     private int eatenGrass = 0;
 
-    public Animal(Vector2d position, int energy, int turnOfBirth,MutateGenome mutateMethod, List<Byte> parentsGenome){
+    public Animal(Vector2d position, int energy, int turnOfBirth, MutateGenome mutateMethod, List<Byte> parentsGenome){
         this.turnOfBirth = turnOfBirth;
         this.energy = energy;
         this.position = position;
         this.genome = mutateMethod.Mutate(parentsGenome);
+    }
+
+    public Animal(Vector2d position, int energy, int turnOfBirth, List<Byte> genome){
+        this.turnOfBirth = turnOfBirth;
+        this.energy = energy;
+        this.position = position;
+        this.genome = genome;
     }
 
     public void move(AbstractWorldMap map){
