@@ -9,23 +9,24 @@ public class RandomPositionGenerator implements Iterable<Vector2d> {
     private final int maxHeight;
     private int howManyGenerate;
     private final Random random;
-    private final RandomPositionIterator iterator = new RandomPositionIterator();
+    private final RandomPositionIterator iterator;
     private long generatedBeforeThisIteration = 0;
 
-    public RandomPositionGenerator(int minWidth, int minHeight, int maxWidth, int maxHeight, int howManyGenerate) {
+    public RandomPositionGenerator(int minWidth, int minHeight, int maxWidth, int maxHeight, int howManyGenerate) throws ToMuchValuesToGenerateException {
         this(minWidth, minHeight, maxWidth, maxHeight, howManyGenerate, new Random().nextInt());
     }
 
-    public RandomPositionGenerator(int minWidth, int minHeight, int maxWidth, int maxHeight, int howManyGenerate, int randomSeed) {
+    public RandomPositionGenerator(int minWidth, int minHeight, int maxWidth, int maxHeight, int howManyGenerate, int randomSeed) throws ToMuchValuesToGenerateException {
         this.minWidth = minWidth;
         this.minHeight = minHeight;
         this.maxWidth = maxWidth;
         this.maxHeight = maxHeight;
         this.howManyGenerate = howManyGenerate;
         this.random = new Random(randomSeed);
+        iterator = new RandomPositionIterator();
 
-        if (howManyGenerate > (maxWidth+1-minWidth) * (maxHeight+1-minHeight)) {
-            throw new IllegalArgumentException("Number of object positions exceeds the total number of available positions.");
+        if (howManyGenerate > ((long)(maxWidth+1-minWidth)) * ((long)(maxHeight+1-minHeight))) {
+            throw new ToMuchValuesToGenerateException("Number of object positions exceeds the total number of available positions.",((int)(howManyGenerate-(((long)(maxWidth+1-minWidth)) * ((long)(maxHeight+1-minHeight))))));
         }
     }
 
@@ -50,6 +51,9 @@ public class RandomPositionGenerator implements Iterable<Vector2d> {
     private class RandomPositionIterator implements Iterator<Vector2d> {
         private final TreeSet<Long> generatedPositions = new TreeSet<>();
         private long generatedCount = 0;
+        private final long height = (long)maxHeight - (long)minHeight + 1;
+        private final long width = (long)maxWidth - (long)minWidth + 1;
+        private final long surfaceArea = height*width;
 
         private boolean deleteGeneratedPos(long pos){
             if(generatedPositions.contains(pos)){
@@ -67,13 +71,10 @@ public class RandomPositionGenerator implements Iterable<Vector2d> {
 
         @Override
         public Vector2d next() {
-            if (!hasNext()) {
-                throw new IllegalStateException("No more positions to generate.");
-            }
+            if(generatedCount == surfaceArea)
+                throw new ToMuchValuesToGenerateException("Number of object positions exceeds the total number of available positions.",((int)(-surfaceArea+howManyGenerate+generatedBeforeThisIteration)));
 
-            long height = (long)maxHeight - (long)minHeight + 1;
-            long width = (long)maxWidth - (long)minWidth + 1;
-            long index = random.nextLong(height * width - generatedCount);
+            long index = random.nextLong(surfaceArea - generatedCount);
             long a=0,b;
 
             do{
