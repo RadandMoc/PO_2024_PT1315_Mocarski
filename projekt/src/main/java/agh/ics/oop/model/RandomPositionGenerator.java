@@ -24,7 +24,7 @@ public class RandomPositionGenerator implements Iterable<Vector2d> {
         this.howManyGenerate = howManyGenerate;
         this.random = new Random(randomSeed);
 
-        if (howManyGenerate > (maxWidth-minWidth) * (maxHeight-minHeight)) {
+        if (howManyGenerate > (maxWidth+1-minWidth) * (maxHeight+1-minHeight)) {
             throw new IllegalArgumentException("Number of object positions exceeds the total number of available positions.");
         }
     }
@@ -62,7 +62,7 @@ public class RandomPositionGenerator implements Iterable<Vector2d> {
 
         @Override
         public boolean hasNext() {
-            return generatedCount < howManyGenerate+ generatedBeforeThisIteration;
+            return generatedCount < howManyGenerate + generatedBeforeThisIteration;
         }
 
         @Override
@@ -85,6 +85,7 @@ public class RandomPositionGenerator implements Iterable<Vector2d> {
             int x = (int) ((index % width)+minWidth);
             int y = (int) ((index / width)+minHeight);
             generatedPositions.add(index);
+            generatedCount++;
             return new Vector2d(x,y);
         }
     }

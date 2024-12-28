@@ -34,6 +34,7 @@ public class RandomPositionGeneratorTests {
             res.add(item);
         // Then
         assertEquals(26,res.size());
+        assertEquals(res.getFirst(),res.getLast());
     }
 
 
