@@ -14,7 +14,7 @@ public class Animal implements WorldElement{
     private final List<Animal> childs = new ArrayList<>();
     private int eatenGrass = 0;
 
-    public Animal(Vector2d position, int energy, int turnOfBirth,MutateGenome mutateMethod,List<Byte> parentsGenome){
+    public Animal(Vector2d position, int energy, int turnOfBirth,MutateGenome mutateMethod, List<Byte> parentsGenome){
         this.turnOfBirth = turnOfBirth;
         this.energy = energy;
         this.position = position;
@@ -23,7 +23,7 @@ public class Animal implements WorldElement{
 
     public void move(AbstractWorldMap map){
         orientation.change(genome.get(turnOfAnimal%genome.size()));
-        MoveResult consequences = map.animalMoveChanges(position,orientation);
+        MoveResult consequences = map.animalMoveChanges(this);
         position = consequences.position();
         orientation = consequences.orientation();
         this.changeEnergy(-consequences.energy());
@@ -59,6 +59,10 @@ public class Animal implements WorldElement{
 
     public int getNumOfChild(){
         return childs.size();
+    }
+
+    public MapDirection getOrientation() {
+        return orientation;
     }
 
     @Override

@@ -21,11 +21,10 @@ public class Simulation {
         // int minNumOfMutation,
         // wariant zachowania zwierzaków -> stworzę interfejs
         typeOfMutation = selectedMutatation;
-        energyLoss = energyLossMethod;
     }
 
     public void run(){
-        map.clearDeathAnimal(energyLoss);
+        map.clearDeathAnimal();
         map.movesAllAnimals();
         map.animalsConsume(strongestAnimalFinder);
         //map.breeding();

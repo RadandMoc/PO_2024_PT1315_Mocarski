@@ -7,8 +7,8 @@ import java.util.*;
     private final static double prefferedPlanZoneAreaPercent = 0.2f;
 
 
-    public GlobeMap(int width, int height, Vector2d leftDownBoundary, int plantEnergy) {
-        super(width, height, leftDownBoundary, plantEnergy);
+    public GlobeMap(int width, int height, Vector2d leftDownBoundary, int plantEnergy, EnergyLoss energyLoss) {
+        super(width, height, leftDownBoundary, plantEnergy, energyLoss);
         int equator_height =  (int) Math.round(height * prefferedPlanZoneAreaPercent);
         prefferdZoneDownHeight = (height - equator_height) / 2 + leftDownBoundary.getY();
         prefferdZoneUpHeight = prefferdZoneDownHeight + equator_height - 1;
@@ -28,8 +28,25 @@ import java.util.*;
 
 
     @Override
-    public MoveResult animalMoveChanges(Vector2d animalPosition, MapDirection orientation) {
-        return null;
+    public MoveResult animalMoveChanges(Animal animal) {
+        Vector2d animalPosition = animal.getPosition();
+        MapDirection orientation = animal.getOrientation();
+        Vector2d preMove = animalPosition.add(orientation.toUnitVector());
+        int energyLost = energyLoss.howManyEnergyToWalk(animal);
+        if (preMove.getY() > boundary.upperRight().getY() || preMove.getY() < boundary.lowerLeft().getY())
+        {
+            return new MoveResult(animalPosition, orientation.change(4),energyLoss.howManyEnergyToWalk(animal));
+        }
+        if (preMove.getX() > boundary.upperRight().getX())
+        {
+            return new MoveResult(new Vector2d(boundary.lowerLeft().getX(),preMove.getY()), orientation, energyLost);
+        }
+        else if (preMove.getX() < boundary.lowerLeft().getX())
+        {
+            return new MoveResult(new Vector2d(boundary.upperRight().getX(),preMove.getY()), orientation, energyLost);
+        }
+        return new MoveResult(preMove, orientation, energyLost);
+
     }
 
 

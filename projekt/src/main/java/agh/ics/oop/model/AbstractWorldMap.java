@@ -11,18 +11,21 @@ public abstract class AbstractWorldMap
     protected final int height;
     protected final int width;
     protected final Boundary boundary;
+    protected final EnergyLoss energyLoss;
+
     private final int energyFromPlant;
 
-    public AbstractWorldMap(int width, int height, int plantEnergy){
-        this(width, height, new Vector2d(0,0), plantEnergy);
+    public AbstractWorldMap(int width, int height, int plantEnergy, EnergyLoss energyLoss){
+        this(width, height, new Vector2d(0,0), plantEnergy, energyLoss);
     }
 
-    public AbstractWorldMap(int width, int height, Vector2d leftDownBoundary, int plantEnergy){
+    public AbstractWorldMap(int width, int height, Vector2d leftDownBoundary, int plantEnergy, EnergyLoss energyLoss){
         this.width = width;
         this.height = height;
         Vector2d rightUpBoundary = new Vector2d(leftDownBoundary.getX() + width - 1, leftDownBoundary.getY() + height - 1);
         boundary = new Boundary(leftDownBoundary,rightUpBoundary);
         energyFromPlant = plantEnergy;
+        this.energyLoss = energyLoss;
     }
 
 
@@ -51,7 +54,7 @@ public abstract class AbstractWorldMap
         //pewnie przydałoby się jakies wywolanie listenera
     }
 
-    public void clearDeathAnimal(EnergyLoss energyLoss) {
+    public void clearDeathAnimal() {
         animals.forEach((key, animalsInSquare) -> animalsInSquare.removeIf(animal ->
                 !animal.ableToWalk(energyLoss.howManyEnergyToWalk(animal))
         ));
@@ -60,7 +63,7 @@ public abstract class AbstractWorldMap
 
     public abstract void generatePlants(int startedPlants);
 
-    public abstract MoveResult animalMoveChanges(Vector2d animalPosition, MapDirection orientation);
+    public abstract MoveResult animalMoveChanges(Animal animal);
 
     public void animalsConsume(StrongestAnimalFinder strongestAnimalFinder){
         for (var pos : animals.keySet()){
@@ -81,7 +84,7 @@ public abstract class AbstractWorldMap
             var animalsReadyToBreeding = animals.get(pos).stream().
                     filter(animal -> animal.getEnergy() >= energyForAnimalsForBreeding).toList();
 
-            var genomeList = repr.reproduce(animalsReadyToBreeding, energyForAnimalsForBreeding);
+            var genomeList = repr.reproduce(animalsReadyToBreeding, startsEnergy / 2);
             for (var genome : genomeList){
                 place(new Animal(pos,startsEnergy, actualTurn, mutateMethod,genome));
             }
