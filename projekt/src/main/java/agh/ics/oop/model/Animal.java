@@ -14,7 +14,7 @@ public class Animal implements WorldElement{
     private final List<Animal> childs = new ArrayList<>();
     private int eatenGrass = 0;
 
-    public Animal(Vector2d position,int energy,int turnOfBirth,MutateGenome mutateMethod,List<Byte> parentsGenome){
+    public Animal(Vector2d position, int energy, int turnOfBirth,MutateGenome mutateMethod,List<Byte> parentsGenome){
         this.turnOfBirth = turnOfBirth;
         this.energy = energy;
         this.position = position;
@@ -64,5 +64,23 @@ public class Animal implements WorldElement{
     @Override
     public Vector2d getPosition() {
         return position;
+    }
+
+    public List<Byte> getPartOfGen(double percent, boolean fromRight){
+
+        int idx = (int) (percent * genome.size());
+        List<Byte> genomeSlice = new ArrayList<>();
+
+        if (fromRight){
+            for (int i = genome.size() - 1; i > genome.size() - 1 - idx; --i){
+                genomeSlice.add(genome.get(i));
+            }
+            return genomeSlice;
+        }
+
+        for (int i = 0; i < idx; ++i){
+            genomeSlice.add(genome.get(i));
+        }
+        return genomeSlice;
     }
 }

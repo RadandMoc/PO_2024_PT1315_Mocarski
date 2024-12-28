@@ -1,6 +1,7 @@
 package agh.ics.oop.model;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public abstract class AbstractWorldMap
 {
@@ -71,6 +72,19 @@ public abstract class AbstractWorldMap
                 // aktualizacja gui
             }
 
+        }
+    }
+
+
+    public void breeding(int energyForAnimalsForBreeding, int startsEnergy, int actualTurn, MutateGenome mutateMethod, ReproductionStrategy repr){
+        for (var pos : animals.keySet()){
+            var animalsReadyToBreeding = animals.get(pos).stream().
+                    filter(animal -> animal.getEnergy() >= energyForAnimalsForBreeding).toList();
+
+            var genomeList = repr.reproduce(animalsReadyToBreeding, energyForAnimalsForBreeding);
+            for (var genome : genomeList){
+                place(new Animal(pos,startsEnergy, actualTurn, mutateMethod,genome));
+            }
         }
     }
 

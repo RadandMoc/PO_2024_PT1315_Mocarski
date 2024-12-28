@@ -7,6 +7,7 @@ public class Simulation {
     private final MutateGenome typeOfMutation;
     private final EnergyLoss energyLoss;
     private final StrongestAnimalFinder strongestAnimalFinder = new ConsumeConflictSolver();
+    private int currentTurn = 0;
 
     public Simulation(AbstractWorldMap selectedMap, int startedPlants, int startedAnimal, int startingEnergy,
                       int energyToBeingFullStuffed, int breadingEnergyLoss, int lenOfGenome, MutateGenome selectedMutatation, EnergyLoss energyLossMethod ){
@@ -27,8 +28,8 @@ public class Simulation {
         map.clearDeathAnimal(energyLoss);
         map.movesAllAnimals();
         map.animalsConsume(strongestAnimalFinder);
-        //map.breeding()
+        //map.breeding();
         //map.generateNewPlants()
-
+        currentTurn++;
     }
 }
