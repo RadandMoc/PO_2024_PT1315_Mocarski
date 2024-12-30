@@ -7,9 +7,14 @@ public class Simulation {
     private final MutateGenome typeOfMutation;
     private final StrongestAnimalFinder strongestAnimalFinder = new ConsumeConflictSolver();
     private int currentTurn = 0;
+    private final int energyToBeingFullStuffed;
+    private final int startingEnergy;
+    private final int numOfNewPlantsPerTurn;
+    private final ReproductionStrategy typeOfReproduction;
 
-    public Simulation(AbstractWorldMap selectedMap, int startedPlants, int startedAnimal, int startingEnergy,
-                      int energyToBeingFullStuffed, int breadingEnergyLoss, int lenOfGenome, MutateGenome selectedMutatation, EnergyLoss energyLossMethod ){
+    public Simulation(AbstractWorldMap selectedMap, int startingAnimals, int startingEnergy,
+                      int energyToBeingFullStuffed, /*int breadingEnergyLoss, */int lenOfGenome,
+                      MutateGenome selectedMutatation, int numOfNewPlantsPerTurn, ReproductionStrategy typeOfReproduction ){
         map = selectedMap;
         // selectedMap.generatePlants(startedPlants);
         // energia zapewniana przez zjedzenie jednej rośliny -> GUI tworzymy dobra mape
@@ -19,15 +24,20 @@ public class Simulation {
         // energia rodziców zużywana by stworzyć potomka -> GUI
         // int minNumOfMutation,
         // wariant zachowania zwierzaków -> stworzę interfejs
+        map.generateRandomAnimals(startingAnimals,lenOfGenome,startingEnergy);
+        this.energyToBeingFullStuffed = energyToBeingFullStuffed;
+        this.startingEnergy = startingEnergy;
+        this.numOfNewPlantsPerTurn = numOfNewPlantsPerTurn;
         typeOfMutation = selectedMutatation;
+        this.typeOfReproduction = typeOfReproduction;
     }
 
     public void run(){
         map.clearDeathAnimal();
         map.movesAllAnimals();
         map.animalsConsume(strongestAnimalFinder);
-        //map.breeding();
-        //map.generateNewPlants()
+        map.breeding(energyToBeingFullStuffed,startingEnergy,currentTurn,typeOfMutation,typeOfReproduction);
+        map.generatePlants(numOfNewPlantsPerTurn);
         currentTurn++;
     }
 }
