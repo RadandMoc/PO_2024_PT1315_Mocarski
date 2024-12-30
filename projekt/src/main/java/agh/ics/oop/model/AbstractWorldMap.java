@@ -28,10 +28,10 @@ public abstract class AbstractWorldMap
         boundary = new Boundary(leftDownBoundary,rightUpBoundary);
         energyFromPlant = plantEnergy;
         this.energyLoss = energyLoss;
-        int maxHeight = leftDownBoundary.getY()+height;
-        northPlantGenerator = new RandomPositionGenerator(leftDownBoundary.getX(), (int)((maxHeight)*3/5)+1, leftDownBoundary.getX()+width,maxHeight,0);
-        centerPlantGenerator = new RandomPositionGenerator(leftDownBoundary.getX(), (int)((maxHeight)*2/5)+1, leftDownBoundary.getX()+width,(int)((maxHeight)*3/5),0);
-        southPlantGenerator = new RandomPositionGenerator(leftDownBoundary.getX(), leftDownBoundary.getY(), leftDownBoundary.getX()+width,(int)((maxHeight)*2/5),0);
+        int maxHeight = leftDownBoundary.getY()+height-1;
+        northPlantGenerator = new RandomPositionGenerator(leftDownBoundary.getX(), (int)((maxHeight)*3/5)+1, leftDownBoundary.getX()+width-1,maxHeight,0);
+        centerPlantGenerator = new RandomPositionGenerator(leftDownBoundary.getX(), (int)((maxHeight)*2/5)+1, leftDownBoundary.getX()+width-1,(int)((maxHeight)*3/5),0);
+        southPlantGenerator = new RandomPositionGenerator(leftDownBoundary.getX(), leftDownBoundary.getY(), leftDownBoundary.getX()+width-1,(int)((maxHeight)*2/5),0);
         generatePlants(startNumOfPlants);
     }
 
