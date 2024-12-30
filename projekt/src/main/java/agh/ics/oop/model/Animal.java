@@ -29,7 +29,7 @@ public class Animal implements WorldElement{
     }
 
     public void move(AbstractWorldMap map){
-        orientation.change(genome.get(turnOfAnimal%genome.size()));
+        orientation = orientation.change(genome.get(turnOfAnimal%genome.size()));
         MoveResult consequences = map.animalMoveChanges(this);
         position = consequences.position();
         orientation = consequences.orientation();
@@ -41,6 +41,7 @@ public class Animal implements WorldElement{
             isDead = true;
             return false;
         }
+        turnOfAnimal++;
         return true;
     }
 
@@ -70,6 +71,10 @@ public class Animal implements WorldElement{
 
     public MapDirection getOrientation() {
         return orientation;
+    }
+
+    public void addChild(Animal animal){
+        childs.add(animal);
     }
 
     @Override

@@ -6,14 +6,14 @@ import java.util.stream.Collectors;
 public class AnimalReproduction implements ReproductionStrategy{
     Comparator<Animal> comparator = new AnimalConflictComparator();
 
+
     @Override
-    public List<List<Byte>> reproduce(Collection<Animal> animalCollection, int energyForBreeding) {
+    public List<ReproductionResult> reproduce(Collection<Animal> animalCollection, int energyForBreeding) {
         if (animalCollection.size() < 2) {
             return new ArrayList<>();
         }
 
-        List<List<Byte>> genomeList = new ArrayList<>();
-
+        List<ReproductionResult> reproductionResults = new ArrayList<>();
         List<Animal> sortedAnimals = animalCollection.stream()
                 .sorted(comparator)
                 .collect(Collectors.toList());
@@ -21,15 +21,16 @@ public class AnimalReproduction implements ReproductionStrategy{
             sortedAnimals = sortedAnimals.reversed();
         }
 
-        for (int i = 0; i < sortedAnimals.size() - 1; i += 2){
-            var animal1 = sortedAnimals.get(i);
-            var animal2 = sortedAnimals.get(i+1);
-            genomeList.add(breed(animal1, animal2));
+        for (int i = 0; i < sortedAnimals.size() - 1; i += 2) {
+            Animal animal1 = sortedAnimals.get(i);
+            Animal animal2 = sortedAnimals.get(i + 1);
+            List<Byte> childGenome = breed(animal1, animal2);
+            reproductionResults.add(new ReproductionResult(childGenome,List.of(animal1,animal2)));
             animal1.changeEnergy(-energyForBreeding);
             animal2.changeEnergy(-energyForBreeding);
         }
 
-        return genomeList;
+        return reproductionResults;
     }
 
     private List<Byte> breed(Animal animal1, Animal animal2){

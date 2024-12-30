@@ -48,8 +48,13 @@ public abstract class AbstractWorldMap
     }
 
     public void movesAllAnimals() {
-        animals.forEach((key, animalsInSquare) -> animalsInSquare.forEach(this::move));
-        //pewnie przydałoby się jakies wywolanie listenera
+        List<Animal> animalList = animals.values().stream()
+                .flatMap(Set::stream)
+                .collect(Collectors.toList());
+
+        animalList.forEach(this::move);
+
+        //Wywołanie listenera po zakończeniu ruchów
     }
 
     public void clearDeathAnimal() {
@@ -67,7 +72,7 @@ public abstract class AbstractWorldMap
         for (var pos : animals.keySet()){
             if (plants.containsKey(pos) && !animals.get(pos).isEmpty()){
                 Animal winner = strongestAnimalFinder.findStrongestAnimal(animals.get(pos));
-                winner.changeEnergy(energyFromPlant);
+                winner.changeEnergy(-energyFromPlant);
                 plants.remove(pos);
                 // trzeba pewnie losowacza ogarnac
                 // aktualizacja gui
@@ -81,9 +86,14 @@ public abstract class AbstractWorldMap
             var animalsReadyToBreeding = animals.get(pos).stream().
                     filter(animal -> animal.getEnergy() >= energyForAnimalsForBreeding).toList();
 
-            var genomeList = repr.reproduce(animalsReadyToBreeding, startsEnergy / 2);
-            for (var genome : genomeList){
-                place(new Animal(pos,startsEnergy, actualTurn, mutateMethod,genome));
+            var reproductionResults = repr.reproduce(animalsReadyToBreeding, startsEnergy / 2);
+
+            for (var result : reproductionResults){
+                Animal child = new Animal(pos, startsEnergy, actualTurn, mutateMethod, result.genome());
+                place(child);
+                for (var parent : result.parents()){
+                    parent.addChild(child);
+                }
             }
         }
     }

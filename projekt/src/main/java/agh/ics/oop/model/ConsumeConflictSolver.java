@@ -10,7 +10,7 @@ public class ConsumeConflictSolver implements StrongestAnimalFinder {
     @Override
     public Animal findStrongestAnimal(Collection<Animal> animals) {
         return animals.stream()
-                .max(comparator)
+                .min(comparator)
                 .orElse(null);
     }
 
