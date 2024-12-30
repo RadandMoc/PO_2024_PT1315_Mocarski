@@ -13,18 +13,26 @@ public abstract class AbstractWorldMap
     protected final Boundary boundary;
     protected final EnergyLoss energyLoss;
     private final int energyFromPlant;
+    protected final RandomPositionGenerator northPlantGenerator;
+    protected final RandomPositionGenerator centerPlantGenerator;
+    protected final RandomPositionGenerator southPlantGenerator;
 
-    public AbstractWorldMap(int width, int height, int plantEnergy, EnergyLoss energyLoss){
-        this(width, height, new Vector2d(0,0), plantEnergy, energyLoss);
+    public AbstractWorldMap(int width, int height, int plantEnergy, EnergyLoss energyLoss,int startNumOfPlants){
+        this(width, height, new Vector2d(0,0), plantEnergy, energyLoss,startNumOfPlants);
     }
 
-    public AbstractWorldMap(int width, int height, Vector2d leftDownBoundary, int plantEnergy, EnergyLoss energyLoss){
+    public AbstractWorldMap(int width, int height, Vector2d leftDownBoundary, int plantEnergy, EnergyLoss energyLoss, int startNumOfPlants){
         this.width = width;
         this.height = height;
         Vector2d rightUpBoundary = new Vector2d(leftDownBoundary.getX() + width - 1, leftDownBoundary.getY() + height - 1);
         boundary = new Boundary(leftDownBoundary,rightUpBoundary);
         energyFromPlant = plantEnergy;
         this.energyLoss = energyLoss;
+        int maxHeight = leftDownBoundary.getY()+height;
+        northPlantGenerator = new RandomPositionGenerator(leftDownBoundary.getX(), (int)((maxHeight)*3/5)+1, leftDownBoundary.getX()+width,maxHeight,0);
+        centerPlantGenerator = new RandomPositionGenerator(leftDownBoundary.getX(), (int)((maxHeight)*2/5)+1, leftDownBoundary.getX()+width,(int)((maxHeight)*3/5),0);
+        southPlantGenerator = new RandomPositionGenerator(leftDownBoundary.getX(), leftDownBoundary.getY(), leftDownBoundary.getX()+width,(int)((maxHeight)*2/5),0);
+        generatePlants(startNumOfPlants);
     }
 
     public void place(WorldElement mapObj){
@@ -64,7 +72,7 @@ public abstract class AbstractWorldMap
         // pewnie przydalby się update GUI
     }
 
-    public abstract void generatePlants(int startedPlants);
+    public abstract void generatePlants(int numOfPlants);
 
     public abstract MoveResult animalMoveChanges(Animal animal);
 
@@ -74,7 +82,9 @@ public abstract class AbstractWorldMap
                 Animal winner = strongestAnimalFinder.findStrongestAnimal(animals.get(pos));
                 winner.changeEnergy(-energyFromPlant);
                 plants.remove(pos);
-                // trzeba pewnie losowacza ogarnac
+                northPlantGenerator.acceptPositionToChoice(pos); // Jeżeli roślina nie jest w danym sektorze, to sama metoda to sprawdzi i zignoruje wartość.
+                centerPlantGenerator.acceptPositionToChoice(pos);// Jeżeli roślina nie jest w danym sektorze, to sama metoda to sprawdzi i zignoruje wartość.
+                southPlantGenerator.acceptPositionToChoice(pos); // Jeżeli roślina nie jest w danym sektorze, to sama metoda to sprawdzi i zignoruje wartość.
                 // aktualizacja gui
             }
 

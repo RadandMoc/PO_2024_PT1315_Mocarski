@@ -7,23 +7,59 @@ import java.util.*;
     private final static double prefferedPlanZoneAreaPercent = 0.2f;
 
 
-    public GlobeMap(int width, int height, Vector2d leftDownBoundary, int plantEnergy, EnergyLoss energyLoss) {
-        super(width, height, leftDownBoundary, plantEnergy, energyLoss);
+    public GlobeMap(int width, int height, Vector2d leftDownBoundary, int plantEnergy, EnergyLoss energyLoss, int startNumOfPlants) {
+        super(width, height, leftDownBoundary, plantEnergy, energyLoss,startNumOfPlants);
         int equator_height =  (int) Math.round(height * prefferedPlanZoneAreaPercent);
         prefferdZoneDownHeight = (height - equator_height) / 2 + leftDownBoundary.getY();
         prefferdZoneUpHeight = prefferdZoneDownHeight + equator_height - 1;
     }
 
     @Override
-    public void generatePlants(int startedPlants) {
-        double p = 0.2f;
-        Random rand = new Random();
-        double choice = rand.nextDouble();
-        if (choice > 0.2){
-            // generate from preffered zone
+    public void generatePlants(int numOfPlants) {
+        Random random = new Random();
+        int north = 0, center = 0, south = 0;
+        double decision;
+        for (int i = 0; i < numOfPlants; i++) {
+            decision = random.nextDouble();
+            if(decision<0.8){
+                center++;
+            } else if (decision<0.9) {
+                north++;
+            } else {
+                south++;
+            }
         }
-        // generate from other zone
-
+        southPlantGenerator.setHowManyGenerate(south);
+        centerPlantGenerator.setHowManyGenerate(center);
+        try{
+            for(Vector2d pos:centerPlantGenerator){
+                plants.put(pos,new Plant(pos));
+            }
+        }
+        catch (ToMuchValuesToGenerateException ignored){}
+        try{
+            for(Vector2d pos:southPlantGenerator){
+                plants.put(pos,new Plant(pos));
+            }
+        }
+        catch (ToMuchValuesToGenerateException e){
+            north += e.getErrorValue();
+        }
+        northPlantGenerator.setHowManyGenerate(north);
+        try {
+            for(Vector2d pos:northPlantGenerator){
+                plants.put(pos,new Plant(pos));
+            }
+        }
+        catch (ToMuchValuesToGenerateException e){
+            southPlantGenerator.setHowManyGenerate(e.getErrorValue());
+            try{
+                for(Vector2d pos:southPlantGenerator){
+                    plants.put(pos,new Plant(pos));
+                }
+            }
+            catch (ToMuchValuesToGenerateException ignored){}
+        }
     }
 
 

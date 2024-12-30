@@ -13,7 +13,7 @@ class GlobeMapTest {
     @Test
     public void moveTestForGlobeMap(){
         // given
-        GlobeMap map = new GlobeMap(20,20,new Vector2d(0,0),20, new ClassicalEnergyLoss(50));
+        GlobeMap map = new GlobeMap(20,20,new Vector2d(0,0),20, new ClassicalEnergyLoss(50),0);
         final List<Byte> directions1 = Arrays.asList(
                 (byte)5
         );
@@ -27,9 +27,9 @@ class GlobeMapTest {
                 (byte)7
         );
         Animal a1 = new Animal(new Vector2d(0,0), 100, 0,directions1);
-        Animal a2 = new Animal(new Vector2d(20,20), 100, 0,directions2);
-        Animal a3 = new Animal(new Vector2d(20,0), 100, 0,directions3);
-        Animal a4 = new Animal(new Vector2d(0,20), 100, 0,directions4);
+        Animal a2 = new Animal(new Vector2d(19,19), 100, 0,directions2);
+        Animal a3 = new Animal(new Vector2d(19,0), 100, 0,directions3);
+        Animal a4 = new Animal(new Vector2d(0,19), 100, 0,directions4);
 
         map.place(a1);
         map.place(a2);
@@ -57,7 +57,7 @@ class GlobeMapTest {
     @Test
     public void moveTestIfAnimalGoToAnotherSideGlobeMap(){
         // given
-        GlobeMap map = new GlobeMap(20,20,new Vector2d(0,0),20, new ClassicalEnergyLoss(50));
+        GlobeMap map = new GlobeMap(20,20,new Vector2d(0,0),20, new ClassicalEnergyLoss(50),0);
         final List<Byte> directions1 = Arrays.asList(
                 (byte)6
         );
@@ -97,7 +97,7 @@ class GlobeMapTest {
     @Test
     public void moveTestMoveWithinBoundariesGlobeMap(){
         // given
-        final GlobeMap map = new GlobeMap(20,20,new Vector2d(0,0),20, new ClassicalEnergyLoss(50));
+        final GlobeMap map = new GlobeMap(20,20,new Vector2d(0,0),20, new ClassicalEnergyLoss(50),0);
         final List<Byte> directions1 = Arrays.asList(
                 (byte)6, (byte)6, (byte)6, (byte)6, (byte)6
         );
@@ -117,7 +117,7 @@ class GlobeMapTest {
     @Test
     public void consumeTest(){
         // given
-        GlobeMap map = new GlobeMap(20,20,new Vector2d(0,0),20, new ClassicalEnergyLoss(20));
+        GlobeMap map = new GlobeMap(20,20,new Vector2d(0,0),20, new ClassicalEnergyLoss(20),0);
         Vector2d pos1 = new Vector2d(5,5);
         Vector2d pos2 = new Vector2d(3,1);
         Vector2d pos3 = new Vector2d(7,1);
