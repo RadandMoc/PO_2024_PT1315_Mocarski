@@ -18,7 +18,7 @@ public class Animal implements WorldElement{
         this.turnOfBirth = turnOfBirth;
         this.energy = energy;
         this.position = position;
-        this.genome = mutateMethod.Mutate(parentsGenome);
+        this.genome = mutateMethod.mutate(parentsGenome);
     }
 
     public Animal(Vector2d position, int energy, int turnOfBirth, List<Byte> genome){

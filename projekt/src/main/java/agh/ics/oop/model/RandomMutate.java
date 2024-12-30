@@ -10,7 +10,7 @@ public class RandomMutate extends AbstractMutateGenome {
     }
 
     @Override
-    public List<Byte> Mutate(List<Byte> genome) {
+    public List<Byte> mutate(List<Byte> genome) {
         int numOfMutations = getRandomMutationCount();
         List<Byte> mutatedGenome = new ArrayList<>(genome);
 
