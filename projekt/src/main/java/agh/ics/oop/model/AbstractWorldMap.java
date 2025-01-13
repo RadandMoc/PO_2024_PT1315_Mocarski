@@ -91,6 +91,7 @@ public abstract class AbstractWorldMap
         }
     }
 
+    /* wywalić do symulacji? albo zwierzęcia jako static?*/
     public void breeding(int energyForAnimalsForBreeding, int startsEnergy, int actualTurn, MutateGenome mutateMethod, ReproductionStrategy repr){
         for (var pos : animals.keySet()){
             var animalsReadyToBreeding = animals.get(pos).stream().
