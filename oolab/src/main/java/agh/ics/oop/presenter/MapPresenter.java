@@ -17,8 +17,8 @@ public class MapPresenter implements MapChangeListener {
     @FXML
     private Label infoLabel;
 
-    private static final int CELL_WIDTH = 24;
-    private static final int CELL_HEIGHT = 24;
+    private static final int CELL_WIDTH = 40;
+    private static final int CELL_HEIGHT = 40;
 
 
     public void setMap(WorldMap map){
@@ -70,17 +70,20 @@ public class MapPresenter implements MapChangeListener {
         for (int i = xMin; i <= xMax; i++) {
             for (int j = yMin; j <= yMax; j++) {
                 Vector2d pos = new Vector2d(i, j);
-                Label cellLbl;
                 if (map.isOccupied(pos)) {
-                    cellLbl = new Label(map.objectAt(pos).toString());
+                    WorldElement element = map.objectAt(pos).orElse(null);
+                    if (element != null) {
+                        WorldElementBox elementBox = new WorldElementBox(element);
+                        GridPane.setHalignment(elementBox, HPos.CENTER);
+                        GridPane.setValignment(elementBox, VPos.CENTER);
+                        mapGrid.add(elementBox, i - xMin + 1, yMax - j + 1);
+                    }
                 } else {
-                    cellLbl = new Label(" ");
+                    Label cellLbl = new Label(" ");
+                    GridPane.setHalignment(cellLbl, HPos.CENTER);
+                    GridPane.setValignment(cellLbl, VPos.CENTER);
+                    mapGrid.add(cellLbl, i - xMin + 1, yMax - j + 1);
                 }
-
-                GridPane.setHalignment(cellLbl, HPos.CENTER);
-                GridPane.setValignment(cellLbl, VPos.CENTER);
-
-                mapGrid.add(cellLbl, i - xMin + 1, yMax - j + 1);
             }
         }
     }
