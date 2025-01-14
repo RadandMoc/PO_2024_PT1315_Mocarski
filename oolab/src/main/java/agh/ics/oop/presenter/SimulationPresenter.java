@@ -38,10 +38,13 @@ public class SimulationPresenter {
         List<MoveDirection> directions = whereMove(moveList.split(" "));
         List<Vector2d> positions = List.of(new Vector2d(2,2),new Vector2d(3,4));
         AbstractWorldMap map = new GrassField(16);
+
         map.addObserver((worldMap, message) -> {
             String currentTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
             System.out.println(currentTime + " " + message);
         });
+        map.addObserver(new FileMapDisplay());
+        
         threadPool.submit(() -> Platform.runLater(() -> {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/map.fxml"));

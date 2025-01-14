@@ -2,6 +2,7 @@ package agh.ics.oop.model;
 
 import java.util.Objects;
 
+
 public class Animal implements WorldElement {
     private MapDirection orientation;
     private Vector2d position;
@@ -17,6 +18,21 @@ public class Animal implements WorldElement {
     @Override
     public Vector2d getPosition(){
         return position;
+    }
+
+    @Override
+    public String getResourceName() {
+        return switch (orientation) {
+            case MapDirection.NORTH -> "/n.png";
+            case MapDirection.SOUTH -> "/s.png";
+            case MapDirection.EAST -> "/e.png";
+            case MapDirection.WEST -> "/w.png";
+        };
+    }
+
+    @Override
+    public String getTag(){
+        return "Z " + this.getPosition().toString();
     }
 
     private void setPosition(Vector2d newPosition){
@@ -50,9 +66,9 @@ public class Animal implements WorldElement {
     public void move(MoveDirection direction, MoveValidator validator){
         Vector2d potentialMove = null;
         switch (direction){
-            case MoveDirection.RIGHT -> setOrientation(orientation.next());
+            case RIGHT -> setOrientation(orientation.next());
             case MoveDirection.LEFT -> setOrientation(orientation.previous());
-            case MoveDirection.BACKWARD -> potentialMove = position.subtract(orientation.toUnitVector());
+            case BACKWARD -> potentialMove = position.subtract(orientation.toUnitVector());
             case MoveDirection.FORWARD -> potentialMove = position.add(orientation.toUnitVector());
         }
         if(validator.canMoveTo(potentialMove))
