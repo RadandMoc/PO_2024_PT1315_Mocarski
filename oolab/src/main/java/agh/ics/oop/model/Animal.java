@@ -66,9 +66,9 @@ public class Animal implements WorldElement {
     public void move(MoveDirection direction, MoveValidator validator){
         Vector2d potentialMove = null;
         switch (direction){
-            case RIGHT -> setOrientation(orientation.next());
+            case MoveDirection.RIGHT -> setOrientation(orientation.next());
             case MoveDirection.LEFT -> setOrientation(orientation.previous());
-            case BACKWARD -> potentialMove = position.subtract(orientation.toUnitVector());
+            case MoveDirection.BACKWARD -> potentialMove = position.subtract(orientation.toUnitVector());
             case MoveDirection.FORWARD -> potentialMove = position.add(orientation.toUnitVector());
         }
         if(validator.canMoveTo(potentialMove))
