@@ -3,6 +3,8 @@ package agh.ics.oop.model;
 import agh.ics.oop.model.util.MapVisualizer;
 
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class GrassField extends AbstractWorldMap {
     private final Map<Vector2d, Grass> grass = new HashMap<>();
@@ -32,11 +34,8 @@ public class GrassField extends AbstractWorldMap {
     }
 
     @Override
-    public WorldElement objectAt(Vector2d position) {
-        WorldElement elem = super.objectAt(position);
-        if(elem==null)
-            elem = grass.get(position);
-        return elem;
+    public Optional<WorldElement> objectAt(Vector2d position) {
+        return super.objectAt(position).or(() -> Optional.ofNullable(grass.get(position)));
     }
 
     @Override
@@ -67,9 +66,16 @@ public class GrassField extends AbstractWorldMap {
     }
 
     @Override
-    public List<WorldElement> getElements(){
-        List<WorldElement>result = super.getElements();
-        result.addAll(grass.values());
-        return result;
+    public List<Animal> getOrderedAnimals() {
+        return animals.values().stream()
+                .sorted(Comparator.comparing((Animal a) -> a.getPosition().getX())
+                        .thenComparing(a -> a.getPosition().getY()))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<WorldElement> getElements() {
+        return Stream.concat(super.getElements().stream(), grass.values().stream())
+                .collect(Collectors.toList());
     }
 }
