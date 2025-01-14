@@ -10,6 +10,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -36,6 +38,10 @@ public class SimulationPresenter {
         List<MoveDirection> directions = whereMove(moveList.split(" "));
         List<Vector2d> positions = List.of(new Vector2d(2,2),new Vector2d(3,4));
         AbstractWorldMap map = new GrassField(16);
+        map.addObserver((worldMap, message) -> {
+            String currentTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+            System.out.println(currentTime + " " + message);
+        });
         threadPool.submit(() -> Platform.runLater(() -> {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/map.fxml"));

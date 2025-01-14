@@ -5,6 +5,8 @@ import agh.ics.oop.model.util.MapVisualizer;
 import javafx.scene.control.skin.TextInputControlSkin;
 
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public abstract class AbstractWorldMap implements WorldMap {
     protected final Map<Vector2d, Animal> animals = new HashMap<>();
@@ -67,8 +69,8 @@ public abstract class AbstractWorldMap implements WorldMap {
     }
 
     @Override
-    public WorldElement objectAt(Vector2d position) {
-        return animals.get(position);
+    public Optional<WorldElement> objectAt(Vector2d position) {
+        return Optional.ofNullable(animals.get(position));
     }
 
     @Override
@@ -94,4 +96,20 @@ public abstract class AbstractWorldMap implements WorldMap {
         Boundary bound = getCurrentBounds();
         return visualizer.draw(bound.lowerLeft(),bound.upperRight());
     }
+
+    @Override
+    public List<Animal> getOrderedAnimals() {
+        return animals.values().stream()
+                .sorted(Comparator.comparing((Animal a) -> a.getPosition().getX())
+                        .thenComparing(a -> a.getPosition().getY()))
+                .collect(Collectors.toList());
+    }
+
+    /*@Override
+    public List<Animal> getOrderedAnimals() {
+        List<Animal> sortedAnimals = new ArrayList<>(animals.values());
+        sortedAnimals.sort(Comparator.comparing((Animal a) -> a.getPosition().getX())
+                .thenComparing(a -> a.getPosition().getY()));
+        return sortedAnimals;
+    }*/
 }
