@@ -14,10 +14,6 @@ public abstract class AbstractWorldMap
     protected final EnergyLoss energyLoss;
     private final int energyFromPlant;
     protected final RandomPositionGenerator equatorPlantGenerator;
-
-    //protected final RandomPositionGenerator northPlantGenerator;
-    //protected final RandomPositionGenerator southPlantGenerator;
-
     protected final RandomPositionGenerator polesPlantGenerator;
     protected final Boundary equator;
 
@@ -32,7 +28,6 @@ public abstract class AbstractWorldMap
         boundary = new Boundary(leftDownBoundary,rightUpBoundary);
         energyFromPlant = plantEnergy;
         this.energyLoss = energyLoss;
-
         int maxHeight = leftDownBoundary.getY()+height-1;
         polesPlantGenerator = new RandomPositionGenerator(boundary,0);
         Vector2d equatorLowerLeft = new Vector2d(leftDownBoundary.getX(), (int)((maxHeight)*2/5)+1);
@@ -40,9 +35,6 @@ public abstract class AbstractWorldMap
         equator = new Boundary(equatorLowerLeft,equatorUpperRight);
         equatorPlantGenerator = new RandomPositionGenerator(equator,0);
         polesPlantGenerator.deleteRectangle(equator);
-        //northPlantGenerator = new RandomPositionGenerator(leftDownBoundary.getX(), (int)((maxHeight)*3/5)+1, leftDownBoundary.getX()+width-1,maxHeight,0);
-        //equatorPlantGenerator = new RandomPositionGenerator(, ,0);
-        //southPlantGenerator = new RandomPositionGenerator(leftDownBoundary.getX(), leftDownBoundary.getY(), leftDownBoundary.getX()+width-1,(int)((maxHeight)*2/5),0);
         generatePlants(startNumOfPlants);
     }
 
