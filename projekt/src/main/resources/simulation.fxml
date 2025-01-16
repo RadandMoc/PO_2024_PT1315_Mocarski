@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.collections.FXCollections?>
+<?import agh.ics.oop.model.MutationStrategy?>
+<?import java.lang.String?>
+<?import javafx.scene.control.Spinner?>
+<?import java.lang.Integer?>
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            minHeight="550.0" minWidth="850.0"
+            fx:controller="agh.ics.oop.presenter.SimulationPresenter">
+
+
+    <center>
+        <VBox spacing="10" alignment="CENTER_LEFT">
+
+            <Label text="Map parameters"/>
+
+            <HBox spacing="20" alignment="CENTER_LEFT">
+                <Label text="height"/>
+                <TextField fx:id="height" promptText="Wysokość"/>
+                <Label text="width"/>
+                <TextField fx:id="width" promptText="Szerokość"/>
+                <Label text="x"/>
+                <TextField fx:id="x" promptText="x"/>
+                <Label text="y"/>
+                <TextField fx:id="y" promptText="y"/>
+            </HBox>
+
+            <HBox spacing="20" alignment="CENTER_LEFT">
+                <Label text="Choose map"/>
+                <ComboBox fx:id="mapChoice" value="Globe">
+                    <items>
+                    <FXCollections fx:factory="observableArrayList">
+                        <String fx:value="Globe" />
+                        <String fx:value="Globe with poles" />
+                    </FXCollections>
+                    </items>
+                </ComboBox>
+            </HBox>
+
+            <HBox spacing="20" alignment="CENTER_LEFT">
+                <Label text="energyFromPlant"/>
+                <TextField fx:id="energyFromPlant" promptText="Wpisz energię za zjedzenie rośliny"/>
+            </HBox>
+
+            <Label text="Simulation parameters"/>
+
+
+            <HBox spacing="20" alignment="CENTER_LEFT">
+                <Label text="Choose mutation"/>
+                <ComboBox fx:id="myEnumComboBox" value="RandomMutate">
+                    <items>
+                        <FXCollections fx:factory="observableArrayList">
+                            <MutationStrategy fx:constant="RandomMutate" />
+                            <MutationStrategy fx:constant="SwapMutate" />
+                        </FXCollections>
+                    </items>
+                </ComboBox>
+            </HBox>
+
+
+            <HBox spacing="20" alignment="CENTER_LEFT">
+                <Label text="genomeLength"/>
+                <TextField fx:id="genomeLength" promptText="Wpisz długość genomu"/>
+            </HBox>
+
+            <HBox spacing="20" alignment="CENTER_LEFT">
+                <Label text="minMutation"/>
+                <fx:define>
+                    <Integer fx:id="min" fx:value="0"/>
+                    <Integer fx:id="max" fx:value="9999"/>
+                </fx:define>
+                <Spinner fx:id="spinner" BorderPane.alignment="CENTER" min="$min" max="$max"/>
+                <Label text="maxMutation"/>
+                <Spinner fx:id="maxSpinner" BorderPane.alignment="CENTER" min="$min" max="$max"/>
+            </HBox>
+
+            <HBox spacing="20" alignment="CENTER_LEFT">
+                <Label text="energyToBeingFullStuffed"/>
+                <TextField fx:id="energyForBeingFullStaffed" promptText="Wpisz energię do bycia najedzonym"/>
+            </HBox>
+
+            <HBox spacing="20" alignment="CENTER_LEFT">
+                <Label text="startingEnergy"/>
+                <TextField fx:id="startingEnergy" promptText="Wpisz energię początkową"/>
+            </HBox>
+
+            <HBox spacing="20" alignment="CENTER_LEFT">
+                <Label text="numOfNewPlantsPerTurn"/>
+                <TextField fx:id="numOfNewPlantsPerTurn" promptText="Wpisz liczbę nowych roślin na turę"/>
+            </HBox>
+
+            <HBox spacing="20" alignment="CENTER_LEFT">
+                <Label text="breadingEnergyLoss"/>
+                <TextField fx:id="breadingEnergyLoss" promptText="Wpisz koszt energii przy rozmnażaniu"/>
+            </HBox>
+
+
+
+        </VBox>
+    </center>
+    <bottom>
+        <Button fx:id="but" text="Start simulation"/>
+    </bottom>
+
+</BorderPane>
