@@ -41,10 +41,14 @@
                     <items>
                     <FXCollections fx:factory="observableArrayList">
                         <String fx:value="Globe" />
-                        <String fx:value="Globe with poles" />
+                        <String fx:value="Globe with pole" />
                     </FXCollections>
                     </items>
                 </ComboBox>
+                <Label fx:id="energyLossLabel" text="EnergyLoss"/>
+                <TextField fx:id="energyLoss"/>
+                <Label fx:id="energyLossPerMoveToPoleLabel" text="Energy loss per move to pole" visible="false"/>
+                <TextField fx:id="energyLossPerMoveToPole" visible="false"/>
             </HBox>
 
             <HBox spacing="20" alignment="CENTER_LEFT">
@@ -57,7 +61,7 @@
 
             <HBox spacing="20" alignment="CENTER_LEFT">
                 <Label text="Choose mutation"/>
-                <ComboBox fx:id="myEnumComboBox" value="RandomMutate">
+                <ComboBox fx:id="mutationStrategy" value="RandomMutate">
                     <items>
                         <FXCollections fx:factory="observableArrayList">
                             <MutationStrategy fx:constant="RandomMutate" />
@@ -76,12 +80,12 @@
             <HBox spacing="20" alignment="CENTER_LEFT">
                 <Label text="minMutation"/>
                 <fx:define>
-                    <Integer fx:id="min" fx:value="0"/>
-                    <Integer fx:id="max" fx:value="9999"/>
+                    <Integer fx:id="minMutation" fx:value="0"/>
+                    <Integer fx:id="maxMutation" fx:value="9999"/>
                 </fx:define>
-                <Spinner fx:id="spinner" BorderPane.alignment="CENTER" min="$min" max="$max"/>
+                <Spinner fx:id="spinner" BorderPane.alignment="CENTER" min="0" max="9999"/>
                 <Label text="maxMutation"/>
-                <Spinner fx:id="maxSpinner" BorderPane.alignment="CENTER" min="$min" max="$max"/>
+                <Spinner fx:id="maxSpinner" BorderPane.alignment="CENTER" min="0" max="9999"/>
             </HBox>
 
             <HBox spacing="20" alignment="CENTER_LEFT">
@@ -109,7 +113,7 @@
         </VBox>
     </center>
     <bottom>
-        <Button fx:id="but" text="Start simulation"/>
+        <Button text="Start simulation" onAction="#onSimulationStartClicked"/>
     </bottom>
 
 </BorderPane>
