@@ -77,6 +77,8 @@ public class Animal implements WorldElement{
         return orientation;
     }
 
+    public int getSizeOfGenome() {return this.genome.size();}
+
     public void addChild(Animal animal){
         childs.add(animal);
     }
@@ -86,19 +88,17 @@ public class Animal implements WorldElement{
         return position;
     }
 
-    public List<Byte> getPartOfGen(double percent, boolean fromRight){
-
-        int idx = (int) (percent * genome.size());
+    public List<Byte> getPartOfGen(int pointOfSlice, boolean fromRight){
         List<Byte> genomeSlice = new ArrayList<>();
 
         if (fromRight){
-            for (int i = genome.size() - 1; i > genome.size() - 1 - idx; --i){
+            for (int i = genome.size() - 1; i > genome.size() - 1 - pointOfSlice; --i){
                 genomeSlice.add(genome.get(i));
             }
-            return genomeSlice;
+            return genomeSlice.reversed();
         }
 
-        for (int i = 0; i < idx; ++i){
+        for (int i = 0; i < pointOfSlice; ++i){
             genomeSlice.add(genome.get(i));
         }
         return genomeSlice;

@@ -4,8 +4,16 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class ClassicAnimalReproduction implements ReproductionStrategy{
-    Comparator<Animal> comparator = new AnimalConflictComparator();
+    private Comparator<Animal> comparator = new AnimalConflictComparator();
+    private final Random random;
 
+    public ClassicAnimalReproduction(int seedForRandom){
+        random = new Random(seedForRandom);
+    }
+
+    public ClassicAnimalReproduction(){
+        this(new Random().nextInt());
+    }
 
     @Override
     public List<ReproductionResult> reproduce(Collection<Animal> animalCollection, int energyForBreeding) {
@@ -17,7 +25,7 @@ public class ClassicAnimalReproduction implements ReproductionStrategy{
         List<Animal> sortedAnimals = animalCollection.stream()
                 .sorted(comparator)
                 .collect(Collectors.toList());
-        if (comparator.compare(sortedAnimals.get(0), sortedAnimals.get(sortedAnimals.size() - 1)) >= 0){
+        if (comparator.compare(sortedAnimals.getFirst(), sortedAnimals.getLast()) >= 0){
             sortedAnimals = sortedAnimals.reversed();
         }
 
@@ -34,11 +42,12 @@ public class ClassicAnimalReproduction implements ReproductionStrategy{
     }
 
     private List<Byte> breed(Animal animal1, Animal animal2){
-        Random rand = new Random();
-        boolean isFromRight = rand.nextBoolean();
+        boolean isFromRight = random.nextBoolean();
         double percentOfGene = (double) animal1.getEnergy() / (animal1.getEnergy() + animal2.getEnergy());
-        List<Byte> animal1Gene = animal1.getPartOfGen(percentOfGene, isFromRight);
-        List<Byte> animal2Gene = animal1.getPartOfGen(1-percentOfGene, !isFromRight);
+        int genomeLength = animal1.getSizeOfGenome();
+        int pointOfSlice = (int)(percentOfGene * genomeLength);
+        List<Byte> animal1Gene = animal1.getPartOfGen(pointOfSlice, isFromRight);
+        List<Byte> animal2Gene = animal2.getPartOfGen(genomeLength-pointOfSlice, !isFromRight);
 
         if (isFromRight) {
             animal2Gene.addAll(animal1Gene);
