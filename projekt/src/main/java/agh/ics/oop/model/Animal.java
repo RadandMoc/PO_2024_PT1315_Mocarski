@@ -26,14 +26,16 @@ public class Animal implements WorldElement{
         this.genomeIdx = new Random().nextInt(genome.size());
     }
 
-    public Animal(Vector2d position, int energy, int turnOfBirth, List<Byte> genome){
+    public Animal(Vector2d position, int energy, int turnOfBirth, List<Byte> genome, MapDirection orientation, int genomeIdx){
         this.turnOfBirth = turnOfBirth;
         this.energy = energy;
         this.position = position;
         this.genome = genome;
-        this.orientation = MapDirection.generateRandomDirection();
-        this.genomeIdx = new Random().nextInt(genome.size());
-
+        this.orientation = orientation;
+        this.genomeIdx = genomeIdx;
+    }
+    public Animal(Vector2d position, int energy, int turnOfBirth, List<Byte> genome){
+        this(position,energy,turnOfBirth,genome,MapDirection.generateRandomDirection(),new Random().nextInt(genome.size()));
     }
 
     public void move(AbstractWorldMap map){

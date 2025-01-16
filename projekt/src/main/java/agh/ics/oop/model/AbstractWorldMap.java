@@ -61,7 +61,7 @@ public abstract class AbstractWorldMap
     public void movesAllAnimals() {
         List<Animal> animalList = animals.values().stream()
                 .flatMap(Set::stream)
-                .collect(Collectors.toList());
+                .toList();
 
         animalList.forEach(this::move);
 
