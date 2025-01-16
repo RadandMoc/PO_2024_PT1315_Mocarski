@@ -12,15 +12,14 @@ class ConsumeConflictSolverTest {
     @Test
     public void consumeConflictSolverTest(){
         // given
-        Animal animal1 = new Animal(new Vector2d(5, 5), 60, 0, new ArrayList<>());
-        Animal animal2 = new Animal(new Vector2d(5, 5), 50, 0, new ArrayList<>());
-        Animal animal3 = new Animal(new Vector2d(5, 5), 40, 0, new ArrayList<>());
+        Animal animal1 = new Animal(new Vector2d(5, 5), 60, 0, List.of((byte) 1));
+        Animal animal2 = new Animal(new Vector2d(5, 5), 50, 0, List.of((byte) 1));
+        Animal animal3 = new Animal(new Vector2d(5, 5), 40, 0, List.of((byte) 1));
 
         List<Animal> animalList = List.of(
                 animal1,
                 animal2,
                 animal3
-
         );
 
         ConsumeConflictSolver con = new ConsumeConflictSolver();
@@ -32,9 +31,9 @@ class ConsumeConflictSolverTest {
     @Test
     public void consumeConflictSolverTieWithEnergyTest(){
         // given
-        Animal animal1 = new Animal(new Vector2d(5, 5), 60, 0, new ArrayList<>());
-        Animal animal2 = new Animal(new Vector2d(5, 5), 60, 0, new ArrayList<>());
-        Animal animal3 = new Animal(new Vector2d(5, 5), 60, 0, new ArrayList<>());
+        Animal animal1 = new Animal(new Vector2d(5, 5), 60, 0, List.of((byte) 1));
+        Animal animal2 = new Animal(new Vector2d(5, 5), 60, 0, List.of((byte) 1));
+        Animal animal3 = new Animal(new Vector2d(5, 5), 60, 0, List.of((byte) 1));
         animal1.ableToWalk(20);
         animal1.ableToWalk(20);
         animal2.ableToWalk(20);
@@ -56,10 +55,10 @@ class ConsumeConflictSolverTest {
     @Test
     public void consumeConflictSolverTieWithEnergyTieWithLifetimeTest(){
         // given
-        Animal animal1 = new Animal(new Vector2d(5, 5), 60, 0, new ArrayList<>());
-        Animal animal2 = new Animal(new Vector2d(5, 5), 60, 0, new ArrayList<>());
-        Animal animal3 = new Animal(new Vector2d(5, 5), 60, 0, new ArrayList<>());
-        animal1.addChild(new Animal(new Vector2d(5, 5), 100, 0, new ArrayList<>()));
+        Animal animal1 = new Animal(new Vector2d(5, 5), 60, 0, List.of((byte) 1));
+        Animal animal2 = new Animal(new Vector2d(5, 5), 60, 0, List.of((byte) 1));
+        Animal animal3 = new Animal(new Vector2d(5, 5), 60, 0, List.of((byte) 1));
+        animal1.addChild(new Animal(new Vector2d(5, 5), 100, 0, List.of((byte) 1)));
 
         List<Animal> animalList = List.of(
                 animal1,
@@ -78,11 +77,11 @@ class ConsumeConflictSolverTest {
     @Test
     public void consumeConflictSolverTieWithEnergyTieWithLifeTimeTieWithNumOfChildTest(){
         // given
-        Animal animal1 = new Animal(new Vector2d(5, 5), 60, 0, new ArrayList<>());
-        Animal animal2 = new Animal(new Vector2d(5, 5), 60, 0, new ArrayList<>());
-        Animal animal3 = new Animal(new Vector2d(5, 5), 60, 0, new ArrayList<>());
-        Animal animal4 = new Animal(new Vector2d(5, 5), 60, 0, new ArrayList<>());
-        Animal animal5 = new Animal(new Vector2d(5, 5), 60, 0, new ArrayList<>());
+        Animal animal1 = new Animal(new Vector2d(5, 5), 60, 0, List.of((byte) 1));
+        Animal animal2 = new Animal(new Vector2d(5, 5), 60, 0, List.of((byte) 1));
+        Animal animal3 = new Animal(new Vector2d(5, 5), 60, 0, List.of((byte) 1));
+        Animal animal4 = new Animal(new Vector2d(5, 5), 60, 0, List.of((byte) 1));
+        Animal animal5 = new Animal(new Vector2d(5, 5), 60, 0, List.of((byte) 1));
 
 
         List<Animal> animalList = List.of(
@@ -110,8 +109,4 @@ class ConsumeConflictSolverTest {
         // then
         assertFalse(isOneTheBest);
     }
-
-
-
-
 }
