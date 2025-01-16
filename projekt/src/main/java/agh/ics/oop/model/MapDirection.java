@@ -1,5 +1,7 @@
 package agh.ics.oop.model;
 
+import java.util.Random;
+
 public enum MapDirection {
     N(new Vector2d(0, 1)),
     NE(new Vector2d(1, 1)),
@@ -16,6 +18,10 @@ public enum MapDirection {
 
     MapDirection(Vector2d vector) {
         diretctionToVector = vector;
+    }
+
+    public static MapDirection generateRandomDirection(){
+        return values()[new Random().nextInt(8)];
     }
 
     @Override

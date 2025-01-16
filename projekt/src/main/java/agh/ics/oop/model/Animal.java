@@ -2,13 +2,16 @@ package agh.ics.oop.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 public class Animal implements WorldElement{
-    private MapDirection orientation = MapDirection.N; // Nie wiemy, czy ma być zawsze domyślnie na północ
+    private MapDirection orientation; // Nie wiemy, czy ma być zawsze domyślnie na północ
     private Vector2d position;
     private int energy; // Być może statyczna ilość energii byłaby lepsza. Chwilowo dajemy możliwość symulacji wyboru ile energii powinny mieć zwierzęta domyślnie (zakładamy że tam będzie stała)
     private final List<Byte> genome; // Może enum zamiast Byte. Trochę średnio pasuje MapDirection, bo brak obrotu ma opis północ, co nie jest zgodne. Jeśli enum to raczej jakiś nowy (chyba).
     private int turnOfAnimal = 0; // Num of turns of animal when was/is alive
+    private int genomeIdx;
     private final int turnOfBirth;
     private boolean isDead = false;
     private final List<Animal> childs = new ArrayList<>();
@@ -19,6 +22,8 @@ public class Animal implements WorldElement{
         this.energy = energy;
         this.position = position;
         this.genome = mutateMethod.mutate(parentsGenome);
+        this.orientation = MapDirection.generateRandomDirection();
+        this.genomeIdx = new Random().nextInt(genome.size());
     }
 
     public Animal(Vector2d position, int energy, int turnOfBirth, List<Byte> genome){
@@ -26,10 +31,13 @@ public class Animal implements WorldElement{
         this.energy = energy;
         this.position = position;
         this.genome = genome;
+        this.orientation = MapDirection.generateRandomDirection();
+        this.genomeIdx = new Random().nextInt(genome.size());
+
     }
 
     public void move(AbstractWorldMap map){
-        orientation = orientation.change(genome.get(turnOfAnimal%genome.size()));
+        orientation = orientation.change(genome.get(genomeIdx % genome.size()));
         MoveResult consequences = map.animalMoveChanges(this);
         position = consequences.position();
         orientation = consequences.orientation();
@@ -42,6 +50,7 @@ public class Animal implements WorldElement{
             return false;
         }
         turnOfAnimal++;
+        genomeIdx++;
         return true;
     }
 
@@ -49,13 +58,6 @@ public class Animal implements WorldElement{
         this.energy += energy;
     }
 
-    public int selectComponent(ConsumeStatComponent type){
-        return switch (type) {
-            case ENERGY -> energy;
-            case LIFETIME -> turnOfAnimal;
-            case NUMBER_OF_CHILDREN -> childs.size();
-        };
-    }
 
     public int getEnergy() {
         return energy;

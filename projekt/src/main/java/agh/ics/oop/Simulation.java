@@ -10,10 +10,11 @@ public class Simulation {
     private final int energyToBeingFullStuffed;
     private final int startingEnergy;
     private final int numOfNewPlantsPerTurn;
+    private final int breadingEnergyLoss;
     private final ReproductionStrategy typeOfReproduction;
 
     public Simulation(AbstractWorldMap selectedMap, int startingAnimals, int startingEnergy,
-                      int energyToBeingFullStuffed, /*int breadingEnergyLoss, */int lenOfGenome,
+                      int energyToBeingFullStuffed, int breadingEnergyLoss, int lenOfGenome,
                       MutateGenome selectedMutatation, int numOfNewPlantsPerTurn, ReproductionStrategy typeOfReproduction ){
         map = selectedMap;
         // selectedMap.generatePlants(startedPlants);
@@ -28,6 +29,7 @@ public class Simulation {
         this.energyToBeingFullStuffed = energyToBeingFullStuffed;
         this.startingEnergy = startingEnergy;
         this.numOfNewPlantsPerTurn = numOfNewPlantsPerTurn;
+        this.breadingEnergyLoss = breadingEnergyLoss;
         typeOfMutation = selectedMutatation;
         this.typeOfReproduction = typeOfReproduction;
     }
@@ -36,7 +38,7 @@ public class Simulation {
         map.clearDeathAnimal();
         map.movesAllAnimals();
         map.animalsConsume(strongestAnimalFinder);
-        map.breeding(energyToBeingFullStuffed,startingEnergy,currentTurn,typeOfMutation,typeOfReproduction);
+        map.breeding(energyToBeingFullStuffed,breadingEnergyLoss,currentTurn,typeOfMutation,typeOfReproduction);
         map.generatePlants(numOfNewPlantsPerTurn);
         currentTurn++;
     }

@@ -92,15 +92,15 @@ public abstract class AbstractWorldMap
     }
 
     /* wywalić do symulacji? albo zwierzęcia jako static?*/
-    public void breeding(int energyForAnimalsForBreeding, int startsEnergy, int actualTurn, MutateGenome mutateMethod, ReproductionStrategy repr){
+    public void breeding(int energyForAnimalsForBreeding, int breedingLoss, int actualTurn, MutateGenome mutateMethod, ReproductionStrategy repr){
         for (var pos : animals.keySet()){
             var animalsReadyToBreeding = animals.get(pos).stream().
                     filter(animal -> animal.getEnergy() >= energyForAnimalsForBreeding).toList();
 
-            var reproductionResults = repr.reproduce(animalsReadyToBreeding, startsEnergy / 2);
+            var reproductionResults = repr.reproduce(animalsReadyToBreeding, breedingLoss);
 
             for (var result : reproductionResults){
-                Animal child = new Animal(pos, startsEnergy, actualTurn, mutateMethod, result.genome());
+                Animal child = new Animal(pos, breedingLoss * 2, actualTurn, mutateMethod, result.genome());
                 place(child);
                 for (var parent : result.parents()){
                     parent.addChild(child);
