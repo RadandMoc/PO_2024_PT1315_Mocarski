@@ -2,10 +2,7 @@ package agh.ics.oop.model;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -104,5 +101,30 @@ public class RandomPositionGeneratorTests {
         assertEquals(5,howManyLess);
         assertEquals(25,res.size());
         assertEquals(uniq.size(),res.size());
+    }
+
+    @Test
+    public void GenerateVectorsAtOnlyPoles(){
+        // Given
+        RandomPositionGenerator generator = null;
+        try{
+            generator = new RandomPositionGenerator(0,0,4,4,25);
+        }
+        catch (ToMuchValuesToGenerateException e){
+            fail();
+        }
+        List<Vector2d> res = new ArrayList<>();
+        int howManyLess=0;
+        // When
+        generator.deleteRectangle(new Boundary(new Vector2d(2,0), new Vector2d(2,4)));
+        try{
+            for(Vector2d item : generator)
+                res.add(item);
+        } catch (ToMuchValuesToGenerateException e){
+            howManyLess = e.getErrorValue();
+        }
+        // Then
+        assertEquals(5,howManyLess);
+        assertEquals(20,res.size());
     }
 }

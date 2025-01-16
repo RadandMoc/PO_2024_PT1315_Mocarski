@@ -13,9 +13,13 @@ public abstract class AbstractWorldMap
     protected final Boundary boundary;
     protected final EnergyLoss energyLoss;
     private final int energyFromPlant;
-    protected final RandomPositionGenerator northPlantGenerator;
-    protected final RandomPositionGenerator centerPlantGenerator;
-    protected final RandomPositionGenerator southPlantGenerator;
+    protected final RandomPositionGenerator equatorPlantGenerator;
+
+    //protected final RandomPositionGenerator northPlantGenerator;
+    //protected final RandomPositionGenerator southPlantGenerator;
+
+    protected final RandomPositionGenerator polesPlantGenerator;
+    protected final Boundary equator;
 
     public AbstractWorldMap(int width, int height, int plantEnergy, EnergyLoss energyLoss,int startNumOfPlants){
         this(width, height, new Vector2d(0,0), plantEnergy, energyLoss,startNumOfPlants);
@@ -28,10 +32,17 @@ public abstract class AbstractWorldMap
         boundary = new Boundary(leftDownBoundary,rightUpBoundary);
         energyFromPlant = plantEnergy;
         this.energyLoss = energyLoss;
+
         int maxHeight = leftDownBoundary.getY()+height-1;
-        northPlantGenerator = new RandomPositionGenerator(leftDownBoundary.getX(), (int)((maxHeight)*3/5)+1, leftDownBoundary.getX()+width-1,maxHeight,0);
-        centerPlantGenerator = new RandomPositionGenerator(leftDownBoundary.getX(), (int)((maxHeight)*2/5)+1, leftDownBoundary.getX()+width-1,(int)((maxHeight)*3/5),0);
-        southPlantGenerator = new RandomPositionGenerator(leftDownBoundary.getX(), leftDownBoundary.getY(), leftDownBoundary.getX()+width-1,(int)((maxHeight)*2/5),0);
+        polesPlantGenerator = new RandomPositionGenerator(boundary,0);
+        Vector2d equatorLowerLeft = new Vector2d(leftDownBoundary.getX(), (int)((maxHeight)*2/5)+1);
+        Vector2d equatorUpperRight = new Vector2d(leftDownBoundary.getX()+width-1,(int)((maxHeight)*3/5));
+        equator = new Boundary(equatorLowerLeft,equatorUpperRight);
+        equatorPlantGenerator = new RandomPositionGenerator(equator,0);
+        polesPlantGenerator.deleteRectangle(equator);
+        //northPlantGenerator = new RandomPositionGenerator(leftDownBoundary.getX(), (int)((maxHeight)*3/5)+1, leftDownBoundary.getX()+width-1,maxHeight,0);
+        //equatorPlantGenerator = new RandomPositionGenerator(, ,0);
+        //southPlantGenerator = new RandomPositionGenerator(leftDownBoundary.getX(), leftDownBoundary.getY(), leftDownBoundary.getX()+width-1,(int)((maxHeight)*2/5),0);
         generatePlants(startNumOfPlants);
     }
 
@@ -80,11 +91,12 @@ public abstract class AbstractWorldMap
         for (var pos : animals.keySet()){
             if (plants.containsKey(pos) && !animals.get(pos).isEmpty()){
                 Animal winner = strongestAnimalFinder.findStrongestAnimal(animals.get(pos));
-                winner.changeEnergy(-energyFromPlant);
+                winner.changeEnergy(energyFromPlant);
                 plants.remove(pos);
-                northPlantGenerator.acceptPositionToChoice(pos); // Jeżeli roślina nie jest w danym sektorze, to sama metoda to sprawdzi i zignoruje wartość.
-                centerPlantGenerator.acceptPositionToChoice(pos);// Jeżeli roślina nie jest w danym sektorze, to sama metoda to sprawdzi i zignoruje wartość.
-                southPlantGenerator.acceptPositionToChoice(pos); // Jeżeli roślina nie jest w danym sektorze, to sama metoda to sprawdzi i zignoruje wartość.
+                if (equator.isVectorIn(pos))
+                    equatorPlantGenerator.acceptPositionToChoice(pos);
+                else
+                    polesPlantGenerator.acceptPositionToChoice(pos);
                 // aktualizacja gui
             }
 

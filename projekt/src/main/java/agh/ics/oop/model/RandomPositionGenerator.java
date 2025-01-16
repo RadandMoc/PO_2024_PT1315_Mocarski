@@ -12,6 +12,14 @@ public class RandomPositionGenerator implements Iterable<Vector2d> {
     private final RandomPositionIterator iterator;
     private long generatedBeforeThisIteration = 0;
 
+    public RandomPositionGenerator(Boundary boundary, int howManyGenerate){
+        this(boundary.lowerLeft(),boundary.upperRight(),howManyGenerate);
+    }
+
+    public RandomPositionGenerator(Vector2d lowerLeft, Vector2d upperRight, int howManyGenerate) throws ToMuchValuesToGenerateException {
+        this(lowerLeft.getX(), lowerLeft.getY(), upperRight.getX(), upperRight.getY(), howManyGenerate);
+    }
+
     public RandomPositionGenerator(int minWidth, int minHeight, int maxWidth, int maxHeight, int howManyGenerate) throws ToMuchValuesToGenerateException {
         this(minWidth, minHeight, maxWidth, maxHeight, howManyGenerate, new Random().nextInt());
     }
@@ -42,6 +50,24 @@ public class RandomPositionGenerator implements Iterable<Vector2d> {
         }
     }
 
+    public void deleteRectangle(Boundary rect){
+        Vector2d vec;
+        for (int i = 0; i < rect.upperRight().getX() - rect.lowerLeft().getX() + 1; i++) {
+            for (int j = 0; j < rect.upperRight().getY() - rect.lowerLeft().getY() + 1; j++) {
+                vec = new Vector2d(i+rect.lowerLeft().getX(),j+rect.lowerLeft().getY());
+                deletePositionToChoice(vec);
+            }
+        }
+    }
+
+    public void deletePositionToChoice(Vector2d pos){
+        long width = (long)maxWidth - minWidth + 1;
+        long thisHeight = (long)pos.getY() - minHeight;
+        if(iterator.addGeneratedPos(width*thisHeight+pos.getX())){
+            generatedBeforeThisIteration++;
+        }
+    }
+
     @Override
     public Iterator<Vector2d> iterator() {
         generatedBeforeThisIteration = iterator.generatedCount;
@@ -59,6 +85,15 @@ public class RandomPositionGenerator implements Iterable<Vector2d> {
             if(generatedPositions.contains(pos)){
                 generatedPositions.remove(pos);
                 generatedCount--;
+                return true;
+            }
+            return false;
+        }
+
+        private boolean addGeneratedPos(long pos){
+            if(!generatedPositions.contains(pos)){
+                generatedPositions.add(pos);
+                generatedCount++;
                 return true;
             }
             return false;

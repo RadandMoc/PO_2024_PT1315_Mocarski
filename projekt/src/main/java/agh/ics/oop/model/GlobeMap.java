@@ -17,48 +17,30 @@ import java.util.*;
     @Override
     public void generatePlants(int numOfPlants) {
         Random random = new Random();
-        int north = 0, center = 0, south = 0;
+        int center = 0, poles = 0;
         double decision;
         for (int i = 0; i < numOfPlants; i++) {
             decision = random.nextDouble();
             if(decision<0.8){
                 center++;
-            } else if (decision<0.9) {
-                north++;
             } else {
-                south++;
+                poles++;
             }
         }
-        southPlantGenerator.setHowManyGenerate(south);
-        centerPlantGenerator.setHowManyGenerate(center);
+        polesPlantGenerator.setHowManyGenerate(poles);
+        equatorPlantGenerator.setHowManyGenerate(center);
         try{
-            for(Vector2d pos:centerPlantGenerator){
+            for(Vector2d pos: equatorPlantGenerator){
                 plants.put(pos,new Plant(pos));
             }
         }
         catch (ToMuchValuesToGenerateException ignored){}
         try{
-            for(Vector2d pos:southPlantGenerator){
+            for(Vector2d pos:polesPlantGenerator){
                 plants.put(pos,new Plant(pos));
             }
         }
-        catch (ToMuchValuesToGenerateException e){
-            north += e.getErrorValue();
-        }
-        northPlantGenerator.setHowManyGenerate(north);
-        try {
-            for(Vector2d pos:northPlantGenerator){
-                plants.put(pos,new Plant(pos));
-            }
-        }
-        catch (ToMuchValuesToGenerateException e){
-            southPlantGenerator.setHowManyGenerate(e.getErrorValue());
-            try{
-                for(Vector2d pos:southPlantGenerator){
-                    plants.put(pos,new Plant(pos));
-                }
-            }
-            catch (ToMuchValuesToGenerateException ignored){}
+        catch (ToMuchValuesToGenerateException ignored){
         }
     }
 
