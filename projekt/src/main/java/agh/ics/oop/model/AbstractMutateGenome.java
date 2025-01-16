@@ -11,14 +11,19 @@ import static java.lang.Math.min;
 public abstract class AbstractMutateGenome implements MutateGenome {
     protected final int minMutation;
     protected final int maxMutation;
-    protected final Random random = new Random();
+    protected final Random random;
 
-    public AbstractMutateGenome(int minNumOfMutation, int maxNumOfMutation)  {
+    public AbstractMutateGenome(int minNumOfMutation, int maxNumOfMutation){
+        this(minNumOfMutation,maxNumOfMutation, new Random().nextInt());
+    }
+
+    public AbstractMutateGenome(int minNumOfMutation, int maxNumOfMutation, int seedForRandom)  {
         if (maxNumOfMutation < minNumOfMutation){
             throw new IllegalArgumentException("maxNumOfMutation cannot be less than minNumOfMutation");
         }
         this.minMutation = minNumOfMutation;
         this.maxMutation = maxNumOfMutation;
+        this.random = new Random(seedForRandom);
     }
 
 

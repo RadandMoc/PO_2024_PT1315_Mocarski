@@ -9,6 +9,10 @@ public class RandomMutate extends AbstractMutateGenome {
         super(minNumOfMutation, maxNumOfMutation);
     }
 
+    public RandomMutate(int minNumOfMutation, int maxNumOfMutation, int seedForRandom){
+        super(minNumOfMutation,maxNumOfMutation,seedForRandom);
+    }
+
     @Override
     public List<Byte> mutate(List<Byte> genome) {
         int numOfMutations = getRandomMutationCount();
