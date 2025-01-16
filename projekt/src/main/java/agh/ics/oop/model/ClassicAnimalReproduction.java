@@ -3,7 +3,7 @@ package agh.ics.oop.model;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class AnimalReproduction implements ReproductionStrategy{
+public class ClassicAnimalReproduction implements ReproductionStrategy{
     Comparator<Animal> comparator = new AnimalConflictComparator();
 
 
