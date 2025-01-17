@@ -7,7 +7,7 @@ import java.util.Objects;
 
 public class AnimalGenomesListener {
     private final HashMap<String,Integer> activeGenomes = new HashMap<>();
-    private String popularGenome;
+    private String popularGenome = "";
     private int popularity = 0;
     private boolean needActualization = false;
 
@@ -63,7 +63,7 @@ public class AnimalGenomesListener {
 
     public String theMostPopularGenome(){
         if(needActualization){
-            String maxKey = null;
+            String maxKey = "";
             int maxValue = Integer.MIN_VALUE;
             for (Map.Entry<String, Integer> entry : activeGenomes.entrySet()) {
                 if (entry.getValue() > maxValue) {
