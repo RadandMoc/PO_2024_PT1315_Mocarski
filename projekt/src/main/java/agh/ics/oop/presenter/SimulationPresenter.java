@@ -42,6 +42,9 @@ public class SimulationPresenter {
     private TextField breadingEnergyLoss;
 
     @FXML
+    private TextField startsNumOfPlants;
+
+    @FXML
     private ComboBox<String> mapChoice;
 
     @FXML
@@ -95,22 +98,44 @@ public class SimulationPresenter {
             int startingEnergyValue = validateIntegerField(startingEnergy );
             int numOfNewPlantsPerTurnValue = validateIntegerField(numOfNewPlantsPerTurn );
             int breadingEnergyLossValue = validateIntegerField(breadingEnergyLoss);
+            int energyLossValue = validateIntegerField(energyLoss);
+            int energyLossPerMoveToPoleValue = validateIntegerField(energyLossPerMoveToPole);
+            int startsNumOfPlantsValue = validateIntegerField(startsNumOfPlants);
+
 
             boolean isAllAboveZero = checkIfAboveZero(List.of(heightValue, widthValue, energyFromPlantValue,
                     genomeLengthValue, energyForBeingFullStaffedValue, startingEnergyValue,
-                    numOfNewPlantsPerTurnValue, breadingEnergyLossValue));
+                    numOfNewPlantsPerTurnValue, breadingEnergyLossValue, energyLossPerMoveToPoleValue,
+                    startsNumOfPlantsValue));
             if (!isAllAboveZero){
                 System.out.println("Please correct variable with value below or equal 0 ");
                 return;
             }
             System.out.println("All values are valid. Starting simulation...");
+            MutateGenome mutateGenome = null;
 
             try {
-                MutationFactory.createMutation(mutationStrategy.getValue(), minMutation, maxMutation,genomeLengthValue);
+                mutateGenome = MutationFactory.createMutation(mutationStrategy.getValue(), minMutation, maxMutation,genomeLengthValue);
             }
             catch (IllegalArgumentException e){
                 System.out.println(e.getMessage());
             }
+
+            AbstractWorldMap map = null;
+
+            Vector2d leftDownBoundary = new Vector2d(xValue,yValue);
+            switch (mapChoice.getSelectionModel().getSelectedItem()){
+                case "Globe":
+                    map = new GlobeMap(widthValue,heightValue, leftDownBoundary,energyFromPlantValue,new ClassicalEnergyLoss(energyLossValue),startsNumOfPlantsValue);
+                break;
+                case "Globe with pole":
+                    map = new GlobeMap(widthValue,heightValue, leftDownBoundary,energyFromPlantValue,new PoleEnergyLoss(AbstractWorldMap.calculateEquator(leftDownBoundary,heightValue,widthValue),energyLossValue, energyLossPerMoveToPoleValue),startsNumOfPlantsValue);
+                break;
+                default:
+                    throw new IllegalArgumentException("Nieznany typ: ");
+            }
+
+
 
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());

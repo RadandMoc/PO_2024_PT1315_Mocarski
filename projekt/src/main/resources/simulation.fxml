@@ -52,8 +52,13 @@
             </HBox>
 
             <HBox spacing="20" alignment="CENTER_LEFT">
-                <Label text="energyFromPlant"/>
+                <Label text="energy from plant"/>
                 <TextField fx:id="energyFromPlant" promptText="Wpisz energię za zjedzenie rośliny"/>
+            </HBox>
+
+            <HBox spacing="20" alignment="CENTER_LEFT">
+                <Label text="starts number of plants"/>
+                <TextField fx:id="numOfPlants" promptText="Wpisz startową liczbę roślin"/>
             </HBox>
 
             <Label text="Simulation parameters"/>

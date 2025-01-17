@@ -28,15 +28,13 @@ public abstract class AbstractWorldMap
         boundary = new Boundary(leftDownBoundary,rightUpBoundary);
         energyFromPlant = plantEnergy;
         this.energyLoss = energyLoss;
-        int maxHeight = leftDownBoundary.getY()+height-1;
         polesPlantGenerator = new RandomPositionGenerator(boundary,0);
-        Vector2d equatorLowerLeft = new Vector2d(leftDownBoundary.getX(), (int)((maxHeight)*2/5)+1);
-        Vector2d equatorUpperRight = new Vector2d(leftDownBoundary.getX()+width-1,(int)((maxHeight)*3/5));
-        equator = new Boundary(equatorLowerLeft,equatorUpperRight);
+        equator = calculateEquator(leftDownBoundary, height, width);
         equatorPlantGenerator = new RandomPositionGenerator(equator,0);
         polesPlantGenerator.deleteRectangle(equator);
         generatePlants(startNumOfPlants);
     }
+
 
     public void place(WorldElement mapObj){
         if(mapObj instanceof Plant plant){
@@ -128,5 +126,12 @@ public abstract class AbstractWorldMap
             Animal animal = new Animal(pos,startEnergy,0,genome);
             this.place(animal);
         }
+    }
+
+    public static Boundary calculateEquator(Vector2d leftDownBoundary, int height, int width){
+        int maxHeight = leftDownBoundary.getY()+height-1;
+        Vector2d equatorLowerLeft = new Vector2d(leftDownBoundary.getX(), (int)((maxHeight)*2/5)+1);
+        Vector2d equatorUpperRight = new Vector2d(leftDownBoundary.getX()+width-1,(int)((maxHeight)*3/5));
+        return new Boundary(equatorLowerLeft,equatorUpperRight);
     }
 }
