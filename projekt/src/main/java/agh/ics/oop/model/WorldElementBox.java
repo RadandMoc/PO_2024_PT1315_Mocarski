@@ -22,7 +22,7 @@ public class WorldElementBox {
     private final VBox vBox;
 
     @FXML
-    private Label energyLabel;
+    private final Label energyLabel;
     private final ImageView imageView;
 
 
@@ -33,6 +33,8 @@ public class WorldElementBox {
         imageView.setFitWidth(IMAGE_WIDTH);
         imageView.setFitHeight(IMAGE_HEIGHT);
 
+
+        energyLabel = new Label();
         vBox = new VBox(5);
         vBox.getChildren().addAll(imageView, energyLabel);
         vBox.setAlignment(Pos.CENTER);
@@ -67,7 +69,7 @@ public class WorldElementBox {
     }
 
     public void UpdateForPlant(){
-        loadImage("/plant.png");
+        imageView.setImage(loadImage("/plant.png"));
         energyLabel.setText("");
     }
 

@@ -4,14 +4,19 @@ import agh.ics.oop.fabric.MutationFactory;
 import agh.ics.oop.model.*;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
+import javafx.stage.Stage;
 import javafx.util.converter.IntegerStringConverter;
 
+import java.io.IOException;
 import java.util.List;
 
 public class SimulationPresenter {
@@ -42,7 +47,10 @@ public class SimulationPresenter {
     private TextField breadingEnergyLoss;
 
     @FXML
-    private TextField startsNumOfPlants;
+    private TextField startingAnimals;
+
+    @FXML
+    private TextField numOfPlants;
 
     @FXML
     private ComboBox<String> mapChoice;
@@ -68,6 +76,8 @@ public class SimulationPresenter {
     @FXML
     private Integer maxMutation;
 
+    private int sim_counter = 0;
+
     @FXML
     public void initialize() {
         mapChoice.valueProperty().addListener((observable, oldValue, newValue) -> {
@@ -82,6 +92,34 @@ public class SimulationPresenter {
 
         // Wywołaj ręcznie przy inicjalizacji, aby ustawić widoczność na podstawie domyślnego wyboru
         mapChoice.getSelectionModel().select("Globe");
+    }
+
+    private void openNewWindow(AbstractWorldMap map, Simulation sim) {
+        Platform.runLater(() -> {
+            try {
+
+                FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("showSimulation.fxml"));
+                Parent root = loader.load();
+
+                ShowSimulationPresenter presenter = loader.getController();
+                map.addObserver(presenter);
+
+                Stage newStage = new Stage();
+                newStage.setTitle("Simulation %d".formatted(sim_counter++));
+                newStage.setScene(new Scene(root, 800, 600));
+                newStage.show();
+
+                new Thread(() -> {
+                    for(int i = 0; i < 10; i++){
+                        sim.run();
+                    }
+                    Platform.runLater(newStage::close);
+                }).start();
+
+            } catch (IOException ignored) {
+
+            }
+        });
     }
 
 
@@ -100,13 +138,14 @@ public class SimulationPresenter {
             int breadingEnergyLossValue = validateIntegerField(breadingEnergyLoss);
             int energyLossValue = validateIntegerField(energyLoss);
             int energyLossPerMoveToPoleValue = validateIntegerField(energyLossPerMoveToPole);
-            int startsNumOfPlantsValue = validateIntegerField(startsNumOfPlants);
+            int startsNumOfPlantsValue = validateIntegerField(numOfPlants);
+            int startingAnimalsValue = validateIntegerField(startingAnimals);
 
 
             boolean isAllAboveZero = checkIfAboveZero(List.of(heightValue, widthValue, energyFromPlantValue,
                     genomeLengthValue, energyForBeingFullStaffedValue, startingEnergyValue,
                     numOfNewPlantsPerTurnValue, breadingEnergyLossValue, energyLossPerMoveToPoleValue,
-                    startsNumOfPlantsValue));
+                    startsNumOfPlantsValue, startingAnimalsValue));
             if (!isAllAboveZero){
                 System.out.println("Please correct variable with value below or equal 0 ");
                 return;
@@ -126,14 +165,27 @@ public class SimulationPresenter {
             Vector2d leftDownBoundary = new Vector2d(xValue,yValue);
             switch (mapChoice.getSelectionModel().getSelectedItem()){
                 case "Globe":
-                    map = new GlobeMap(widthValue,heightValue, leftDownBoundary,energyFromPlantValue,new ClassicalEnergyLoss(energyLossValue),startsNumOfPlantsValue);
+                    map = new GlobeMap(widthValue,heightValue, leftDownBoundary,energyFromPlantValue,
+                            new ClassicalEnergyLoss(energyLossValue),startsNumOfPlantsValue);
                 break;
                 case "Globe with pole":
-                    map = new GlobeMap(widthValue,heightValue, leftDownBoundary,energyFromPlantValue,new PoleEnergyLoss(AbstractWorldMap.calculateEquator(leftDownBoundary,heightValue,widthValue),energyLossValue, energyLossPerMoveToPoleValue),startsNumOfPlantsValue);
+                    map = new GlobeMap(widthValue,heightValue, leftDownBoundary,energyFromPlantValue,
+                            new PoleEnergyLoss(AbstractWorldMap.calculateEquator(leftDownBoundary,heightValue,widthValue),
+                            energyLossValue, energyLossPerMoveToPoleValue),startsNumOfPlantsValue);
                 break;
                 default:
                     throw new IllegalArgumentException("Nieznany typ: ");
             }
+
+            final AbstractWorldMap finalMap = map;
+
+            final Simulation sim = new Simulation(map, startingAnimalsValue, startingEnergyValue,
+                    energyForBeingFullStaffedValue, breadingEnergyLossValue, genomeLengthValue,
+                    mutateGenome, numOfNewPlantsPerTurnValue,  new ClassicAnimalReproduction());
+
+            new Thread(() -> {
+                openNewWindow(finalMap, sim);
+            }).start();
 
 
 

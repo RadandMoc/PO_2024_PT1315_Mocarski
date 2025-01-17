@@ -41,5 +41,10 @@ public class Simulation {
         map.breeding(energyToBeingFullStuffed,breadingEnergyLoss,currentTurn,typeOfMutation,typeOfReproduction);
         map.generatePlants(numOfNewPlantsPerTurn);
         currentTurn++;
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

@@ -82,6 +82,7 @@ public abstract class AbstractWorldMap
 
         animalList.forEach(this::move);
 
+        mapChanged("Ruszono zwierzakami");
         //Wywołanie listenera po zakończeniu ruchów
     }
 
@@ -89,6 +90,7 @@ public abstract class AbstractWorldMap
         animals.forEach((key, animalsInSquare) -> animalsInSquare.removeIf(animal ->
                 !animal.ableToWalk(energyLoss.howManyEnergyToWalk(animal),genomesListener)
         ));
+        mapChanged("Zabijam zwierzaki");
         // pewnie przydalby się update GUI
     }
 
@@ -110,6 +112,7 @@ public abstract class AbstractWorldMap
             }
 
         }
+
     }
 
     /* wywalić do symulacji? albo zwierzęcia jako static?*/
@@ -162,6 +165,14 @@ public abstract class AbstractWorldMap
         Vector2d equatorLowerLeft = new Vector2d(leftDownBoundary.getX(), (int)((maxHeight)*2/5)+1);
         Vector2d equatorUpperRight = new Vector2d(leftDownBoundary.getX()+width-1,(int)((maxHeight)*3/5));
         return new Boundary(equatorLowerLeft,equatorUpperRight);
+    }
+
+    public void addObserver(MapChangeListener observer) {
+        observers.add(observer);
+    }
+
+    public void removeObserver(MapChangeListener observer) {
+        observers.remove(observer);
     }
 
     public String theMostPopularGenome(){

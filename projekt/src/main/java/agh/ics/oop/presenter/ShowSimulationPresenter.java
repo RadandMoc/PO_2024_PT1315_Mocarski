@@ -89,6 +89,9 @@ public class ShowSimulationPresenter implements MapChangeListener {
             }
         }
 
+        for (int j = worldElementIdx; j < worldElementsBox.size(); ++j){
+            worldElementsBox.get(j).setNull();
+        }
 
     }
 
@@ -100,7 +103,9 @@ public class ShowSimulationPresenter implements MapChangeListener {
             return box;
         }
 
-        return new WorldElementBox(element);
+        WorldElementBox box = new WorldElementBox(element);
+        worldElementsBox.add(box);
+        return box;
     }
 
 
@@ -121,7 +126,6 @@ public class ShowSimulationPresenter implements MapChangeListener {
         setWorldMap(worldMap);
         Platform.runLater(() -> {
             drawMap();
-            moveDescriptionLabel.setText(message);
         });
     }
 }
