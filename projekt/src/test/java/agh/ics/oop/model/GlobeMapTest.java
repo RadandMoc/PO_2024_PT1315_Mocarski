@@ -26,10 +26,10 @@ class GlobeMapTest {
         final List<Byte> directions4 = List.of(
                 (byte) 7
         );
-        Animal a1 = new Animal(new Vector2d(0,0), 100, 0,directions1,MapDirection.N,0);
-        Animal a2 = new Animal(new Vector2d(19,19), 100, 0,directions2,MapDirection.N,0);
-        Animal a3 = new Animal(new Vector2d(19,0), 100, 0,directions3,MapDirection.N,0);
-        Animal a4 = new Animal(new Vector2d(0,19), 100, 0,directions4,MapDirection.N,0);
+        Animal a1 = new Animal(new Vector2d(0,0), 100, 0,directions1,MapDirection.N,0,null);
+        Animal a2 = new Animal(new Vector2d(19,19), 100, 0,directions2,MapDirection.N,0,null);
+        Animal a3 = new Animal(new Vector2d(19,0), 100, 0,directions3,MapDirection.N,0,null);
+        Animal a4 = new Animal(new Vector2d(0,19), 100, 0,directions4,MapDirection.N,0,null);
 
         map.place(a1);
         map.place(a2);
@@ -67,10 +67,10 @@ class GlobeMapTest {
                 (byte) 3
         );
 
-        Animal a1 = new Animal(new Vector2d(0,10), 100, 0,directions1,MapDirection.N,0);
-        Animal a2 = new Animal(new Vector2d(19,10), 100, 0,directions2,MapDirection.N,0);
-        Animal a3 = new Animal(new Vector2d(0,10), 100, 0,directions3,MapDirection.N,0);
-        Animal a4 = new Animal(new Vector2d(19,10), 100, 0,directions4,MapDirection.N,0);
+        Animal a1 = new Animal(new Vector2d(0,10), 100, 0,directions1,MapDirection.N,0,null);
+        Animal a2 = new Animal(new Vector2d(19,10), 100, 0,directions2,MapDirection.N,0,null);
+        Animal a3 = new Animal(new Vector2d(0,10), 100, 0,directions3,MapDirection.N,0,null);
+        Animal a4 = new Animal(new Vector2d(19,10), 100, 0,directions4,MapDirection.N,0,null);
 
 
         map.place(a1);
@@ -95,7 +95,7 @@ class GlobeMapTest {
         final List<Byte> directions1 = Arrays.asList(
                 (byte)6, (byte)6, (byte)6, (byte)6, (byte)6
         );
-        Animal a1 = new Animal(new Vector2d(10,10), 100, 0,directions1,MapDirection.N,0);
+        Animal a1 = new Animal(new Vector2d(10,10), 100, 0,directions1,MapDirection.N,0,null);
         map.place(a1);
 
         // when
@@ -112,9 +112,9 @@ class GlobeMapTest {
         Vector2d pos2 = new Vector2d(3,1);
         Vector2d pos3 = new Vector2d(7,1);
 
-        Animal animal1 = new Animal(pos1, 100, 0, new ArrayList<>(),MapDirection.N,0);
-        Animal animal2 = new Animal(pos2, 100, 0, new ArrayList<>(),MapDirection.N,0);
-        Animal animal3 = new Animal(pos3, 100, 0, new ArrayList<>(),MapDirection.N,0);
+        Animal animal1 = new Animal(pos1, 100, 0, new ArrayList<>(),MapDirection.N,0,null);
+        Animal animal2 = new Animal(pos2, 100, 0, new ArrayList<>(),MapDirection.N,0,null);
+        Animal animal3 = new Animal(pos3, 100, 0, new ArrayList<>(),MapDirection.N,0,null);
 
         map.place(animal1);
         map.place(animal2);

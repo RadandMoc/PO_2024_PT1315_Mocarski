@@ -16,6 +16,7 @@ public abstract class AbstractWorldMap
     protected final RandomPositionGenerator equatorPlantGenerator;
     protected final RandomPositionGenerator polesPlantGenerator;
     protected final Boundary equator;
+    private AnimalGenomesListener genomesListener = new AnimalGenomesListener();
 
     public AbstractWorldMap(int width, int height, int plantEnergy, EnergyLoss energyLoss,int startNumOfPlants){
         this(width, height, new Vector2d(0,0), plantEnergy, energyLoss,startNumOfPlants);
@@ -68,7 +69,7 @@ public abstract class AbstractWorldMap
 
     public void clearDeathAnimal() {
         animals.forEach((key, animalsInSquare) -> animalsInSquare.removeIf(animal ->
-                !animal.ableToWalk(energyLoss.howManyEnergyToWalk(animal))
+                !animal.ableToWalk(energyLoss.howManyEnergyToWalk(animal),genomesListener)
         ));
         // pewnie przydalby się update GUI
     }
@@ -102,7 +103,7 @@ public abstract class AbstractWorldMap
             var reproductionResults = repr.reproduce(animalsReadyToBreeding, breedingLoss);
 
             for (var result : reproductionResults){
-                Animal child = new Animal(pos, breedingLoss * 2, actualTurn, mutateMethod, result.genome());
+                Animal child = new Animal(pos, breedingLoss * 2, actualTurn, mutateMethod, result.genome(),genomesListener);
                 place(child);
                 for (var parent : result.parents()){
                     parent.addChild(child);
@@ -123,7 +124,7 @@ public abstract class AbstractWorldMap
                 genome.add((byte)random.nextInt(8));
             }
             Vector2d pos = new Vector2d(x,y);
-            Animal animal = new Animal(pos,startEnergy,0,genome);
+            Animal animal = new Animal(pos,startEnergy,0,genome,genomesListener);
             this.place(animal);
         }
     }

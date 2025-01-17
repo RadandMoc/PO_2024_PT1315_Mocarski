@@ -17,25 +17,29 @@ public class Animal implements WorldElement{
     private final List<Animal> childs = new ArrayList<>();
     private int eatenGrass = 0;
 
-    public Animal(Vector2d position, int energy, int turnOfBirth, MutateGenome mutateMethod, List<Byte> parentsGenome){
+    public Animal(Vector2d position, int energy, int turnOfBirth, MutateGenome mutateMethod, List<Byte> parentsGenome,AnimalGenomesListener genomesListener){
         this.turnOfBirth = turnOfBirth;
         this.energy = energy;
         this.position = position;
         this.genome = mutateMethod.mutate(parentsGenome);
         this.orientation = MapDirection.generateRandomDirection();
         this.genomeIdx = new Random().nextInt(genome.size());
+        if(genomesListener != null)
+            genomesListener.newGenome(genome);
     }
 
-    public Animal(Vector2d position, int energy, int turnOfBirth, List<Byte> genome, MapDirection orientation, int genomeIdx){
+    public Animal(Vector2d position, int energy, int turnOfBirth, List<Byte> genome, MapDirection orientation, int genomeIdx,AnimalGenomesListener genomesListener){
         this.turnOfBirth = turnOfBirth;
         this.energy = energy;
         this.position = position;
         this.genome = genome;
         this.orientation = orientation;
         this.genomeIdx = genomeIdx;
+        if(genomesListener != null)
+            genomesListener.newGenome(genome);
     }
-    public Animal(Vector2d position, int energy, int turnOfBirth, List<Byte> genome){
-        this(position,energy,turnOfBirth,genome,MapDirection.generateRandomDirection(),new Random().nextInt(genome.size()));
+    public Animal(Vector2d position, int energy, int turnOfBirth, List<Byte> genome,AnimalGenomesListener genomesListener){
+        this(position,energy,turnOfBirth,genome,MapDirection.generateRandomDirection(),new Random().nextInt(genome.size()),genomesListener);
     }
 
     public void move(AbstractWorldMap map){
@@ -46,9 +50,11 @@ public class Animal implements WorldElement{
         this.changeEnergy(-consequences.energy());
     }
 
-    public boolean ableToWalk(int requiredEnergy){
+    public boolean ableToWalk(int requiredEnergy, AnimalGenomesListener genomesListener){
         if (energy - requiredEnergy < 0){
             isDead = true;
+            if(genomesListener != null)
+                genomesListener.deleteGenome(genome);
             return false;
         }
         turnOfAnimal++;

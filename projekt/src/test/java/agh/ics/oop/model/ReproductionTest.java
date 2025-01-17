@@ -12,8 +12,8 @@ public class ReproductionTest {
     public void ClassicAnimalReproductionTest(){
         // Given
         ClassicAnimalReproduction repType = new ClassicAnimalReproduction(123);
-        Animal animal1 = new Animal(new Vector2d(0,0),200,0, List.of((byte)0,(byte)1,(byte)2,(byte)3));
-        Animal animal2 = new Animal(new Vector2d(0,0),200,1, List.of((byte)0,(byte)1,(byte)2,(byte)3));
+        Animal animal1 = new Animal(new Vector2d(0,0),200,0, List.of((byte)0,(byte)1,(byte)2,(byte)3),null);
+        Animal animal2 = new Animal(new Vector2d(0,0),200,1, List.of((byte)0,(byte)1,(byte)2,(byte)3),null);
         // When
         List<ReproductionResult> kids = repType.reproduce(List.of(animal1,animal2),100);
         // Then
@@ -32,8 +32,8 @@ public class ReproductionTest {
     public void ClassicAnimalReproductionWithStrongerAnimalTest(){
         // Given
         ClassicAnimalReproduction repType = new ClassicAnimalReproduction(123);
-        Animal animal1 = new Animal(new Vector2d(0,0),450,0, List.of((byte)0,(byte)1,(byte)2,(byte)3));
-        Animal animal2 = new Animal(new Vector2d(0,0),150,1, List.of((byte)4,(byte)5,(byte)6,(byte)7));
+        Animal animal1 = new Animal(new Vector2d(0,0),450,0, List.of((byte)0,(byte)1,(byte)2,(byte)3),null);
+        Animal animal2 = new Animal(new Vector2d(0,0),150,1, List.of((byte)4,(byte)5,(byte)6,(byte)7),null);
         // When
         List<ReproductionResult> kids = repType.reproduce(List.of(animal2,animal1),100);
         // Then
@@ -54,8 +54,8 @@ public class ReproductionTest {
     public void ClassicAnimalReproductionWithEpicAnimalTest(){
         // Given
         ClassicAnimalReproduction repType = new ClassicAnimalReproduction(123);
-        Animal animal1 = new Animal(new Vector2d(0,0),99999999,0, List.of((byte)0,(byte)1,(byte)2,(byte)3));
-        Animal animal2 = new Animal(new Vector2d(0,0),150,1, List.of((byte)4,(byte)5,(byte)6,(byte)7));
+        Animal animal1 = new Animal(new Vector2d(0,0),99999999,0, List.of((byte)0,(byte)1,(byte)2,(byte)3),null);
+        Animal animal2 = new Animal(new Vector2d(0,0),150,1, List.of((byte)4,(byte)5,(byte)6,(byte)7),null);
         // When
         List<ReproductionResult> kids = repType.reproduce(List.of(animal1,animal2),100);
         // Then
