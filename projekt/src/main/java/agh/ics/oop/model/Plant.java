@@ -13,7 +13,13 @@ public class Plant implements WorldElement{
     }
 
     @Override
+    public void updateWorldElementBox(WorldElementBox fieldBox) {
+        fieldBox.UpdateForPlant();
+    }
+
+    @Override
     public String toString(){
         return "*";
     }
+
 }

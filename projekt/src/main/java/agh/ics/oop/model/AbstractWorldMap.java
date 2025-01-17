@@ -17,6 +17,7 @@ public abstract class AbstractWorldMap
     protected final RandomPositionGenerator polesPlantGenerator;
     protected final Boundary equator;
     private AnimalGenomesListener genomesListener = new AnimalGenomesListener();
+    private Comparator<Animal> animalComparator = new AnimalConflictComparator();
 
     public AbstractWorldMap(int width, int height, int plantEnergy, EnergyLoss energyLoss,int startNumOfPlants){
         this(width, height, new Vector2d(0,0), plantEnergy, energyLoss,startNumOfPlants);
@@ -36,6 +37,23 @@ public abstract class AbstractWorldMap
         generatePlants(startNumOfPlants);
     }
 
+    public boolean isOccupied(Vector2d position){
+        return animals.containsKey(position) || plants.containsKey(position);
+    }
+
+    public Optional<WorldElement> objectAt(Vector2d position){
+        if (animals.containsKey(position) && !animals.get(position).isEmpty()) {
+            return animals.get(position).stream()
+                    .min(animalComparator)
+                    .map(WorldElement.class::cast);
+        }
+
+        if (plants.containsKey(position)) {
+            return Optional.of(plants.get(position));
+        }
+
+        return Optional.empty();
+    }
 
     public void place(WorldElement mapObj){
         if(mapObj instanceof Plant plant){
@@ -126,6 +144,16 @@ public abstract class AbstractWorldMap
             Vector2d pos = new Vector2d(x,y);
             Animal animal = new Animal(pos,startEnergy,0,genome,genomesListener);
             this.place(animal);
+        }
+    }
+
+    public Boundary getBoundary(){
+        return boundary;
+    }
+
+    protected void mapChanged(String message) {
+        for (MapChangeListener observer : observers) {
+            observer.mapChanged(this, message);
         }
     }
 

@@ -1,5 +1,7 @@
 package agh.ics.oop.model;
 
+import javafx.scene.layout.VBox;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -94,6 +96,11 @@ public class Animal implements WorldElement{
         return position;
     }
 
+    @Override
+    public void updateWorldElementBox(WorldElementBox fieldBox) {
+        fieldBox.UpdateForAnimal(energy);
+    }
+
     public List<Byte> getPartOfGen(int pointOfSlice, boolean fromRight){
         List<Byte> genomeSlice = new ArrayList<>();
 
@@ -109,4 +116,7 @@ public class Animal implements WorldElement{
         }
         return genomeSlice;
     }
+
+
+
 }
