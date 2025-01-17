@@ -26,11 +26,11 @@ public class Vector2dTest {
         // When
 
         // Then
-        assertNotEquals(vec1,vec2);
+        assertEquals(vec1,vec2);
     }
 
     @Test
-    public void equalsForNotequalsVectors(){
+    public void equalsForNotEqualsVectors(){
         // Given
         Vector2d vec1 = new Vector2d(243,-271);
         Vector2d vec2 = new Vector2d(-243,271);
