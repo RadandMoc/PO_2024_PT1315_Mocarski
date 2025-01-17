@@ -106,7 +106,7 @@ public class SimulationPresenter {
             System.out.println("All values are valid. Starting simulation...");
 
             try {
-                MutationFactory.createMutation(mutationStrategy.getValue(), minMutation, maxMutation);
+                MutationFactory.createMutation(mutationStrategy.getValue(), minMutation, maxMutation,genomeLengthValue);
             }
             catch (IllegalArgumentException e){
                 System.out.println(e.getMessage());

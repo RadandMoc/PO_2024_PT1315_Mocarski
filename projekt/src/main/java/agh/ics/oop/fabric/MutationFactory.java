@@ -6,15 +6,16 @@ import agh.ics.oop.model.RandomMutate;
 import agh.ics.oop.model.SwapMutate;
 
 public class MutationFactory {
-    public static MutateGenome createMutation(MutationStrategy type, int minMutation, int maxMutation) {
-        switch (type) {
-            case RandomMutate:
-                return new RandomMutate(minMutation, maxMutation);
-            case SwapMutate:
-                return new SwapMutate(minMutation, maxMutation);
-            default:
-                throw new IllegalArgumentException("Nieznany typ: " + type);
-        }
+    public static MutateGenome createMutation(MutationStrategy type, int minMutation, int maxMutation, int lenOfGenome) {
+        return switch (type) {
+            case RandomMutate -> {
+                if (maxMutation < lenOfGenome)
+                    throw new IllegalArgumentException("Dlugosc genomu nie moze byc krotsza od maksymalnej liczby losowych mutacji");
+                yield new RandomMutate(minMutation, maxMutation);
+            }
+            case SwapMutate -> new SwapMutate(minMutation, maxMutation);
+            default -> throw new IllegalArgumentException("Nieznany typ: " + type);
+        };
 
     }
 
