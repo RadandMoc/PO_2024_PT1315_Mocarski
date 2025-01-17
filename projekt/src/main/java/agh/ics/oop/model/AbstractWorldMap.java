@@ -135,4 +135,8 @@ public abstract class AbstractWorldMap
         Vector2d equatorUpperRight = new Vector2d(leftDownBoundary.getX()+width-1,(int)((maxHeight)*3/5));
         return new Boundary(equatorLowerLeft,equatorUpperRight);
     }
+
+    public String theMostPopularGenome(){
+        return genomesListener.theMostPopularGenome();
+    }
 }
