@@ -118,7 +118,10 @@
                 <TextField fx:id="breadingEnergyLoss" promptText="Wpisz koszt energii przy rozmnażaniu"/>
             </HBox>
 
-
+            <HBox spacing="20" alignment="CENTER_LEFT">
+                <Button fx:id="saveConfigButton" text="Save Configuration" onAction="#onSaveConfigClicked"/>
+                <Button fx:id="loadConfigButton" text="Load Configuration" onAction="#onLoadConfigClicked"/>
+            </HBox>
 
         </VBox>
     </center>

@@ -1,6 +1,8 @@
 package agh.ics.oop.model;
 
-public enum MutationStrategy {
+import java.io.Serializable;
+
+public enum MutationStrategy implements Serializable {
     RandomMutate,
     SwapMutate
 }

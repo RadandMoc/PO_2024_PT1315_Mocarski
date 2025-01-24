@@ -13,9 +13,11 @@ import javafx.scene.control.*;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.converter.IntegerStringConverter;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -75,6 +77,12 @@ public class SimulationPresenter {
 
     @FXML
     private Integer maxMutation;
+
+    @FXML
+    private Button saveConfigButton;
+
+    @FXML
+    private Button loadConfigButton;
 
     private int sim_counter = 0;
 
@@ -192,6 +200,86 @@ public class SimulationPresenter {
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    @FXML
+    private void onSaveConfigClicked() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save Configuration");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Config Files", "*.config"));
+        Stage stage = (Stage) saveConfigButton.getScene().getWindow();
+        File file = fileChooser.showSaveDialog(stage);
+        if (file != null) {
+            try {
+                PresenterConfigurationSave config = new PresenterConfigurationSave(
+                        validateIntegerField(height),
+                        validateIntegerField(width),
+                        validateIntegerField(x),
+                        validateIntegerField(y),
+                        validateIntegerField(energyFromPlant),
+                        validateIntegerField(genomeLength),
+                        validateIntegerField(energyForBeingFullStaffed),
+                        validateIntegerField(startingEnergy),
+                        validateIntegerField(numOfNewPlantsPerTurn),
+                        validateIntegerField(breadingEnergyLoss),
+                        validateIntegerField(energyLoss),
+                        validateIntegerField(energyLossPerMoveToPole),
+                        validateIntegerField(numOfPlants),
+                        validateIntegerField(startingAnimals),
+                        mapChoice.getValue(),
+                        mutationStrategy.getValue(),
+                        minMutation,
+                        maxMutation
+                );
+                config.save(file.getPath());
+            } catch (IOException e) {
+                showError("Error saving configuration: " + e.getMessage());
+            } catch (IllegalArgumentException e) {
+                showError("Invalid input: " + e.getMessage());
+            }
+        }
+    }
+
+    @FXML
+    private void onLoadConfigClicked() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Load Configuration");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Config Files", "*.config"));
+        Stage stage = (Stage) loadConfigButton.getScene().getWindow();
+        File file = fileChooser.showOpenDialog(stage);
+        if (file != null) {
+            try {
+                PresenterConfigurationSave config = PresenterConfigurationSave.load(file.getPath());
+                height.setText(String.valueOf(config.heightValue()));
+                width.setText(String.valueOf(config.widthValue()));
+                x.setText(String.valueOf(config.xValue()));
+                y.setText(String.valueOf(config.yValue()));
+                energyFromPlant.setText(String.valueOf(config.energyFromPlantValue()));
+                genomeLength.setText(String.valueOf(config.genomeLengthValue()));
+                energyForBeingFullStaffed.setText(String.valueOf(config.energyForBeingFullStaffedValue()));
+                startingEnergy.setText(String.valueOf(config.startingEnergyValue()));
+                numOfNewPlantsPerTurn.setText(String.valueOf(config.numOfNewPlantsPerTurnValue()));
+                breadingEnergyLoss.setText(String.valueOf(config.breadingEnergyLossValue()));
+                energyLoss.setText(String.valueOf(config.energyLossValue()));
+                energyLossPerMoveToPole.setText(String.valueOf(config.energyLossPerMoveToPoleValue()));
+                numOfPlants.setText(String.valueOf(config.startsNumOfPlantsValue()));
+                startingAnimals.setText(String.valueOf(config.startingAnimalsValue()));
+                mapChoice.setValue(config.mapChoice());
+                mutationStrategy.setValue(config.mutationStrategy());
+                minMutation = config.minMutation();
+                maxMutation = config.maxMutation();
+            } catch (IOException | ClassNotFoundException e) {
+                showError("Error loading configuration: " + e.getMessage());
+            }
+        }
+    }
+
+    private void showError(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 
     private boolean checkIfAboveZero(List<Integer> integers) {
