@@ -84,6 +84,12 @@ public class SimulationPresenter {
     @FXML
     private Button loadConfigButton;
 
+    @FXML
+    private Spinner<Integer> spinner;
+
+    @FXML
+    private Spinner<Integer> maxSpinner;
+
     private int sim_counter = 0;
 
     @FXML
@@ -217,6 +223,10 @@ public class SimulationPresenter {
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Config Files", "*.config"));
         Stage stage = (Stage) saveConfigButton.getScene().getWindow();
         File file = fileChooser.showSaveDialog(stage);
+        int energyLossPerMoveToPoleValue = 0;
+        if (!energyLossPerMoveToPole.getText().trim().isEmpty()) {
+            energyLossPerMoveToPoleValue = validateIntegerField(energyLossPerMoveToPole);
+        }
         if (file != null) {
             try {
                 PresenterConfigurationSave config = new PresenterConfigurationSave(
@@ -231,13 +241,13 @@ public class SimulationPresenter {
                         validateIntegerField(numOfNewPlantsPerTurn),
                         validateIntegerField(breadingEnergyLoss),
                         validateIntegerField(energyLoss),
-                        validateIntegerField(energyLossPerMoveToPole),
+                        energyLossPerMoveToPoleValue,
                         validateIntegerField(numOfPlants),
                         validateIntegerField(startingAnimals),
                         mapChoice.getValue(),
                         mutationStrategy.getValue(),
-                        minMutation,
-                        maxMutation
+                        (int) spinner.getValue(),
+                        (int) maxSpinner.getValue()
                 );
                 config.save(file.getPath());
             } catch (IOException e) {
@@ -274,8 +284,8 @@ public class SimulationPresenter {
                 startingAnimals.setText(String.valueOf(config.startingAnimalsValue()));
                 mapChoice.setValue(config.mapChoice());
                 mutationStrategy.setValue(config.mutationStrategy());
-                minMutation = config.minMutation();
-                maxMutation = config.maxMutation();
+                spinner.getValueFactory().setValue(config.minMutation());
+                maxSpinner.getValueFactory().setValue(config.maxMutation());
             } catch (IOException | ClassNotFoundException e) {
                 showError("Error loading configuration: " + e.getMessage());
             }
