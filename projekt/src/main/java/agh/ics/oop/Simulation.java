@@ -50,17 +50,13 @@ public class Simulation {
         this.observers.add(turnListener);
     }
 
-    public void run(){
+    public void run() throws InterruptedException {
         map.clearDeathAnimal();
         map.movesAllAnimals();
         map.animalsConsume(strongestAnimalFinder);
         map.breeding(energyToBeingFullStuffed,breadingEnergyLoss,currentTurn,typeOfMutation,typeOfReproduction);
         map.generatePlants(numOfNewPlantsPerTurn);
         currentTurn++;
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        Thread.sleep(3000);
     }
 }

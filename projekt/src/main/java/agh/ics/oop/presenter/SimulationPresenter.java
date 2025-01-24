@@ -20,6 +20,8 @@ import javafx.util.converter.IntegerStringConverter;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 public class SimulationPresenter {
 
@@ -92,6 +94,8 @@ public class SimulationPresenter {
 
     private int sim_counter = 0;
 
+    private ConcurrentMap<Stage, Thread> simulationThreads = new ConcurrentHashMap<>();
+
     @FXML
     public void initialize() {
         mapChoice.valueProperty().addListener((observable, oldValue, newValue) -> {
@@ -126,12 +130,27 @@ public class SimulationPresenter {
                 newStage.setScene(new Scene(root, 800, 600));
                 newStage.show();
 
-                new Thread(() -> {
+                Thread simulationThread = new Thread(() -> {
                     for(int i = 0; i < 10; i++){
-                        sim.run();
+                        try {
+                            sim.run();
+                        } catch (InterruptedException e) {
+                            return;
+                        }
                     }
                     Platform.runLater(newStage::close);
-                }).start();
+                });
+
+                simulationThreads.put(newStage, simulationThread);
+
+                newStage.setOnCloseRequest(event -> {
+                    Thread thread = simulationThreads.remove(newStage);
+                    if (thread != null) {
+                        thread.interrupt();
+                    }
+                });
+
+                simulationThread.start();
 
             } catch (IOException ignored) {
 
