@@ -128,6 +128,20 @@ public class SimulationPresenter {
 
                 Thread simulationThread = new Thread(() -> {
                     for(int i = 0; i < 100000; i++){
+                        if (Thread.currentThread().isInterrupted()) {
+                            return;
+                        }
+
+                        synchronized(presenter.getPauseLock()) {
+                            while (presenter.isPaused()) {
+                                try {
+                                    presenter.getPauseLock().wait();
+                                } catch (InterruptedException e) {
+                                    return;
+                                }
+                            }
+                        }
+
                         try {
                             sim.run();
                         } catch (InterruptedException e) {
@@ -136,6 +150,8 @@ public class SimulationPresenter {
                     }
                     Platform.runLater(newStage::close);
                 });
+
+                presenter.setSimulationThread(simulationThread);
 
                 simulationThreads.put(newStage, simulationThread);
 

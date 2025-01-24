@@ -12,7 +12,9 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
+import javafx.scene.control.Button;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +25,9 @@ public class ShowSimulationPresenter implements MapChangeListener, SimTurnListen
 
     @FXML
     private VBox statisticsBox;
+
+    @FXML
+    private Button pauseButton;
 
     @FXML
     private Label moveDescriptionLabel;
@@ -147,5 +152,41 @@ public class ShowSimulationPresenter implements MapChangeListener, SimTurnListen
         });
     }
 
+
+
+
+    private final Object pauseLock = new Object();
+    private volatile boolean paused = false;
+    private Thread simulationThread;
+
+
+    @FXML
+    private void onPauseButtonClicked() {
+        // Zmieniamy stan
+        synchronized (pauseLock) {
+            paused = !paused;
+
+            if (!paused) {
+                pauseLock.notifyAll();
+
+                pauseButton.setText("Pause");
+            } else {
+                pauseButton.setText("Resume");
+
+            }
+        }
+    }
+
+    public Object getPauseLock() {
+        return pauseLock;
+    }
+
+    public boolean isPaused() {
+        return paused;
+    }
+
+    public void setSimulationThread(Thread simulationThread) {
+        this.simulationThread = simulationThread;
+    }
 
 }
