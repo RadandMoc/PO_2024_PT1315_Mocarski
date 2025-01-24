@@ -136,10 +136,11 @@ public abstract class AbstractWorldMap
         }
     }
 
-    public void generateRandomAnimals(int numOfAnimals,int genomeLength,int startEnergy){
+    public HashSet<Animal> generateRandomAnimals(int numOfAnimals,int genomeLength,int startEnergy){
         Random random = new Random();
         int x;
         int y;
+        HashSet<Animal> animalsSet = new HashSet<>();
         for (int i = 0; i < numOfAnimals; i++) {
             x = random.nextInt(width) + boundary.lowerLeft().getX();
             y = random.nextInt(height) + boundary.lowerLeft().getY();
@@ -150,7 +151,10 @@ public abstract class AbstractWorldMap
             Vector2d pos = new Vector2d(x,y);
             Animal animal = new Animal(pos,startEnergy,0,genome,genomesListener);
             this.place(animal);
+            animalsSet.add(animal);
         }
+
+        return animalsSet;
     }
 
     public Boundary getBoundary(){
@@ -178,14 +182,6 @@ public abstract class AbstractWorldMap
         observers.remove(observer);
     }
 
-    public ShowStatistics setStatistics(){
-        final HashSet<Animal> firstAnimals = animals.values().stream()
-                .flatMap(HashSet::stream)
-                .collect(Collectors.toCollection(HashSet::new));
-
-        return StatisticFabric.CreateClassicalStatistics(height*width,
-                plants, animals, firstAnimals);
-    }
 
     public String theMostPopularGenome(){
         return genomesListener.theMostPopularGenome();

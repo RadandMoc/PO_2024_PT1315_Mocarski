@@ -1,6 +1,7 @@
 package agh.ics.oop.statistic;
 
 import agh.ics.oop.model.Animal;
+import agh.ics.oop.model.SimulationDataProvider;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -8,17 +9,18 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class DeadAnimalsAverageAgeStatistic implements Statistic{
 
-    private final HashSet<Animal> startingAnimals;
+public class DeadAnimalsAverageAgeStatistic implements Statistic {
+    private final SimulationDataProvider dataProvider;
 
-    public DeadAnimalsAverageAgeStatistic(HashSet<Animal> startingAnimals) {
-        this.startingAnimals = startingAnimals;
+    public DeadAnimalsAverageAgeStatistic(SimulationDataProvider dataProvider) {
+        this.dataProvider = dataProvider;
     }
 
     @Override
     public String getValue() {
-        HashSet<Animal> deadAnimals = new HashSet<>();
+        Set<Animal> startingAnimals = dataProvider.getStartingAnimals();
+        Set<Animal> deadAnimals = new HashSet<>();
 
         startingAnimals.forEach(animal -> {
             List<Animal> allDescendants = animal.getAllDescendants();
@@ -30,16 +32,15 @@ public class DeadAnimalsAverageAgeStatistic implements Statistic{
         });
 
         if (deadAnimals.isEmpty()) {
-            return "średni wiek = 0";
+            return "Średni wiek martwych zwierząt: 0";
         }
 
         double avgAge = deadAnimals.stream()
                 .mapToInt(Animal::getLifeTime)
                 .average()
                 .orElse(0.0);
-        return String.format("Średni wiek martwego zwierzaka: %.2f", avgAge);
 
+        return String.format("Średni wiek martwych zwierząt: %.2f", avgAge);
     }
-
-
 }
+

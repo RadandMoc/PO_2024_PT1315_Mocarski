@@ -11,6 +11,11 @@
             minHeight="550.0" minWidth="850.0"
             fx:controller="agh.ics.oop.presenter.ShowSimulationPresenter">
 
+    <left>
+        <VBox fx:id="statisticsBox" spacing="10.0" alignment="TOP_LEFT" style="-fx-padding: 10;">
+
+        </VBox>
+    </left>
 
     <center>
         <GridPane fx:id = "mapGrid" gridLinesVisible="true" alignment="CENTER"/>

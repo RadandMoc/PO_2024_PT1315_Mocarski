@@ -1,7 +1,9 @@
 package agh.ics.oop.presenter;
 import agh.ics.oop.Simulation;
 import agh.ics.oop.fabric.MutationFactory;
+import agh.ics.oop.fabric.StatisticFabric;
 import agh.ics.oop.model.*;
+import agh.ics.oop.statistic.SimulationStatistics;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

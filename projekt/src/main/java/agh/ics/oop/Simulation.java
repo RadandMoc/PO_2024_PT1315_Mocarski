@@ -32,14 +32,15 @@ public class Simulation {
         // energia rodziców zużywana by stworzyć potomka -> GUI
         // int minNumOfMutation,
         // wariant zachowania zwierzaków -> stworzę interfejs
-        map.generateRandomAnimals(startingAnimals,lenOfGenome,startingEnergy);
+        var animalSet = map.generateRandomAnimals(startingAnimals,lenOfGenome,startingEnergy);
         this.energyToBeingFullStuffed = energyToBeingFullStuffed;
         this.startingEnergy = startingEnergy;
         this.numOfNewPlantsPerTurn = numOfNewPlantsPerTurn;
         this.breadingEnergyLoss = breadingEnergyLoss;
         typeOfMutation = selectedMutatation;
         this.typeOfReproduction = typeOfReproduction;
-        showStatistics = map.setStatistics();
+        this.showStatistics = StatisticFabric.CreateClassicalStatistics( new MapDataProvider(map, animalSet));
+
     }
 
     public ShowStatistics getShowStatistics() {
@@ -50,6 +51,12 @@ public class Simulation {
         this.observers.add(turnListener);
     }
 
+    public void notifyObserver(){
+        for(var observer : observers){
+            observer.onNewTurnChange(this);
+        }
+    }
+
     public void run() throws InterruptedException {
         map.clearDeathAnimal();
         map.movesAllAnimals();
@@ -57,6 +64,8 @@ public class Simulation {
         map.breeding(energyToBeingFullStuffed,breadingEnergyLoss,currentTurn,typeOfMutation,typeOfReproduction);
         map.generatePlants(numOfNewPlantsPerTurn);
         currentTurn++;
+        notifyObserver();
+
         Thread.sleep(3000);
     }
 }

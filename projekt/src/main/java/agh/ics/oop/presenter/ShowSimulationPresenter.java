@@ -11,6 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +20,9 @@ public class ShowSimulationPresenter implements MapChangeListener, SimTurnListen
 
     @FXML
     private GridPane mapGrid;
+
+    @FXML
+    private VBox statisticsBox;
 
     @FXML
     private Label moveDescriptionLabel;
@@ -135,6 +139,11 @@ public class ShowSimulationPresenter implements MapChangeListener, SimTurnListen
     public void onNewTurnChange(Simulation sim) {
         Platform.runLater(() -> {
             List<String> statistics = sim.getShowStatistics().show();
+            statisticsBox.getChildren().clear();
+            for (String s : statistics) {
+                Label label = new Label(s);
+                statisticsBox.getChildren().add(label);
+            }
         });
     }
 
