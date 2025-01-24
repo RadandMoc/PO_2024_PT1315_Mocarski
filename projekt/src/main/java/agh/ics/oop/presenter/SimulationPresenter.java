@@ -104,6 +104,8 @@ public class SimulationPresenter {
             }
         });
 
+        mutationStrategy.getSelectionModel().select(MutationStrategy.RandomMutate);
+
         // Wywołaj ręcznie przy inicjalizacji, aby ustawić widoczność na podstawie domyślnego wyboru
         mapChoice.getSelectionModel().select("Globe");
     }
