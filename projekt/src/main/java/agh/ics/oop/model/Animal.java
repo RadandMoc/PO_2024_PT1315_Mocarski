@@ -69,6 +69,7 @@ public class Animal implements WorldElement{
     }
 
 
+    public boolean getIsDead() {return isDead; }
     public int getEnergy() {
         return energy;
     }
@@ -117,6 +118,15 @@ public class Animal implements WorldElement{
         return genomeSlice;
     }
 
+
+    public List<Animal> getAllDescendants(){
+        List<Animal> descendants = new ArrayList<>();
+        for (Animal child : childs){
+            descendants.add(child);
+            descendants.addAll(child.getAllDescendants());
+        }
+        return descendants;
+    }
 
 
 }

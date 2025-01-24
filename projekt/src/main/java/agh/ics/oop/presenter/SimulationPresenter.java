@@ -145,18 +145,26 @@ public class SimulationPresenter {
             int numOfNewPlantsPerTurnValue = validateIntegerField(numOfNewPlantsPerTurn );
             int breadingEnergyLossValue = validateIntegerField(breadingEnergyLoss);
             int energyLossValue = validateIntegerField(energyLoss);
-            int energyLossPerMoveToPoleValue = validateIntegerField(energyLossPerMoveToPole);
+
             int startsNumOfPlantsValue = validateIntegerField(numOfPlants);
             int startingAnimalsValue = validateIntegerField(startingAnimals);
 
 
             boolean isAllAboveZero = checkIfAboveZero(List.of(heightValue, widthValue, energyFromPlantValue,
                     genomeLengthValue, energyForBeingFullStaffedValue, startingEnergyValue,
-                    numOfNewPlantsPerTurnValue, breadingEnergyLossValue, energyLossPerMoveToPoleValue,
+                    numOfNewPlantsPerTurnValue, breadingEnergyLossValue,
                     startsNumOfPlantsValue, startingAnimalsValue));
             if (!isAllAboveZero){
                 System.out.println("Please correct variable with value below or equal 0 ");
                 return;
+            }
+
+            int energyLossPerMoveToPoleValue = 0;
+            if (energyLossPerMoveToPole.isVisible()){
+                energyLossPerMoveToPoleValue = validateIntegerField(energyLossPerMoveToPole);
+                if (energyLossPerMoveToPoleValue <= 0){
+                    return;
+                }
             }
             System.out.println("All values are valid. Starting simulation...");
             MutateGenome mutateGenome = null;
