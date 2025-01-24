@@ -93,9 +93,9 @@
                     <Integer fx:id="minMutation" fx:value="0"/>
                     <Integer fx:id="maxMutation" fx:value="9999"/>
                 </fx:define>
-                <Spinner fx:id="spinner" BorderPane.alignment="CENTER" min="0" max="9999"/>
+                <Spinner fx:id="minMutationSpinner" BorderPane.alignment="CENTER" min="0" max="9999"/>
                 <Label text="maxMutation"/>
-                <Spinner fx:id="maxSpinner" BorderPane.alignment="CENTER" min="0" max="9999"/>
+                <Spinner fx:id="maxMutationSpinner" BorderPane.alignment="CENTER" min="0" max="9999"/>
             </HBox>
 
             <HBox spacing="20" alignment="CENTER_LEFT">

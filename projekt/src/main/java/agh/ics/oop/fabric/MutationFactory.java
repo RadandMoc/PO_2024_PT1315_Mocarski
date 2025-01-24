@@ -9,7 +9,7 @@ public class MutationFactory {
     public static MutateGenome createMutation(MutationStrategy type, int minMutation, int maxMutation, int lenOfGenome) {
         return switch (type) {
             case RandomMutate -> {
-                if (maxMutation < lenOfGenome)
+                if (maxMutation > lenOfGenome)
                     throw new IllegalArgumentException("Dlugosc genomu nie moze byc krotsza od maksymalnej liczby losowych mutacji");
                 yield new RandomMutate(minMutation, maxMutation);
             }

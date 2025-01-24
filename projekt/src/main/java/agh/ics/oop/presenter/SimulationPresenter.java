@@ -1,29 +1,23 @@
 package agh.ics.oop.presenter;
 import agh.ics.oop.Simulation;
 import agh.ics.oop.fabric.MutationFactory;
-import agh.ics.oop.fabric.StatisticFabric;
 import agh.ics.oop.model.*;
-import agh.ics.oop.statistic.SimulationStatistics;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.HPos;
-import javafx.geometry.VPos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.RowConstraints;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.util.converter.IntegerStringConverter;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+
+import static java.lang.Math.min;
 
 public class SimulationPresenter {
 
@@ -89,10 +83,10 @@ public class SimulationPresenter {
     private Button loadConfigButton;
 
     @FXML
-    private Spinner<Integer> spinner;
+    private Spinner<Integer> minMutationSpinner;
 
     @FXML
-    private Spinner<Integer> maxSpinner;
+    private Spinner<Integer> maxMutationSpinner;
 
     private int sim_counter = 0;
 
@@ -200,9 +194,10 @@ public class SimulationPresenter {
             MutateGenome mutateGenome = null;
 
             try {
-                mutateGenome = MutationFactory.createMutation(mutationStrategy.getValue(), minMutation, maxMutation,genomeLengthValue);
+                mutateGenome = MutationFactory.createMutation(mutationStrategy.getValue(), minMutationSpinner.getValue(), maxMutationSpinner.getValue(), genomeLengthValue);
             }
             catch (IllegalArgumentException e){
+                mutateGenome = MutationFactory.createMutation(mutationStrategy.getValue(), minMutationSpinner.getValue(), min(maxMutationSpinner.getValue(),genomeLengthValue), genomeLengthValue);
                 System.out.println(e.getMessage());
             }
 
@@ -270,8 +265,8 @@ public class SimulationPresenter {
                         validateIntegerField(startingAnimals),
                         mapChoice.getValue(),
                         mutationStrategy.getValue(),
-                        (int) spinner.getValue(),
-                        (int) maxSpinner.getValue()
+                        (int) minMutationSpinner.getValue(),
+                        (int) maxMutationSpinner.getValue()
                 );
                 config.save(file.getPath());
             } catch (IOException e) {
@@ -308,8 +303,8 @@ public class SimulationPresenter {
                 startingAnimals.setText(String.valueOf(config.startingAnimalsValue()));
                 mapChoice.setValue(config.mapChoice());
                 mutationStrategy.setValue(config.mutationStrategy());
-                spinner.getValueFactory().setValue(config.minMutation());
-                maxSpinner.getValueFactory().setValue(config.maxMutation());
+                minMutationSpinner.getValueFactory().setValue(config.minMutation());
+                maxMutationSpinner.getValueFactory().setValue(config.maxMutation());
             } catch (IOException | ClassNotFoundException e) {
                 showError("Error loading configuration: " + e.getMessage());
             }
