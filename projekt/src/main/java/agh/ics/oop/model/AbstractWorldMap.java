@@ -165,7 +165,7 @@ public abstract class AbstractWorldMap
 
     public static Boundary calculateEquator(Vector2d leftDownBoundary, int height, int width){
         int maxHeight = leftDownBoundary.getY()+height-1;
-        Vector2d equatorLowerLeft = new Vector2d(leftDownBoundary.getX(), (int)((maxHeight)*2/5)+1);
+        Vector2d equatorLowerLeft = new Vector2d(leftDownBoundary.getX(), (int)((maxHeight)*2/5));
         Vector2d equatorUpperRight = new Vector2d(leftDownBoundary.getX()+width-1,(int)((maxHeight)*3/5));
         return new Boundary(equatorLowerLeft,equatorUpperRight);
     }
