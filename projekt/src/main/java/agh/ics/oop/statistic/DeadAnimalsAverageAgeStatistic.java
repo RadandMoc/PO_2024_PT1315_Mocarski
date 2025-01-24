@@ -42,12 +42,4 @@ public class DeadAnimalsAverageAgeStatistic implements Statistic{
     }
 
 
-    private void collectDeadDescendants(Animal parent, List<Animal> deadAnimals) {
-        for (Animal child : parent.getChilds()) {
-            if (child.getIsDead()) {
-                deadAnimals.add(child);
-            }
-            collectDeadDescendants(child, deadAnimals);
-        }
-    }
 }
