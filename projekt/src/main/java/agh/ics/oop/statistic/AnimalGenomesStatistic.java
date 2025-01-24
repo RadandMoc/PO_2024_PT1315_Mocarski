@@ -1,11 +1,11 @@
-package agh.ics.oop.model;
+package agh.ics.oop.statistic;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-public class AnimalGenomesListener {
+public class AnimalGenomesStatistic implements Statistic {
     private final HashMap<String,Integer> activeGenomes = new HashMap<>();
     private String popularGenome = "";
     private int popularity = 0;
@@ -76,6 +76,11 @@ public class AnimalGenomesListener {
             popularGenome = maxKey;
             return maxKey;
         }
+        return popularGenome;
+    }
+
+    @Override
+    public String getValue() {
         return popularGenome;
     }
 }

@@ -119,6 +119,7 @@ public class SimulationPresenter {
 
                 ShowSimulationPresenter presenter = loader.getController();
                 map.addObserver(presenter);
+                sim.addObserver(presenter);
 
                 Stage newStage = new Stage();
                 newStage.setTitle("Simulation %d".formatted(sim_counter++));

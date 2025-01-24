@@ -1,6 +1,11 @@
 package agh.ics.oop;
 
+import agh.ics.oop.fabric.StatisticFabric;
 import agh.ics.oop.model.*;
+import agh.ics.oop.statistic.SimulationStatistics;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Simulation {
     private final AbstractWorldMap map;
@@ -12,6 +17,8 @@ public class Simulation {
     private final int numOfNewPlantsPerTurn;
     private final int breadingEnergyLoss;
     private final ReproductionStrategy typeOfReproduction;
+    private final List<SimTurnListener> observers = new ArrayList<>();
+    private final ShowStatistics showStatistics;
 
     public Simulation(AbstractWorldMap selectedMap, int startingAnimals, int startingEnergy,
                       int energyToBeingFullStuffed, int breadingEnergyLoss, int lenOfGenome,
@@ -32,6 +39,15 @@ public class Simulation {
         this.breadingEnergyLoss = breadingEnergyLoss;
         typeOfMutation = selectedMutatation;
         this.typeOfReproduction = typeOfReproduction;
+        showStatistics = map.setStatistics();
+    }
+
+    public ShowStatistics getShowStatistics() {
+        return showStatistics;
+    }
+
+    public void addObserver(SimTurnListener turnListener){
+        this.observers.add(turnListener);
     }
 
     public void run(){

@@ -2,6 +2,7 @@ package agh.ics.oop.presenter;
 
 import agh.ics.oop.Simulation;
 import agh.ics.oop.model.*;
+import agh.ics.oop.statistic.SimulationStatistics;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.HPos;
@@ -14,7 +15,7 @@ import javafx.scene.layout.RowConstraints;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ShowSimulationPresenter implements MapChangeListener {
+public class ShowSimulationPresenter implements MapChangeListener, SimTurnListener {
 
     @FXML
     private GridPane mapGrid;
@@ -26,6 +27,7 @@ public class ShowSimulationPresenter implements MapChangeListener {
     private List<WorldElementBox> worldElementsBox = new ArrayList<>();
 
     private AbstractWorldMap worldMap = null;
+
 
     private static final int CELL_WIDTH = 30;
     private static final int CELL_HEIGHT = 30;
@@ -128,4 +130,13 @@ public class ShowSimulationPresenter implements MapChangeListener {
             drawMap();
         });
     }
+
+    @Override
+    public void onNewTurnChange(Simulation sim) {
+        Platform.runLater(() -> {
+            List<String> statistics = sim.getShowStatistics().show();
+        });
+    }
+
+
 }

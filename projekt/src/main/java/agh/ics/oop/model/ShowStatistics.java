@@ -5,5 +5,5 @@ import agh.ics.oop.statistic.Statistic;
 import java.util.List;
 
 public interface ShowStatistics {
-    void show(List<Statistic> stats);
+    List<String> show();
 }
