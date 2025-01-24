@@ -66,6 +66,6 @@ public class Simulation {
         currentTurn++;
         notifyObserver();
 
-        Thread.sleep(3000);
+        Thread.sleep(1000);
     }
 }

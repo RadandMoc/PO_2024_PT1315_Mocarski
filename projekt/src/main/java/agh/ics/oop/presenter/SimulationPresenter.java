@@ -127,7 +127,7 @@ public class SimulationPresenter {
                 newStage.show();
 
                 Thread simulationThread = new Thread(() -> {
-                    for(int i = 0; i < 10; i++){
+                    for(int i = 0; i < 100000; i++){
                         try {
                             sim.run();
                         } catch (InterruptedException e) {
