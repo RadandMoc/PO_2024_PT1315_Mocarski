@@ -68,6 +68,10 @@ public class Animal implements WorldElement{
         this.energy += energy;
     }
 
+    public void eatGrass(int energy){
+        this.energy += energy;
+        eatenGrass++;
+    }
 
     public boolean getIsDead() {return isDead; }
     public int getEnergy() {
@@ -118,6 +122,25 @@ public class Animal implements WorldElement{
         return genomeSlice;
     }
 
+    public int getEatenGrass() {
+        return eatenGrass;
+    }
+
+    public int getNumOfChildrens(){
+        return childs.size();
+    }
+
+    public int getTurnOfAnimal() {
+        return turnOfAnimal;
+    }
+
+    public int getGenomeIdx() {
+        return genomeIdx;
+    }
+
+    public int getTurnOfDeath() {
+        return turnOfAnimal + turnOfBirth;
+    }
 
     public List<Animal> getAllDescendants(){
         List<Animal> descendants = new ArrayList<>();

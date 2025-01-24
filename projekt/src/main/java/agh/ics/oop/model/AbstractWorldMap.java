@@ -102,17 +102,17 @@ public abstract class AbstractWorldMap
         for (var pos : animals.keySet()){
             if (plants.containsKey(pos) && !animals.get(pos).isEmpty()){
                 Animal winner = strongestAnimalFinder.findStrongestAnimal(animals.get(pos));
-                winner.changeEnergy(energyFromPlant);
+                winner.eatGrass(energyFromPlant);
                 plants.remove(pos);
                 if (equator.isVectorIn(pos))
                     equatorPlantGenerator.acceptPositionToChoice(pos);
                 else
                     polesPlantGenerator.acceptPositionToChoice(pos);
-                // aktualizacja gui
             }
-
         }
-
+        for (MapChangeListener observer : observers) {
+            observer.mapChanged(this, "Zwierzaki zjadły rośliny");
+        }
     }
 
     /* wywalić do symulacji? albo zwierzęcia jako static?*/
