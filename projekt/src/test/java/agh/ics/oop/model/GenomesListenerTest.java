@@ -28,7 +28,7 @@ public class GenomesListenerTest {
         bin = new Animal(v,10,1,gen3,listener);
         bin = new Animal(v,10,1,gen2,listener);
         bin = new Animal(v,10,1,gen1,listener);
-        answer = listener.theMostPopularGenome();
+        answer = listener.getValue();
         //then
         assertEquals("123",answer);
     }
@@ -50,7 +50,7 @@ public class GenomesListenerTest {
         listener.newAnimal(animal1);
         listener.newAnimal(animal2);
         listener.newAnimal(animal1);
-        answer = listener.theMostPopularGenome();
+        answer = listener.getValue();
         //then
         assertEquals("321",answer);
     }
@@ -81,7 +81,7 @@ public class GenomesListenerTest {
         listener.deleteAnimal(animal2);
         listener.deleteAnimal(animal1);
         listener.deleteAnimal(animal2);
-        answer = listener.theMostPopularGenome();
+        answer = listener.getValue();
         //then
         assertEquals("321",answer);
     }
@@ -110,7 +110,7 @@ public class GenomesListenerTest {
         listener.newAnimal(animal1);
         listener.newAnimal(animal1);
         listener.deleteAnimal(animal2);
-        answer = listener.theMostPopularGenome();
+        answer = listener.getValue();
         //then
         assertEquals("123",answer);
     }
@@ -132,7 +132,7 @@ public class GenomesListenerTest {
         listener.newAnimal(animal2);
         listener.newAnimal(animal3);
         listener.deleteAnimal(animal1);
-        answer = listener.theMostPopularGenome();
+        answer = listener.getValue();
         //then
         assertNotEquals("123",answer);
         assertTrue(Objects.equals(answer, "222") || Objects.equals(answer, "321"));

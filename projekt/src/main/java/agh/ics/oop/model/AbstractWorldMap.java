@@ -188,7 +188,11 @@ public abstract class AbstractWorldMap
 
 
     public String theMostPopularGenome(){
-        return genomesListener.theMostPopularGenome();
+        return genomesListener.getValue();
+    }
+
+    public List<Vector2d> getAnimalsPositionsWithGenome(String genome){
+        return genomesListener.getAnimalsPositionsWithGenome(genome);
     }
 
     // very dangerous and stupid code. It may be dangerous for you. Please consult with your doctor or pharmacist
