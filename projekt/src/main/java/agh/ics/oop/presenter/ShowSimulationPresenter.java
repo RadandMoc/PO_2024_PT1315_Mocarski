@@ -8,19 +8,18 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.RowConstraints;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class ShowSimulationPresenter implements MapChangeListener, SimTurnListener {
@@ -39,6 +38,8 @@ public class ShowSimulationPresenter implements MapChangeListener, SimTurnListen
 
     @FXML
     private final List<WorldElementBox> worldElementsBox = new ArrayList<>();
+
+    private final List<Node> preferredZoneHighlights = new ArrayList<>();
 
     private AbstractWorldMap worldMap = null;
 
@@ -179,7 +180,7 @@ public class ShowSimulationPresenter implements MapChangeListener, SimTurnListen
                 pauseButton.setText("Pause");
                 animalsToSelectContainer.setVisible(false);
                 animalsToSelectContainer.setManaged(false);
-
+                clearPreferredZoneHighlight();
             } else {
                 List<Animal> animals = worldMap.getAnimals();
                 animalsToSelect = new AnimalsToSelect(animals);
@@ -195,7 +196,7 @@ public class ShowSimulationPresenter implements MapChangeListener, SimTurnListen
                         showAnimalView(newVal);
                     }
                 });
-
+                highlightPreferredZone();
             }
         }
     }
@@ -227,6 +228,40 @@ public class ShowSimulationPresenter implements MapChangeListener, SimTurnListen
     }
 
 
+    private void highlightPreferredZone() {
+        Boundary boundary = worldMap.getBoundary();
+        int minx = boundary.lowerLeft().getX();
+        int maxX = boundary.upperRight().getX();
+        int minY = boundary.lowerLeft().getY();
+        int maxY = boundary.upperRight().getY();
+
+        Iterator<Vector2d> preferredZoneIterator = worldMap.plantsPrefferedZone();
+
+        while (preferredZoneIterator.hasNext()) {
+            Vector2d pos = preferredZoneIterator.next();
+            Pane highlightPane = new Pane();
+
+            highlightPane.setStyle("-fx-background-color: linear-gradient(to bottom right, lightyellow, lightgoldenrodyellow); " +
+                    "-fx-border-color: lightgray; -fx-border-width: 0.5;");
+
+
+            highlightPane.setPrefSize(CELL_WIDTH, CELL_HEIGHT);
+
+            mapGrid.add(highlightPane, pos.getX() - minx + 1, maxY - pos.getY() + 1);
+            preferredZoneHighlights.add(highlightPane);
+            highlightPane.toBack();
+        }
+
+        mapGrid.setGridLinesVisible(true);
+    }
+
+    private void clearPreferredZoneHighlight() {
+        for (Node highlight : preferredZoneHighlights) {
+            mapGrid.getChildren().remove(highlight);
+        }
+        preferredZoneHighlights.clear();
+    }
+
 
     public Object getPauseLock() {
         return pauseLock;
@@ -243,5 +278,7 @@ public class ShowSimulationPresenter implements MapChangeListener, SimTurnListen
     public void setSimulation(Simulation sim){
         this.simulation = sim;
     }
+
+
 
 }

@@ -1,6 +1,10 @@
 package agh.ics.oop.model;
 
+import agh.ics.oop.fabric.StatisticFabric;
+import agh.ics.oop.statistic.AnimalGenomesStatistic;
+
 import java.util.*;
+import java.util.stream.Collectors;
 
 public abstract class AbstractWorldMap
 {
@@ -15,8 +19,8 @@ public abstract class AbstractWorldMap
     protected final RandomPositionGenerator equatorPlantGenerator;
     protected final RandomPositionGenerator polesPlantGenerator;
     protected final Boundary equator;
-    private AnimalGenomesPopularityCalculator genomesListener = new AnimalGenomesPopularityCalculator();
-    private Comparator<Animal> animalComparator = new AnimalConflictComparator();
+    private final AnimalGenomesPopularityCalculator genomesListener = new AnimalGenomesPopularityCalculator();
+    private final Comparator<Animal> animalComparator = new AnimalConflictComparator();
 
     public AbstractWorldMap(int width, int height, int plantEnergy, EnergyLoss energyLoss,int startNumOfPlants){
         this(width, height, new Vector2d(0,0), plantEnergy, energyLoss,startNumOfPlants);

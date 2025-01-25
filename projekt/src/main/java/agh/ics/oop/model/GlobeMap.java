@@ -2,16 +2,14 @@ package agh.ics.oop.model;
 import java.util.*;
 
     public class GlobeMap extends AbstractWorldMap{
-    private final int prefferdZoneDownHeight;
-    private final int prefferdZoneUpHeight;
-    private final static double prefferedPlanZoneAreaPercent = 0.2f;
-
 
     public GlobeMap(int width, int height, Vector2d leftDownBoundary, int plantEnergy, EnergyLoss energyLoss, int startNumOfPlants) {
         super(width, height, leftDownBoundary, plantEnergy, energyLoss,startNumOfPlants);
-        int equator_height =  (int) Math.round(height * prefferedPlanZoneAreaPercent);
-        prefferdZoneDownHeight = (height - equator_height) / 2 + leftDownBoundary.getY();
-        prefferdZoneUpHeight = prefferdZoneDownHeight + equator_height - 1;
+    }
+
+    @Override
+    public Iterator<Vector2d> plantsPrefferedZone() {
+        return new EquatorIterator(equator);
     }
 
     @Override
