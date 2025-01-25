@@ -27,7 +27,7 @@ public class Animal implements WorldElement{
         this.orientation = MapDirection.generateRandomDirection();
         this.genomeIdx = new Random().nextInt(genome.size());
         if(genomesListener != null)
-            genomesListener.newGenome(genome);
+            genomesListener.newAnimal(this);
     }
 
     public Animal(Vector2d position, int energy, int turnOfBirth, List<Byte> genome, MapDirection orientation, int genomeIdx, AnimalGenomesStatistic genomesListener){
@@ -38,7 +38,7 @@ public class Animal implements WorldElement{
         this.orientation = orientation;
         this.genomeIdx = genomeIdx;
         if(genomesListener != null)
-            genomesListener.newGenome(genome);
+            genomesListener.newAnimal(this);
     }
     public Animal(Vector2d position, int energy, int turnOfBirth, List<Byte> genome, AnimalGenomesStatistic genomesListener){
         this(position,energy,turnOfBirth,genome,MapDirection.generateRandomDirection(),new Random().nextInt(genome.size()),genomesListener);
@@ -56,7 +56,7 @@ public class Animal implements WorldElement{
         if (energy - requiredEnergy < 0){
             isDead = true;
             if(genomesListener != null)
-                genomesListener.deleteGenome(genome);
+                genomesListener.deleteAnimal(this);
             return false;
         }
         turnOfAnimal++;
