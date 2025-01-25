@@ -171,7 +171,6 @@ public class ShowSimulationPresenter implements MapChangeListener, SimTurnListen
 
     @FXML
     private void onPauseButtonClicked() {
-        // Zmieniamy stan
         synchronized (pauseLock) {
             paused = !paused;
 
@@ -211,10 +210,17 @@ public class ShowSimulationPresenter implements MapChangeListener, SimTurnListen
 
             simulation.addObserver(presenter);
 
+
             Stage stage = new Stage();
             stage.setTitle("Animal Details");
             stage.setScene(new Scene(root));
             stage.show();
+
+            stage.setOnHidden(event -> {
+                simulation.removeObserver(presenter);
+                System.out.println("Okno zostało zamknięte.");
+            });
+
         } catch (IOException e) {
             e.printStackTrace();
         }

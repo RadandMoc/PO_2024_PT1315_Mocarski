@@ -61,6 +61,10 @@ public class Simulation {
         this.observers.add(turnListener);
     }
 
+    public void removeObserver(SimTurnListener turnListener){
+        this.observers.remove(turnListener);
+    }
+
     public void notifyObserver(){
         for(var observer : observers){
             observer.onNewTurnChange(this);

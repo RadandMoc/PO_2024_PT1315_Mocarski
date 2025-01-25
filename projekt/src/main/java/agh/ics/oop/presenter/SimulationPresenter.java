@@ -88,6 +88,9 @@ public class SimulationPresenter {
     @FXML
     private Spinner<Integer> maxMutationSpinner;
 
+    @FXML
+    private CheckBox checkBox;
+
     private int sim_counter = 0;
 
     private ConcurrentMap<Stage, Thread> simulationThreads = new ConcurrentHashMap<>();
@@ -240,9 +243,8 @@ public class SimulationPresenter {
 
             final Simulation sim = new Simulation(map, startingAnimalsValue, startingEnergyValue,
                     energyForBeingFullStaffedValue, breadingEnergyLossValue, genomeLengthValue,
-                    mutateGenome, numOfNewPlantsPerTurnValue,  new ClassicAnimalReproduction(), true);
-// zmienić statystyki!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            new Thread(() -> {
+                    mutateGenome, numOfNewPlantsPerTurnValue,  new ClassicAnimalReproduction(), checkBox.isSelected());
+                new Thread(() -> {
                 openNewWindow(finalMap, sim);
             }).start();
 

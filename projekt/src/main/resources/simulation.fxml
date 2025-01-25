@@ -13,6 +13,7 @@
 <?import java.lang.String?>
 <?import javafx.scene.control.Spinner?>
 <?import java.lang.Integer?>
+<?import javafx.scene.control.CheckBox?>
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             minHeight="550.0" minWidth="850.0"
@@ -81,6 +82,9 @@
                 </ComboBox>
             </HBox>
 
+            <HBox spacing="20" alignment="CENTER_LEFT">
+                <CheckBox fx:id="checkBox" text="saveStatistics"/>
+            </HBox>
 
             <HBox spacing="20" alignment="CENTER_LEFT">
                 <Label text="genomeLength"/>
