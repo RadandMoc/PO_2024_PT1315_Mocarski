@@ -121,6 +121,8 @@ public class SimulationPresenter {
                 map.addObserver(presenter);
                 sim.addObserver(presenter);
 
+                presenter.setSimulation(sim);
+
                 Stage newStage = new Stage();
                 newStage.setTitle("Simulation %d".formatted(sim_counter++));
                 newStage.setScene(new Scene(root, 800, 600));

@@ -5,6 +5,7 @@ import agh.ics.oop.statistic.AnimalGenomesStatistic;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 public class Animal implements WorldElement{
     private MapDirection orientation; // Nie wiemy, czy ma być zawsze domyślnie na północ
@@ -73,6 +74,7 @@ public class Animal implements WorldElement{
     }
 
     public boolean getIsDead() {return isDead; }
+
     public int getEnergy() {
         return energy;
     }
@@ -129,16 +131,17 @@ public class Animal implements WorldElement{
         return childs.size();
     }
 
-    public int getTurnOfAnimal() {
-        return turnOfAnimal;
-    }
-
     public int getGenomeIdx() {
-        return genomeIdx;
+        return genomeIdx % genome.size();
     }
 
     public int getTurnOfDeath() {
         return turnOfAnimal + turnOfBirth;
+    }
+
+
+    public String getGenome(){
+        return genome.stream().map("%d"::formatted).collect(Collectors.joining());
     }
 
     public List<Animal> getAllDescendants(){
@@ -150,5 +153,8 @@ public class Animal implements WorldElement{
         return descendants;
     }
 
-
+    @Override
+    public String toString() {
+        return "(%d,%d) with energy %d".formatted(position.getX(),position.getY(),energy);
+    }
 }

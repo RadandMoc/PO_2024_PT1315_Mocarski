@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.image.ImageView?>
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="agh.ics.oop.presenter.AnimalViewPresenter"
+            prefHeight="400.0" prefWidth="600.0">
+
+    <top>
+        <VBox>
+            <Label fx:id="genome"/>
+            <Label fx:id="activateGenome"/>
+            <Label fx:id="energy"/>
+            <Label fx:id="eatenPlants"/>
+            <Label fx:id="children"/>
+            <Label fx:id="descendants"/>
+            <Label fx:id="lifetime"/>
+            <Label fx:id="turnOfDeath"/>
+        </VBox>
+    </top>
+
+    <right>
+        <ImageView fx:id="animalImage"/>
+    </right>
+
+</BorderPane>

@@ -5,16 +5,21 @@ import agh.ics.oop.model.*;
 import agh.ics.oop.statistic.SimulationStatistics;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.Button;
+import javafx.stage.Stage;
 
 import java.awt.*;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,13 +38,25 @@ public class ShowSimulationPresenter implements MapChangeListener, SimTurnListen
     private Label moveDescriptionLabel;
 
     @FXML
-    private List<WorldElementBox> worldElementsBox = new ArrayList<>();
+    private final List<WorldElementBox> worldElementsBox = new ArrayList<>();
 
     private AbstractWorldMap worldMap = null;
 
 
+    private final Object pauseLock = new Object();
+    private volatile boolean paused = false;
+    private Thread simulationThread;
+
+
     private static final int CELL_WIDTH = 30;
     private static final int CELL_HEIGHT = 30;
+
+    @FXML
+    private VBox animalsToSelectContainer;
+
+    private AnimalsToSelect animalsToSelect;
+
+    private Simulation simulation;
 
     private void drawMap() {
         clearGrid();
@@ -152,14 +169,6 @@ public class ShowSimulationPresenter implements MapChangeListener, SimTurnListen
         });
     }
 
-
-
-
-    private final Object pauseLock = new Object();
-    private volatile boolean paused = false;
-    private Thread simulationThread;
-
-
     @FXML
     private void onPauseButtonClicked() {
         // Zmieniamy stan
@@ -168,14 +177,50 @@ public class ShowSimulationPresenter implements MapChangeListener, SimTurnListen
 
             if (!paused) {
                 pauseLock.notifyAll();
-
                 pauseButton.setText("Pause");
+                animalsToSelectContainer.setVisible(false);
+                animalsToSelectContainer.setManaged(false);
+
             } else {
+                List<Animal> animals = worldMap.getAnimals();
+                animalsToSelect = new AnimalsToSelect(animals);
                 pauseButton.setText("Resume");
+
+                animalsToSelectContainer.getChildren().setAll(animalsToSelect.getListView());
+                animalsToSelectContainer.setVisible(true);
+                animalsToSelectContainer.setManaged(true);
+
+
+                animalsToSelect.getListView().getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
+                    if (newVal != null) {
+                        showAnimalView(newVal);
+                    }
+                });
 
             }
         }
     }
+
+    private void showAnimalView(Animal animal) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/showAnimalHistory.fxml"));
+            Parent root = loader.load();
+
+            AnimalViewPresenter presenter = loader.getController();
+            presenter.setAnimal(animal);
+
+            simulation.addObserver(presenter);
+
+            Stage stage = new Stage();
+            stage.setTitle("Animal Details");
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 
     public Object getPauseLock() {
         return pauseLock;
@@ -187,6 +232,10 @@ public class ShowSimulationPresenter implements MapChangeListener, SimTurnListen
 
     public void setSimulationThread(Thread simulationThread) {
         this.simulationThread = simulationThread;
+    }
+
+    public void setSimulation(Simulation sim){
+        this.simulation = sim;
     }
 
 }

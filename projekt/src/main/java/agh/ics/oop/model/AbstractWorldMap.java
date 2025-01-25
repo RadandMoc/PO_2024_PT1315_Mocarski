@@ -190,4 +190,10 @@ public abstract class AbstractWorldMap
     public String theMostPopularGenome(){
         return genomesListener.theMostPopularGenome();
     }
+
+    // very dangerous and stupid code. It may be dangerous for you. Please consult with your doctor or pharmacist
+    public List<Animal> getAnimals(){
+        return animals.values().stream().flatMap(Collection::stream).toList();
+    }
+
 }
