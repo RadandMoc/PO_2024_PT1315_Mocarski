@@ -133,15 +133,17 @@ public class RandomPositionGeneratorTests {
         // Given
         RandomPositionGenerator generator = null;
         try{
-            generator = new RandomPositionGenerator(0,0,4,4,25);
+            generator = new RandomPositionGenerator(0,0,4,4,25,100);
         }
         catch (ToMuchValuesToGenerateException e){
             fail();
         }
         List<Vector2d> res = new ArrayList<>();
         int howManyLess=0;
+        int j=0;
         // When
         for (int i = 0; i < 5; i++) {
+            j=0;
             try{
                 for(Vector2d item : generator)
                     res.add(item);
@@ -150,7 +152,13 @@ public class RandomPositionGeneratorTests {
                 fail();
             }
             for(Vector2d item : res){
-                generator.acceptPositionToChoice(item);
+                try{
+                    j++;
+                    generator.acceptPositionToChoice(item);
+                } catch (IllegalArgumentException e){
+                    if(j<25)
+                        fail();
+                }
             }
         }
         // Then

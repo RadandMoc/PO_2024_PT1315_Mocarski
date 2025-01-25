@@ -7,6 +7,7 @@ public class RandomPositionGenerator implements Iterable<Vector2d> {
     private final int minHeight;
     private final int maxWidth;
     private final int maxHeight;
+    private final int width;
     private int howManyGenerate;
     private final Random random;
     private final RandomPositionIterator iterator;
@@ -32,6 +33,7 @@ public class RandomPositionGenerator implements Iterable<Vector2d> {
         this.howManyGenerate = howManyGenerate;
         this.random = new Random(randomSeed);
         iterator = new RandomPositionIterator();
+        this.width = maxWidth - minWidth + 1;
 
         if (howManyGenerate > ((long)(maxWidth+1-minWidth)) * ((long)(maxHeight+1-minHeight))) {
             throw new ToMuchValuesToGenerateException("Number of object positions exceeds the total number of available positions.",((int)(howManyGenerate-(((long)(maxWidth+1-minWidth)) * ((long)(maxHeight+1-minHeight))))));
@@ -42,28 +44,37 @@ public class RandomPositionGenerator implements Iterable<Vector2d> {
         howManyGenerate = num;
     }
 
+    private Vector2d translatePosition(long pos){
+        int x = (int) (pos % width);
+        int y = (int) (pos / width);
+        return new Vector2d(x+minWidth,y+minHeight);
+    }
+
+    private long translatePosition(Vector2d pos){
+        return ((long)pos.getY() - minHeight)*width + ((long)pos.getX() - minWidth);
+    }
+
     public void acceptPositionToChoice(Vector2d pos){
-        long width = (long)maxWidth - minWidth + 1;
-        long thisHeight = (long)pos.getY() - minHeight;
-        if(iterator.deleteGeneratedPos(width*thisHeight+pos.getX())){
+        if(iterator.deleteGeneratedPos(translatePosition(pos))){
             generatedBeforeThisIteration--;
+        }
+        else{
+            long num = translatePosition(pos);
+            throw new IllegalArgumentException("Position was not generated before.");
         }
     }
 
     public void deleteRectangle(Boundary rect){
         Vector2d vec;
-        for (int i = 0; i < rect.upperRight().getX() - rect.lowerLeft().getX() + 1; i++) {
-            for (int j = 0; j < rect.upperRight().getY() - rect.lowerLeft().getY() + 1; j++) {
-                vec = new Vector2d(i+rect.lowerLeft().getX(),j+rect.lowerLeft().getY());
-                deletePositionToChoice(vec);
+        for (int i = rect.lowerLeft().getX(); i <= rect.upperRight().getX(); i++) {
+            for (int j = rect.lowerLeft().getY(); j <= rect.upperRight().getY(); j++) {
+                deletePositionToChoice(new Vector2d(i,j));
             }
         }
     }
 
     public void deletePositionToChoice(Vector2d pos){
-        long width = (long)maxWidth - minWidth + 1;
-        long thisHeight = (long)pos.getY() - minHeight;
-        if(iterator.addGeneratedPos(width*thisHeight+pos.getX())){
+        if(iterator.addGeneratedPos(translatePosition(pos))){
             generatedBeforeThisIteration++;
         }
     }
@@ -118,11 +129,10 @@ public class RandomPositionGenerator implements Iterable<Vector2d> {
             }while(a>b);
             index += a;
 
-            int x = (int) ((index % width)+minWidth);
-            int y = (int) ((index / width)+minHeight);
+            Vector2d res = translatePosition(index);
             generatedPositions.add(index);
             generatedCount++;
-            return new Vector2d(x,y);
+            return res;
         }
     }
 }
