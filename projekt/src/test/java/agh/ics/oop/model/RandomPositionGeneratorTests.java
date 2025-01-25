@@ -127,4 +127,34 @@ public class RandomPositionGeneratorTests {
         assertEquals(5,howManyLess);
         assertEquals(20,res.size());
     }
+
+    @Test
+    public void GenerateVectorsAtThisPlaceManyTimes(){
+        // Given
+        RandomPositionGenerator generator = null;
+        try{
+            generator = new RandomPositionGenerator(0,0,4,4,25);
+        }
+        catch (ToMuchValuesToGenerateException e){
+            fail();
+        }
+        List<Vector2d> res = new ArrayList<>();
+        int howManyLess=0;
+        // When
+        for (int i = 0; i < 5; i++) {
+            try{
+                for(Vector2d item : generator)
+                    res.add(item);
+            } catch (ToMuchValuesToGenerateException e){
+                howManyLess = e.getErrorValue();
+                fail();
+            }
+            for(Vector2d item : res){
+                generator.acceptPositionToChoice(item);
+            }
+        }
+        // Then
+        assertEquals(0,howManyLess);
+        assertEquals(125,res.size());
+    }
 }

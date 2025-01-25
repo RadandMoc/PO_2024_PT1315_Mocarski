@@ -61,6 +61,10 @@ public abstract class AbstractWorldMap
     public void place(WorldElement mapObj){
         if(mapObj instanceof Plant plant){
             plants.put(plant.getPosition(),plant);
+            if(equator.isVectorIn(plant.getPosition()))
+                equatorPlantGenerator.deletePositionToChoice(plant.getPosition());
+            else
+                polesPlantGenerator.deletePositionToChoice(plant.getPosition());
         } else if (mapObj instanceof Animal animal) {
             if(!animals.containsKey(animal.getPosition()))
                 animals.put(animal.getPosition(),new HashSet<>());
