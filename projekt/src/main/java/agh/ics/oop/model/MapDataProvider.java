@@ -34,4 +34,9 @@ public class MapDataProvider implements SimulationDataProvider  {
     public Set<Animal> getStartingAnimals() {
         return startingAnimals;
     }
+
+    @Override
+    public String getMostPopularGenome() {
+        return map.theMostPopularGenome();
+    }
 }

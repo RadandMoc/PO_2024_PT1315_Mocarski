@@ -11,6 +11,7 @@ import java.util.List;
 public class StatisticFabric {
 
     public static ShowStatistics CreateClassicalStatistics(MapDataProvider dataProvider) {
+        AnimalGenomesStatistic animalGenomesStatistic = new AnimalGenomesStatistic(dataProvider);
         AvgEnergyForAnimalsStatistic avgEnergyForAnimalsStatistic = new AvgEnergyForAnimalsStatistic(dataProvider);
         AvgNumOfChildStatistic avgNumOfChildStatistic = new AvgNumOfChildStatistic(dataProvider);
         DeadAnimalsAverageAgeStatistic deadAnimalsAverageAgeStatistic = new DeadAnimalsAverageAgeStatistic(dataProvider);
@@ -19,6 +20,7 @@ public class StatisticFabric {
         return new SimulationStatistics(List.of(avgEnergyForAnimalsStatistic,
                 avgNumOfChildStatistic,
                 deadAnimalsAverageAgeStatistic,
-                fieldOnMapStatistic));
+                fieldOnMapStatistic,
+                animalGenomesStatistic));
     }
 }

@@ -8,4 +8,5 @@ public interface SimulationDataProvider {
     Stream<Plant> getAllPlantsStream();
     int getMapSize();
     Set<Animal> getStartingAnimals();
+    String getMostPopularGenome();
 }

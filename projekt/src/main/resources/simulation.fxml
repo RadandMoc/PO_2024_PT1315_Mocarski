@@ -83,7 +83,7 @@
             </HBox>
 
             <HBox spacing="20" alignment="CENTER_LEFT">
-                <CheckBox fx:id="checkBox" text="saveStatistics"/>
+                <CheckBox fx:id="wantLogsCbx" text="saveStatistics"/>
             </HBox>
 
             <HBox spacing="20" alignment="CENTER_LEFT">

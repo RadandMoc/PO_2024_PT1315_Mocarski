@@ -89,7 +89,7 @@ public class SimulationPresenter {
     private Spinner<Integer> maxMutationSpinner;
 
     @FXML
-    private CheckBox checkBox;
+    private CheckBox wantLogsCbx;
 
     private int sim_counter = 0;
 
@@ -243,7 +243,7 @@ public class SimulationPresenter {
 
             final Simulation sim = new Simulation(map, startingAnimalsValue, startingEnergyValue,
                     energyForBeingFullStaffedValue, breadingEnergyLossValue, genomeLengthValue,
-                    mutateGenome, numOfNewPlantsPerTurnValue,  new ClassicAnimalReproduction(), checkBox.isSelected());
+                    mutateGenome, numOfNewPlantsPerTurnValue,  new ClassicAnimalReproduction(), wantLogsCbx.isSelected());
                 new Thread(() -> {
                 openNewWindow(finalMap, sim);
             }).start();
@@ -286,7 +286,8 @@ public class SimulationPresenter {
                         mapChoice.getValue(),
                         mutationStrategy.getValue(),
                         (int) minMutationSpinner.getValue(),
-                        (int) maxMutationSpinner.getValue()
+                        (int) maxMutationSpinner.getValue(),
+                        wantLogsCbx.isSelected()
                 );
                 config.save(file.getPath());
             } catch (IOException e) {
@@ -325,6 +326,7 @@ public class SimulationPresenter {
                 mutationStrategy.setValue(config.mutationStrategy());
                 minMutationSpinner.getValueFactory().setValue(config.minMutation());
                 maxMutationSpinner.getValueFactory().setValue(config.maxMutation());
+                wantLogsCbx.setSelected(config.saveStatistics());
             } catch (IOException | ClassNotFoundException e) {
                 showError("Error loading configuration: " + e.getMessage());
             }

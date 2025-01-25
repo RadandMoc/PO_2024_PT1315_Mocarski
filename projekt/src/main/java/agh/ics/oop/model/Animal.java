@@ -1,7 +1,5 @@
 package agh.ics.oop.model;
 
-import agh.ics.oop.statistic.AnimalGenomesStatistic;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -19,7 +17,7 @@ public class Animal implements WorldElement{
     private final List<Animal> childs = new ArrayList<>();
     private int eatenGrass = 0;
 
-    public Animal(Vector2d position, int energy, int turnOfBirth, MutateGenome mutateMethod, List<Byte> parentsGenome, AnimalGenomesStatistic genomesListener){
+    public Animal(Vector2d position, int energy, int turnOfBirth, MutateGenome mutateMethod, List<Byte> parentsGenome, AnimalGenomesPopularityCalculator genomesListener){
         this.turnOfBirth = turnOfBirth;
         this.energy = energy;
         this.position = position;
@@ -30,7 +28,7 @@ public class Animal implements WorldElement{
             genomesListener.newAnimal(this);
     }
 
-    public Animal(Vector2d position, int energy, int turnOfBirth, List<Byte> genome, MapDirection orientation, int genomeIdx, AnimalGenomesStatistic genomesListener){
+    public Animal(Vector2d position, int energy, int turnOfBirth, List<Byte> genome, MapDirection orientation, int genomeIdx, AnimalGenomesPopularityCalculator genomesListener){
         this.turnOfBirth = turnOfBirth;
         this.energy = energy;
         this.position = position;
@@ -40,7 +38,7 @@ public class Animal implements WorldElement{
         if(genomesListener != null)
             genomesListener.newAnimal(this);
     }
-    public Animal(Vector2d position, int energy, int turnOfBirth, List<Byte> genome, AnimalGenomesStatistic genomesListener){
+    public Animal(Vector2d position, int energy, int turnOfBirth, List<Byte> genome, AnimalGenomesPopularityCalculator genomesListener){
         this(position,energy,turnOfBirth,genome,MapDirection.generateRandomDirection(),new Random().nextInt(genome.size()),genomesListener);
     }
 
@@ -52,7 +50,7 @@ public class Animal implements WorldElement{
         this.changeEnergy(-consequences.energy());
     }
 
-    public boolean ableToWalk(int requiredEnergy, AnimalGenomesStatistic genomesListener){
+    public boolean ableToWalk(int requiredEnergy, AnimalGenomesPopularityCalculator genomesListener){
         if (energy - requiredEnergy < 0){
             isDead = true;
             if(genomesListener != null)

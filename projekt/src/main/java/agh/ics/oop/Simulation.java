@@ -76,7 +76,8 @@ public class Simulation {
         StringBuilder sb = new StringBuilder();
         sb.append(currentTurn).append(": ");
         for (int i = 0; i < statistics.size(); i++) {
-            sb.append(statistics.get(i));
+            String sanitizedStatistic = statistics.get(i).replace("\n", ": ");
+            sb.append(sanitizedStatistic);
             if (i < statistics.size() - 1) {
                 sb.append(": ");
             }

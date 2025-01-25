@@ -21,7 +21,8 @@ public record PresenterConfigurationSave(int heightValue,
                                          String mapChoice,
                                          MutationStrategy mutationStrategy,
                                          int minMutation,
-                                         int maxMutation
+                                         int maxMutation,
+                                         boolean saveStatistics
 ) implements Serializable {
 
     public void save(String path) throws IOException {
