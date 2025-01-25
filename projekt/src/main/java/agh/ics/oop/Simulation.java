@@ -4,7 +4,13 @@ import agh.ics.oop.fabric.StatisticFabric;
 import agh.ics.oop.model.*;
 import agh.ics.oop.statistic.SimulationStatistics;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class Simulation {
@@ -19,10 +25,12 @@ public class Simulation {
     private final ReproductionStrategy typeOfReproduction;
     private final List<SimTurnListener> observers = new ArrayList<>();
     private final ShowStatistics showStatistics;
+    private final boolean saveStatistics;
+    private final String fileName;
 
     public Simulation(AbstractWorldMap selectedMap, int startingAnimals, int startingEnergy,
                       int energyToBeingFullStuffed, int breadingEnergyLoss, int lenOfGenome,
-                      MutateGenome selectedMutatation, int numOfNewPlantsPerTurn, ReproductionStrategy typeOfReproduction ){
+                      MutateGenome selectedMutatation, int numOfNewPlantsPerTurn, ReproductionStrategy typeOfReproduction, boolean saveStatistics){
         map = selectedMap;
         // selectedMap.generatePlants(startedPlants);
         // energia zapewniana przez zjedzenie jednej rośliny -> GUI tworzymy dobra mape
@@ -40,7 +48,9 @@ public class Simulation {
         typeOfMutation = selectedMutatation;
         this.typeOfReproduction = typeOfReproduction;
         this.showStatistics = StatisticFabric.CreateClassicalStatistics( new MapDataProvider(map, animalSet));
-
+        this.saveStatistics = saveStatistics;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss-SSS");
+        this.fileName = "save_No" + LocalDateTime.now().format(formatter) + ".csv";
     }
 
     public ShowStatistics getShowStatistics() {
@@ -57,6 +67,26 @@ public class Simulation {
         }
     }
 
+    private void saveStatistics(){
+        List<String> statistics = showStatistics.show();
+        StringBuilder sb = new StringBuilder();
+        sb.append(currentTurn).append(": ");
+        for (int i = 0; i < statistics.size(); i++) {
+            sb.append(statistics.get(i));
+            if (i < statistics.size() - 1) {
+                sb.append(": ");
+            }
+        }
+        sb.append(System.lineSeparator());
+
+        String filePath = "src/main/resources/simulationsSaves/" + fileName;
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
+            writer.write(sb.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void run() throws InterruptedException {
         map.clearDeathAnimal();
         map.movesAllAnimals();
@@ -65,7 +95,9 @@ public class Simulation {
         map.generatePlants(numOfNewPlantsPerTurn);
         currentTurn++;
         notifyObserver();
-
+        if(saveStatistics){
+            saveStatistics();
+        }
         Thread.sleep(500);
     }
 }

@@ -240,8 +240,8 @@ public class SimulationPresenter {
 
             final Simulation sim = new Simulation(map, startingAnimalsValue, startingEnergyValue,
                     energyForBeingFullStaffedValue, breadingEnergyLossValue, genomeLengthValue,
-                    mutateGenome, numOfNewPlantsPerTurnValue,  new ClassicAnimalReproduction());
-
+                    mutateGenome, numOfNewPlantsPerTurnValue,  new ClassicAnimalReproduction(), true);
+// zmienić statystyki!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             new Thread(() -> {
                 openNewWindow(finalMap, sim);
             }).start();
