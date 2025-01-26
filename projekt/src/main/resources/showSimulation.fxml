@@ -13,12 +13,18 @@
 
 
     <top>
-        <Button fx:id="pauseButton" onAction="#onPauseButtonClicked"/>
+        <Button fx:id="pauseButton" text="Pause" onAction="#onPauseButtonClicked"/>
     </top>
 
     <left>
-        <VBox fx:id="statisticsBox" spacing="10.0" alignment="TOP_LEFT" style="-fx-padding: 10;">
+        <VBox spacing="20" alignment="TOP_LEFT" style="-fx-padding: 10;">
+            <VBox fx:id="statisticsBox" spacing="10.0">
+            </VBox>
 
+            <VBox spacing="10">
+                <TextField fx:id="speedUp" promptText="Wpisz czas między turami w decysekundach"/>
+                <Button text="Confirm" onAction="#onAcceptSpeedUpClicked"/>
+            </VBox>
         </VBox>
     </left>
 

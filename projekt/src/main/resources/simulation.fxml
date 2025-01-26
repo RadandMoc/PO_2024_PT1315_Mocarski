@@ -139,7 +139,7 @@
             </HBox>
 
             <HBox spacing="20" alignment="CENTER_LEFT">
-                <Button fx:id="saveConfigButton" text="Save Configuration" onAction="#onSaveConfigClicked"/>
+                <Button fx:id="saveConfigButton" x` onAction="#onSaveConfigClicked"/>
                 <Button fx:id="loadConfigButton" text="Load Configuration" onAction="#onLoadConfigClicked"/>
             </HBox>
 

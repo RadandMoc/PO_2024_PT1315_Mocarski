@@ -9,7 +9,9 @@ import javafx.geometry.HPos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
@@ -34,6 +36,9 @@ public class ShowSimulationPresenter implements MapChangeListener, SimTurnListen
     private Label moveDescriptionLabel;
 
     @FXML
+    private TextField speedUp;
+
+    @FXML
     private final List<WorldElementBox> worldElementsBox = new ArrayList<>();
 
     private final List<Node> preferredZoneHighlights = new ArrayList<>();
@@ -44,6 +49,8 @@ public class ShowSimulationPresenter implements MapChangeListener, SimTurnListen
     private final Object pauseLock = new Object();
     private volatile boolean paused = false;
     private Thread simulationThread;
+    private int timeDelayBetweenTurns = 1000;
+
 
 
     private static final int CELL_WIDTH = 30;
@@ -200,6 +207,30 @@ public class ShowSimulationPresenter implements MapChangeListener, SimTurnListen
         }
     }
 
+    @FXML
+    private void onAcceptSpeedUpClicked(){
+        try {
+            int newDelay = Integer.parseInt(speedUp.getText());
+            if (newDelay > 0){
+                timeDelayBetweenTurns = 100 * newDelay;
+            }
+            else {
+                showAlert("Wpisz liczbe wieksza od 0. (decysekundy to 1/10 sekundy)", Alert.AlertType.WARNING);
+            }
+        }
+        catch (NumberFormatException ignored) {
+            showAlert("Musi to być liczba naturalna (int) większa od 0", Alert.AlertType.ERROR);
+        }
+    }
+
+    private void showAlert(String message, Alert.AlertType alertType) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle("Warning");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
     private void showAnimalView(Animal animal) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/showAnimalHistory.fxml"));
@@ -292,5 +323,9 @@ public class ShowSimulationPresenter implements MapChangeListener, SimTurnListen
 
     public void setSimulation(Simulation sim){
         this.simulation = sim;
+    }
+
+    public int getTimeDelayBetweenTurns() {
+        return timeDelayBetweenTurns;
     }
 }

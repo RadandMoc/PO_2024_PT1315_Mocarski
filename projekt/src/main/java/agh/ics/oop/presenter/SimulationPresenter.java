@@ -149,7 +149,7 @@ public class SimulationPresenter {
 
                         try {
                             sim.run();
-                            Thread.sleep(500);
+                            Thread.sleep(presenter.getTimeDelayBetweenTurns());
                         } catch (InterruptedException e) {
                             return;
                         }
