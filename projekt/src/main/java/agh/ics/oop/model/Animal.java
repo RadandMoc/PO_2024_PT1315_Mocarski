@@ -1,6 +1,7 @@
 package agh.ics.oop.model;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -138,10 +139,11 @@ public class Animal implements WorldElement{
     }
 
     public List<Animal> getAllDescendants(){
-        List<Animal> descendants = new ArrayList<>();
-        for (Animal child : children){
-            descendants.add(child);
-            descendants.addAll(child.getAllDescendants());
+        List<Animal> descendants = new ArrayList<>(children);
+        Iterator<Animal> iterator = descendants.iterator();
+        while (iterator.hasNext()){
+            Animal animal = iterator.next();
+            descendants.addAll(animal.getAllDescendants());
         }
         return descendants;
     }
