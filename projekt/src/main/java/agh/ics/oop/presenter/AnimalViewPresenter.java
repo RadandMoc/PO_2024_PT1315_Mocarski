@@ -57,6 +57,8 @@ public class AnimalViewPresenter implements SimTurnListener {
     }
 
     public void setAnimal(Animal animal) {
+
         this.animal = animal;
+        setLabels();
     }
 }
