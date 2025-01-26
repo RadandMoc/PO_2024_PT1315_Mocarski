@@ -2,12 +2,10 @@ package agh.ics.oop.presenter;
 
 import agh.ics.oop.Simulation;
 import agh.ics.oop.model.*;
-import agh.ics.oop.statistic.SimulationStatistics;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.HPos;
-import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -16,7 +14,6 @@ import javafx.scene.layout.*;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
-import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -181,6 +178,7 @@ public class ShowSimulationPresenter implements MapChangeListener, SimTurnListen
                 animalsToSelectContainer.setVisible(false);
                 animalsToSelectContainer.setManaged(false);
                 clearPreferredZoneHighlight();
+
             } else {
                 List<Animal> animals = worldMap.getAnimals();
                 animalsToSelect = new AnimalsToSelect(animals);
@@ -196,6 +194,7 @@ public class ShowSimulationPresenter implements MapChangeListener, SimTurnListen
                         showAnimalView(newVal);
                     }
                 });
+                highlightMostPopularGenome();
                 highlightPreferredZone();
             }
         }
@@ -227,6 +226,33 @@ public class ShowSimulationPresenter implements MapChangeListener, SimTurnListen
         }
     }
 
+
+    private void highlightMostPopularGenome(){
+        Boundary boundary = worldMap.getBoundary();
+        int minx = boundary.lowerLeft().getX();
+        int maxX = boundary.upperRight().getX();
+        int minY = boundary.lowerLeft().getY();
+        int maxY = boundary.upperRight().getY();
+
+        var positions = worldMap.getAnimalsPositionsWithGenome(worldMap.theMostPopularGenome());
+
+        for (Vector2d pos : positions){
+            Pane highlightPane = new Pane();
+            highlightPane.setStyle("-fx-background-color: linear-gradient(to bottom right, #ffcccc, #ff6666); " +
+                    "-fx-border-color: #ff9999; -fx-border-width: 0.5;");
+
+            highlightPane.setPrefSize(CELL_WIDTH, CELL_HEIGHT);
+            highlightPane.setPrefSize(CELL_WIDTH, CELL_HEIGHT);
+
+            mapGrid.add(highlightPane, pos.getX() - minx + 1, maxY - pos.getY() + 1);
+            preferredZoneHighlights.add(highlightPane);
+            highlightPane.toBack();
+        }
+
+        mapGrid.setGridLinesVisible(true);
+
+
+    }
 
     private void highlightPreferredZone() {
         Boundary boundary = worldMap.getBoundary();
