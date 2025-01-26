@@ -3,6 +3,10 @@ package agh.ics.oop.statistic;
 import agh.ics.oop.model.Animal;
 import agh.ics.oop.model.Plant;
 import agh.ics.oop.model.SimulationDataProvider;
+import agh.ics.oop.model.Vector2d;
+
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class FieldOnMapStatistic implements Statistic {
     private final SimulationDataProvider dataProvider;
@@ -12,16 +16,17 @@ public class FieldOnMapStatistic implements Statistic {
     }
 
     private int getFreePlaces() {
-        long occupiedPlaces = dataProvider.getAllAnimalsStream()
-                .map(Animal::position)
-                .distinct()
-                .count() +
-                dataProvider.getAllPlantsStream()
-                        .map(Plant::position)
-                        .distinct()
-                        .count();
+        Set<Vector2d> occupiedPlacesByPlants = dataProvider.getAllPlantsStream()
+                .map(Plant::position)
+                .collect(Collectors.toSet());
 
-        return dataProvider.getMapSize() - (int) occupiedPlaces;
+        Set<Vector2d> occupiedPlaces = dataProvider.getAllAnimalsStream()
+                .map(Animal::position)
+                .collect(Collectors.toSet());
+
+        occupiedPlaces.addAll(occupiedPlacesByPlants);
+
+        return dataProvider.getMapSize() - occupiedPlaces.size();
     }
 
     @Override
