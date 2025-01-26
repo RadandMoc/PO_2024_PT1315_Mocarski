@@ -55,11 +55,27 @@
             <HBox spacing="20" alignment="CENTER_LEFT">
                 <Label text="energy from plant"/>
                 <TextField fx:id="energyFromPlant" promptText="Wpisz energię za zjedzenie rośliny"/>
+                <Label text="plant growth variant"/>
+                <ComboBox fx:id="plantGrowth" value="forested equatoria">
+                    <items>
+                        <FXCollections fx:factory="observableArrayList">
+                            <String fx:value="forested equatoria" />
+                        </FXCollections>
+                    </items>
+                </ComboBox>
             </HBox>
 
             <HBox spacing="20" alignment="CENTER_LEFT">
                 <Label text="starting animal"/>
                 <TextField fx:id="startingAnimals" promptText="Wpisz energię za zjedzenie rośliny"/>
+                <Label text="variant of animal behavior"/>
+                <ComboBox fx:id="animalBehavior" value="full predestination">
+                    <items>
+                        <FXCollections fx:factory="observableArrayList">
+                            <String fx:value="full predestination" />
+                        </FXCollections>
+                    </items>
+                </ComboBox>
             </HBox>
 
             <HBox spacing="20" alignment="CENTER_LEFT">
