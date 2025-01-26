@@ -191,6 +191,9 @@ public abstract class AbstractWorldMap
         return genomesListener.getMostPopularGenome();
     }
 
+    public abstract Iterator<Vector2d> plantsPrefferedZone();
+
+
     public List<Vector2d> getAnimalsPositionsWithGenome(String genome){
         return genomesListener.getAnimalsPositionsWithGenome(genome);
     }
