@@ -6,19 +6,21 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ScrollPane?>
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             minHeight="550.0" minWidth="850.0"
             fx:controller="agh.ics.oop.presenter.ShowSimulationPresenter">
-
 
     <top>
         <Button fx:id="pauseButton" text="Pause" onAction="#onPauseButtonClicked"/>
     </top>
 
     <left>
-        <VBox spacing="20" alignment="TOP_LEFT" style="-fx-padding: 10;">
-            <VBox fx:id="statisticsBox" spacing="10.0">
+        <!-- Stała szerokość lewego panelu (250px) -->
+        <VBox spacing="20" alignment="TOP_LEFT" style="-fx-padding: 10;" prefWidth="250" maxWidth="250">
+            <VBox fx:id="statisticsBox" spacing="10.0" prefHeight="400">
+                <!-- Statystyki -->
             </VBox>
 
             <VBox spacing="10">
@@ -29,14 +31,17 @@
     </left>
 
     <right>
-        <VBox fx:id="animalsToSelectContainer" spacing="10.0" alignment="TOP_RIGHT" style="-fx-padding: 10;">
-        </VBox>
+        <!-- Kontener widoczny tylko po pauzie -->
+        <VBox fx:id="animalsToSelectContainer" spacing="10.0" alignment="TOP_RIGHT" style="-fx-padding: 10;" visible="false"/>
     </right>
 
     <center>
-        <GridPane fx:id = "mapGrid" gridLinesVisible="true" alignment="CENTER"/>
-
+        <!-- Scrollowana mapa -->
+        <ScrollPane fitToWidth="true" fitToHeight="true">
+            <GridPane fx:id="mapGrid" gridLinesVisible="true"/>
+        </ScrollPane>
     </center>
+
     <bottom>
         <Label fx:id="energyLabel" text="" textAlignment="CENTER"/>
     </bottom>
