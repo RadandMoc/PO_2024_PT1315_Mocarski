@@ -196,11 +196,15 @@ public class SimulationPresenter {
 
 
             boolean isAllAboveZero = checkIfAboveZero(List.of(heightValue, widthValue, energyFromPlantValue,
-                    genomeLengthValue, energyForBeingFullStaffedValue, startingEnergyValue,
+                    energyForBeingFullStaffedValue, startingEnergyValue,
                     numOfNewPlantsPerTurnValue, breadingEnergyLossValue,
                     startsNumOfPlantsValue, startingAnimalsValue));
             if (!isAllAboveZero){
-                System.out.println("Please correct variable with value below or equal 0 ");
+                showError("Please correct variable with value below or equal 0 ");
+                return;
+            }
+            if(genomeLengthValue<2){
+                showError("Please entry genome length value upper than 1");
                 return;
             }
 
@@ -211,7 +215,6 @@ public class SimulationPresenter {
                     return;
                 }
             }
-            System.out.println("All values are valid. Starting simulation...");
             MutateGenome mutateGenome = null;
 
             try {
@@ -219,25 +222,20 @@ public class SimulationPresenter {
             }
             catch (IllegalArgumentException e){
                 mutateGenome = MutationFactory.createMutation(mutationStrategy.getValue(), minMutationSpinner.getValue(), min(maxMutationSpinner.getValue(),genomeLengthValue), genomeLengthValue);
-                System.out.println(e.getMessage());
+                showError(e.getMessage());
             }
 
             AbstractWorldMap map = null;
 
             Vector2d leftDownBoundary = new Vector2d(xValue,yValue);
-            switch (mapChoice.getSelectionModel().getSelectedItem()){
-                case "Globe":
-                    map = new GlobeMap(widthValue,heightValue, leftDownBoundary,energyFromPlantValue,
-                            new ClassicalEnergyLoss(energyLossValue),startsNumOfPlantsValue);
-                break;
-                case "Globe with pole":
-                    map = new GlobeMap(widthValue,heightValue, leftDownBoundary,energyFromPlantValue,
-                            new PoleEnergyLoss(AbstractWorldMap.calculateEquator(leftDownBoundary,heightValue,widthValue),
-                            energyLossValue, energyLossPerMoveToPoleValue),startsNumOfPlantsValue);
-                break;
-                default:
-                    throw new IllegalArgumentException("Nieznany typ: ");
-            }
+            map = switch (mapChoice.getSelectionModel().getSelectedItem()) {
+                case "Globe" -> new GlobeMap(widthValue, heightValue, leftDownBoundary, energyFromPlantValue,
+                        new ClassicalEnergyLoss(energyLossValue), startsNumOfPlantsValue);
+                case "Globe with pole" -> new GlobeMap(widthValue, heightValue, leftDownBoundary, energyFromPlantValue,
+                        new PoleEnergyLoss(AbstractWorldMap.calculateEquator(leftDownBoundary, heightValue, widthValue),
+                                energyLossValue, energyLossPerMoveToPoleValue), startsNumOfPlantsValue);
+                default -> throw new IllegalArgumentException("Nieznany typ: ");
+            };
 
             final AbstractWorldMap finalMap = map;
 
@@ -252,6 +250,7 @@ public class SimulationPresenter {
 
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
+            showError(e.getMessage());
         }
     }
 
