@@ -21,7 +21,7 @@ public class DeadAnimalsAverageAgeStatistic implements Statistic {
         Set<Animal> deadAnimals = new HashSet<>();
 
         startingAnimals.forEach(animal -> {
-            List<Animal> allDescendants = animal.getAllDescendants();
+            Set<Animal> allDescendants = animal.getAllDescendants();
             allDescendants.add(animal);
 
             allDescendants.stream()

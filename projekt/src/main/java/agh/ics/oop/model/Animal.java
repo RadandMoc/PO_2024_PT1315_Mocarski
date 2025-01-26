@@ -1,9 +1,7 @@
 package agh.ics.oop.model;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 
 public class Animal implements WorldElement{
@@ -93,7 +91,9 @@ public class Animal implements WorldElement{
     public int getSizeOfGenome() {return this.genome.size();}
 
     public void addChild(Animal animal){
-        children.add(animal);
+        synchronized (children) {
+            children.add(animal);
+        }
     }
 
     @Override
@@ -138,12 +138,15 @@ public class Animal implements WorldElement{
         return genome.stream().map("%d"::formatted).collect(Collectors.joining());
     }
 
-    public List<Animal> getAllDescendants(){
-        List<Animal> descendants = new ArrayList<>(children);
-        Iterator<Animal> iterator = descendants.iterator();
-        while (iterator.hasNext()){
-            Animal animal = iterator.next();
-            descendants.addAll(animal.getAllDescendants());
+    public Set<Animal> getAllDescendants(){
+        Set<Animal> descendants = new HashSet<Animal>();
+        synchronized (children) {
+            for (Animal animal : children) {
+                if (animal != null && !descendants.contains(animal)) {
+                    descendants.add(animal);
+                    descendants.addAll(animal.getAllDescendants());
+                }
+            }
         }
         return descendants;
     }
