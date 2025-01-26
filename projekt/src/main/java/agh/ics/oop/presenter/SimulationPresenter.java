@@ -149,6 +149,7 @@ public class SimulationPresenter {
 
                         try {
                             sim.run();
+                            Thread.sleep(500);
                         } catch (InterruptedException e) {
                             return;
                         }

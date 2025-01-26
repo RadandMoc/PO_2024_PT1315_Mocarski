@@ -101,6 +101,5 @@ public class Simulation {
         if(saveStatistics){
             saveStatistics();
         }
-        Thread.sleep(500);
     }
 }
