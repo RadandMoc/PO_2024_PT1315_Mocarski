@@ -43,7 +43,7 @@ public class Animal implements WorldElement{
     }
 
     public void move(AbstractWorldMap map){
-        orientation = orientation.change(genome.get(genomeIdx % genome.size()));
+        orientation = orientation.change(genome.get(genomeIdx));
         MoveResult consequences = map.animalMoveChanges(this);
         position = consequences.position();
         orientation = consequences.orientation();
@@ -58,7 +58,7 @@ public class Animal implements WorldElement{
             return false;
         }
         turnOfAnimal++;
-        genomeIdx++;
+        genomeIdx = (genomeIdx + 1) % genome.size();
         return true;
     }
 
@@ -125,12 +125,8 @@ public class Animal implements WorldElement{
         return eatenGrass;
     }
 
-    public int getNumOfChildrens(){
-        return children.size();
-    }
-
     public int getGenomeIdx() {
-        return genomeIdx % genome.size();
+        return genomeIdx;
     }
 
     public int getTurnOfDeath() {
