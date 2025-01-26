@@ -9,7 +9,6 @@
 <?import javafx.scene.control.ScrollPane?>
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            minHeight="550.0" minWidth="850.0"
             fx:controller="agh.ics.oop.presenter.ShowSimulationPresenter">
 
     <top>
@@ -17,10 +16,8 @@
     </top>
 
     <left>
-        <!-- Stała szerokość lewego panelu (250px) -->
         <VBox spacing="20" alignment="TOP_LEFT" style="-fx-padding: 10;" prefWidth="250" maxWidth="250">
             <VBox fx:id="statisticsBox" spacing="10.0" prefHeight="400">
-                <!-- Statystyki -->
             </VBox>
 
             <VBox spacing="10">
@@ -31,12 +28,10 @@
     </left>
 
     <right>
-        <!-- Kontener widoczny tylko po pauzie -->
         <VBox fx:id="animalsToSelectContainer" spacing="10.0" alignment="TOP_RIGHT" style="-fx-padding: 10;" visible="false"/>
     </right>
 
     <center>
-        <!-- Scrollowana mapa -->
         <ScrollPane fitToWidth="true" fitToHeight="true">
             <GridPane fx:id="mapGrid" gridLinesVisible="true"/>
         </ScrollPane>
