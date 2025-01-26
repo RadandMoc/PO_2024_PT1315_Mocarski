@@ -3,11 +3,6 @@ package agh.ics.oop.statistic;
 import agh.ics.oop.model.Animal;
 import agh.ics.oop.model.Plant;
 import agh.ics.oop.model.SimulationDataProvider;
-import agh.ics.oop.model.Vector2d;
-
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
 
 public class FieldOnMapStatistic implements Statistic {
     private final SimulationDataProvider dataProvider;
@@ -18,11 +13,11 @@ public class FieldOnMapStatistic implements Statistic {
 
     private int getFreePlaces() {
         long occupiedPlaces = dataProvider.getAllAnimalsStream()
-                .map(Animal::getPosition)
+                .map(Animal::position)
                 .distinct()
                 .count() +
                 dataProvider.getAllPlantsStream()
-                        .map(Plant::getPosition)
+                        .map(Plant::position)
                         .distinct()
                         .count();
 

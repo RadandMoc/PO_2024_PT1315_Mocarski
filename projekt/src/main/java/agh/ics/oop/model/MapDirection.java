@@ -14,8 +14,6 @@ public enum MapDirection {
 
     private final Vector2d diretctionToVector;
 
-
-
     MapDirection(Vector2d vector) {
         diretctionToVector = vector;
     }

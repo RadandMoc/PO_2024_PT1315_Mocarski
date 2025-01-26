@@ -2,10 +2,6 @@ package agh.ics.oop.statistic;
 
 import agh.ics.oop.model.Animal;
 import agh.ics.oop.model.SimulationDataProvider;
-import agh.ics.oop.model.Vector2d;
-
-import java.util.HashMap;
-import java.util.HashSet;
 
 public class AvgEnergyForAnimalsStatistic implements Statistic {
     private final SimulationDataProvider dataProvider;

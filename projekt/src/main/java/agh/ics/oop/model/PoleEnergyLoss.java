@@ -13,14 +13,14 @@ public class PoleEnergyLoss implements EnergyLoss {
 
     @Override
     public int howManyEnergyToWalk(Animal animal) {
-        return energyLoss + energyLossAddition * howManyRowsFromEquator(animal.getPosition());
+        return energyLoss + energyLossAddition * howManyRowsFromEquator(animal.position());
     }
 
     private int howManyRowsFromEquator(Vector2d position){
         if (position.follows(equator.lowerLeft()) && position.precedes(equator.upperRight())) { return 0; }
-        if (position.follows(new Vector2d(equator.lowerLeft().getX(), equator.upperRight().getY()))){
-            return position.getY() - equator.upperRight().getY();
+        if (position.follows(new Vector2d(equator.lowerLeft().x(), equator.upperRight().y()))){
+            return position.y() - equator.upperRight().y();
         }
-        return equator.lowerLeft().getY() - position.getY();
+        return equator.lowerLeft().y() - position.y();
     }
 }

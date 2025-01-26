@@ -60,12 +60,12 @@ public class ShowSimulationPresenter implements MapChangeListener, SimTurnListen
         clearGrid();
         Boundary boundary = worldMap.getBoundary();
 
-        int minx =  boundary.lowerLeft().getX();
-        int maxX =  boundary.upperRight().getX();
+        int minx =  boundary.lowerLeft().x();
+        int maxX =  boundary.upperRight().x();
         drawColumn(minx,maxX);
 
-        int minY =  boundary.lowerLeft().getY();
-        int maxY =  boundary.upperRight().getY();
+        int minY =  boundary.lowerLeft().y();
+        int maxY =  boundary.upperRight().y();
         drawRow(minY,maxY);
         addElements(minx, maxX, minY, maxY);
         mapGrid.setGridLinesVisible(true);
@@ -229,10 +229,8 @@ public class ShowSimulationPresenter implements MapChangeListener, SimTurnListen
 
     private void highlightMostPopularGenome(){
         Boundary boundary = worldMap.getBoundary();
-        int minx = boundary.lowerLeft().getX();
-        int maxX = boundary.upperRight().getX();
-        int minY = boundary.lowerLeft().getY();
-        int maxY = boundary.upperRight().getY();
+        int minx = boundary.lowerLeft().x();
+        int maxY = boundary.upperRight().y();
 
         var positions = worldMap.getAnimalsPositionsWithGenome(worldMap.theMostPopularGenome());
 
@@ -244,24 +242,19 @@ public class ShowSimulationPresenter implements MapChangeListener, SimTurnListen
             highlightPane.setPrefSize(CELL_WIDTH, CELL_HEIGHT);
             highlightPane.setPrefSize(CELL_WIDTH, CELL_HEIGHT);
 
-            mapGrid.add(highlightPane, pos.getX() - minx + 1, maxY - pos.getY() + 1);
+            mapGrid.add(highlightPane, pos.x() - minx + 1, maxY - pos.y() + 1);
             preferredZoneHighlights.add(highlightPane);
             highlightPane.toBack();
         }
-
         mapGrid.setGridLinesVisible(true);
-
-
     }
 
     private void highlightPreferredZone() {
         Boundary boundary = worldMap.getBoundary();
-        int minx = boundary.lowerLeft().getX();
-        int maxX = boundary.upperRight().getX();
-        int minY = boundary.lowerLeft().getY();
-        int maxY = boundary.upperRight().getY();
+        int minx = boundary.lowerLeft().x();
+        int maxY = boundary.upperRight().y();
 
-        Iterator<Vector2d> preferredZoneIterator = worldMap.plantsPrefferedZone();
+        Iterator<Vector2d> preferredZoneIterator = worldMap.plantsPreferredZone();
 
         while (preferredZoneIterator.hasNext()) {
             Vector2d pos = preferredZoneIterator.next();
@@ -270,14 +263,11 @@ public class ShowSimulationPresenter implements MapChangeListener, SimTurnListen
             highlightPane.setStyle("-fx-background-color: linear-gradient(to bottom right, lightyellow, lightgoldenrodyellow); " +
                     "-fx-border-color: lightgray; -fx-border-width: 0.5;");
 
-
             highlightPane.setPrefSize(CELL_WIDTH, CELL_HEIGHT);
-
-            mapGrid.add(highlightPane, pos.getX() - minx + 1, maxY - pos.getY() + 1);
+            mapGrid.add(highlightPane, pos.x() - minx + 1, maxY - pos.y() + 1);
             preferredZoneHighlights.add(highlightPane);
             highlightPane.toBack();
         }
-
         mapGrid.setGridLinesVisible(true);
     }
 
@@ -287,7 +277,6 @@ public class ShowSimulationPresenter implements MapChangeListener, SimTurnListen
         }
         preferredZoneHighlights.clear();
     }
-
 
     public Object getPauseLock() {
         return pauseLock;
@@ -304,7 +293,4 @@ public class ShowSimulationPresenter implements MapChangeListener, SimTurnListen
     public void setSimulation(Simulation sim){
         this.simulation = sim;
     }
-
-
-
 }

@@ -4,7 +4,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class ClassicAnimalReproduction implements ReproductionStrategy{
-    private Comparator<Animal> comparator = new AnimalConflictComparator();
+    private final Comparator<Animal> comparator = new AnimalConflictComparator();
     private final Random random;
 
     public ClassicAnimalReproduction(int seedForRandom){

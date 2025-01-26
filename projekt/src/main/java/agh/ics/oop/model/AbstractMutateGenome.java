@@ -5,9 +5,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-import static java.lang.Math.max;
-import static java.lang.Math.min;
-
 public abstract class AbstractMutateGenome implements MutateGenome {
     protected final int minMutation;
     protected final int maxMutation;
@@ -26,11 +23,9 @@ public abstract class AbstractMutateGenome implements MutateGenome {
         this.random = new Random(seedForRandom);
     }
 
-
     protected int getRandomMutationCount() {
         return random.nextInt(maxMutation - minMutation + 1) + minMutation;
     }
-
 
     protected List<Integer> getShuffledIndices(int size) {
         List<Integer> indices = new ArrayList<>();

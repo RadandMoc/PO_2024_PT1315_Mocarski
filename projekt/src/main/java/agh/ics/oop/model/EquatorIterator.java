@@ -6,17 +6,16 @@ import java.util.NoSuchElementException;
 public class EquatorIterator implements Iterator<Vector2d> {
         private final int startX;
         private final int endX;
-        private final int startY;
         private final int endY;
 
         private int currentX;
         private int currentY;
 
     public EquatorIterator(Boundary boundary) {
-        this.startX = boundary.lowerLeft().getX();
-        this.endX = boundary.upperRight().getX();
-        this.startY = boundary.lowerLeft().getY();
-        this.endY = boundary.upperRight().getY();
+        this.startX = boundary.lowerLeft().x();
+        this.endX = boundary.upperRight().x();
+        int startY = boundary.lowerLeft().y();
+        this.endY = boundary.upperRight().y();
         this.currentX = startX;
         this.currentY = startY;
     }

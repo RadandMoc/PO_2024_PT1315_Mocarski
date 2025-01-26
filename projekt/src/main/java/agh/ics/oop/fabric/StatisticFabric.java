@@ -2,10 +2,6 @@ package agh.ics.oop.fabric;
 
 import agh.ics.oop.model.*;
 import agh.ics.oop.statistic.*;
-import com.sun.javafx.collections.MappingChange;
-
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 
 public class StatisticFabric {

@@ -14,7 +14,6 @@ public class MutationFactory {
                 yield new RandomMutate(minMutation, maxMutation);
             }
             case SwapMutate -> new SwapMutate(minMutation, maxMutation);
-            default -> throw new IllegalArgumentException("Nieznany typ: " + type);
         };
 
     }

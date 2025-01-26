@@ -6,15 +6,15 @@ import java.util.Random;
 import java.util.stream.Collectors;
 
 public class Animal implements WorldElement{
-    private MapDirection orientation; // Nie wiemy, czy ma być zawsze domyślnie na północ
+    private MapDirection orientation;
     private Vector2d position;
-    private int energy; // Być może statyczna ilość energii byłaby lepsza. Chwilowo dajemy możliwość symulacji wyboru ile energii powinny mieć zwierzęta domyślnie (zakładamy że tam będzie stała)
-    private final List<Byte> genome; // Może enum zamiast Byte. Trochę średnio pasuje MapDirection, bo brak obrotu ma opis północ, co nie jest zgodne. Jeśli enum to raczej jakiś nowy (chyba).
-    private int turnOfAnimal = 0; // Num of turns of animal when was/is alive
+    private int energy;
+    private final List<Byte> genome;
+    private int turnOfAnimal = 0;
     private int genomeIdx;
     private final int turnOfBirth;
     private boolean isDead = false;
-    private final List<Animal> childs = new ArrayList<>();
+    private final List<Animal> children = new ArrayList<>();
     private int eatenGrass = 0;
 
     public Animal(Vector2d position, int energy, int turnOfBirth, MutateGenome mutateMethod, List<Byte> parentsGenome, AnimalGenomesPopularityCalculator genomesListener){
@@ -82,7 +82,7 @@ public class Animal implements WorldElement{
     }
 
     public int getNumOfChild(){
-        return childs.size();
+        return children.size();
     }
 
     public MapDirection getOrientation() {
@@ -92,11 +92,11 @@ public class Animal implements WorldElement{
     public int getSizeOfGenome() {return this.genome.size();}
 
     public void addChild(Animal animal){
-        childs.add(animal);
+        children.add(animal);
     }
 
     @Override
-    public Vector2d getPosition() {
+    public Vector2d position() {
         return position;
     }
 
@@ -126,7 +126,7 @@ public class Animal implements WorldElement{
     }
 
     public int getNumOfChildrens(){
-        return childs.size();
+        return children.size();
     }
 
     public int getGenomeIdx() {
@@ -137,14 +137,13 @@ public class Animal implements WorldElement{
         return turnOfAnimal + turnOfBirth;
     }
 
-
     public String getGenome(){
         return genome.stream().map("%d"::formatted).collect(Collectors.joining());
     }
 
     public List<Animal> getAllDescendants(){
         List<Animal> descendants = new ArrayList<>();
-        for (Animal child : childs){
+        for (Animal child : children){
             descendants.add(child);
             descendants.addAll(child.getAllDescendants());
         }
@@ -153,6 +152,6 @@ public class Animal implements WorldElement{
 
     @Override
     public String toString() {
-        return "(%d,%d) with energy %d".formatted(position.getX(),position.getY(),energy);
+        return "(%d,%d) with energy %d".formatted(position.x(),position.y(),energy);
     }
 }

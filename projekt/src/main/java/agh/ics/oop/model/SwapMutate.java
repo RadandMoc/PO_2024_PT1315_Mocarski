@@ -39,9 +39,6 @@ public class SwapMutate extends AbstractMutateGenome {
                 shuffledIndices = getShuffledIndices(genome.size());
             }
         }
-
         return mutatedGenome;
     }
-
-
 }

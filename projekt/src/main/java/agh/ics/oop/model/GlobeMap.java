@@ -8,7 +8,7 @@ import java.util.*;
     }
 
     @Override
-    public Iterator<Vector2d> plantsPrefferedZone() {
+    public Iterator<Vector2d> plantsPreferredZone() {
         return new EquatorIterator(equator);
     }
 
@@ -42,28 +42,24 @@ import java.util.*;
         }
     }
 
-
     @Override
     public MoveResult animalMoveChanges(Animal animal) {
-        Vector2d animalPosition = animal.getPosition();
+        Vector2d animalPosition = animal.position();
         MapDirection orientation = animal.getOrientation();
         Vector2d preMove = animalPosition.add(orientation.toUnitVector());
         int energyLost = energyLoss.howManyEnergyToWalk(animal);
-        if (preMove.getY() > boundary.upperRight().getY() || preMove.getY() < boundary.lowerLeft().getY())
+        if (preMove.y() > boundary.upperRight().y() || preMove.y() < boundary.lowerLeft().y())
         {
             return new MoveResult(animalPosition, orientation.change(4),energyLoss.howManyEnergyToWalk(animal));
         }
-        if (preMove.getX() > boundary.upperRight().getX())
+        if (preMove.x() > boundary.upperRight().x())
         {
-            return new MoveResult(new Vector2d(boundary.lowerLeft().getX(),preMove.getY()), orientation, energyLost);
+            return new MoveResult(new Vector2d(boundary.lowerLeft().x(),preMove.y()), orientation, energyLost);
         }
-        else if (preMove.getX() < boundary.lowerLeft().getX())
+        else if (preMove.x() < boundary.lowerLeft().x())
         {
-            return new MoveResult(new Vector2d(boundary.upperRight().getX(),preMove.getY()), orientation, energyLost);
+            return new MoveResult(new Vector2d(boundary.upperRight().x(),preMove.y()), orientation, energyLost);
         }
         return new MoveResult(preMove, orientation, energyLost);
-
     }
-
-
 }

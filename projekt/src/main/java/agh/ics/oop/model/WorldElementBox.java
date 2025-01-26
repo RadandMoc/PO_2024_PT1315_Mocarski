@@ -10,13 +10,11 @@ import javafx.scene.layout.VBox;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 
 public class WorldElementBox {
     private static final double IMAGE_WIDTH = 20;
     private static final double IMAGE_HEIGHT = 20;
-
     private static final Map<String, Image> imageCache = new HashMap<>();
 
     private final VBox vBox;
@@ -25,22 +23,16 @@ public class WorldElementBox {
     private final Label energyLabel;
     private final ImageView imageView;
 
-
-
-
     public WorldElementBox(WorldElement element) {
         imageView = new ImageView();
         imageView.setFitWidth(IMAGE_WIDTH);
         imageView.setFitHeight(IMAGE_HEIGHT);
-
-
         energyLabel = new Label();
         vBox = new VBox(5);
         vBox.getChildren().addAll(imageView, energyLabel);
         vBox.setAlignment(Pos.CENTER);
         element.updateWorldElementBox(this);
     }
-
 
     private Image loadImage(String imagePath) {
         if (imageCache.containsKey(imagePath)) {
@@ -57,7 +49,6 @@ public class WorldElementBox {
         return image;
     }
 
-
     public VBox getVBox() {
         return vBox;
     }
@@ -65,7 +56,6 @@ public class WorldElementBox {
     public void UpdateForAnimal(int energy){
         imageView.setImage(loadImage("/animal.png"));
         energyLabel.setText("%d".formatted(energy));
-
     }
 
     public void UpdateForPlant(){
@@ -73,11 +63,8 @@ public class WorldElementBox {
         energyLabel.setText("");
     }
 
-
     public void setNull(){
         imageView.setImage(null);
         energyLabel.setText("");
     }
-
-
 }

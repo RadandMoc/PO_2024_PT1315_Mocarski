@@ -40,13 +40,13 @@ class GlobeMapTest {
         map.movesAllAnimals();
 
         // then
-        assertEquals(new Vector2d(0,0), a1.getPosition());
+        assertEquals(new Vector2d(0,0), a1.position());
         assertEquals(MapDirection.NE, a1.getOrientation());
-        assertEquals(new Vector2d(19,19), a2.getPosition());
+        assertEquals(new Vector2d(19,19), a2.position());
         assertEquals(MapDirection.S, a2.getOrientation());
-        assertEquals(new Vector2d(19,0), a3.getPosition());
+        assertEquals(new Vector2d(19,0), a3.position());
         assertEquals(MapDirection.NW, a3.getOrientation());
-        assertEquals(new Vector2d(0,19), a4.getPosition());
+        assertEquals(new Vector2d(0,19), a4.position());
         assertEquals(MapDirection.SE, a4.getOrientation());
     }
 
@@ -82,10 +82,10 @@ class GlobeMapTest {
         map.movesAllAnimals();
 
         // then
-        assertEquals(new Vector2d(19,10), a1.getPosition());
-        assertEquals(new Vector2d(0,10), a2.getPosition());
-        assertEquals(new Vector2d(19,11), a3.getPosition());
-        assertEquals(new Vector2d(0,9), a4.getPosition());
+        assertEquals(new Vector2d(19,10), a1.position());
+        assertEquals(new Vector2d(0,10), a2.position());
+        assertEquals(new Vector2d(19,11), a3.position());
+        assertEquals(new Vector2d(0,9), a4.position());
     }
 
     @Test
@@ -101,7 +101,7 @@ class GlobeMapTest {
         // when
         map.movesAllAnimals();
         // then
-        assertEquals(new Vector2d(9,10), a1.getPosition());
+        assertEquals(new Vector2d(9,10), a1.position());
     }
 
     @Test

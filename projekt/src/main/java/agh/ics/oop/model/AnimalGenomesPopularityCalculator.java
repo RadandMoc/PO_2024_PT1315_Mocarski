@@ -17,8 +17,7 @@ public class AnimalGenomesPopularityCalculator {
                 popularGenome = genome;
                 popularity = val;
             }
-        }else
-        {
+        }else{
             List<Animal> animals = new ArrayList<>();
             animals.add(animal);
             activeAnimals.put(genome, animals);
@@ -78,7 +77,7 @@ public class AnimalGenomesPopularityCalculator {
         List<Vector2d> positions = new ArrayList<>();
         if(activeAnimals.containsKey(genome)){
             for(Animal animal : activeAnimals.get(genome)){
-                positions.add(animal.getPosition());
+                positions.add(animal.position());
             }
         }
         return positions;

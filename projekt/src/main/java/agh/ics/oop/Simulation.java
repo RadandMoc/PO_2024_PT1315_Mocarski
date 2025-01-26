@@ -2,7 +2,6 @@ package agh.ics.oop;
 
 import agh.ics.oop.fabric.StatisticFabric;
 import agh.ics.oop.model.*;
-import agh.ics.oop.statistic.SimulationStatistics;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -10,7 +9,6 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class Simulation {

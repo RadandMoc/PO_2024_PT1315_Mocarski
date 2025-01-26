@@ -9,6 +9,8 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import java.util.Objects;
+
 public class AnimalViewPresenter implements SimTurnListener {
     Animal animal;
     @FXML
@@ -31,7 +33,7 @@ public class AnimalViewPresenter implements SimTurnListener {
     @FXML
     ImageView animalImage = new ImageView();
     {
-        animalImage.setImage(new Image(getClass().getResourceAsStream("/animal.png")));
+        animalImage.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/animal.png"))));
     }
 
     @Override
@@ -57,7 +59,6 @@ public class AnimalViewPresenter implements SimTurnListener {
     }
 
     public void setAnimal(Animal animal) {
-
         this.animal = animal;
         setLabels();
     }
