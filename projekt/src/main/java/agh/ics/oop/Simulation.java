@@ -94,7 +94,7 @@ public class Simulation {
         map.clearDeathAnimal();
         map.movesAllAnimals();
         map.animalsConsume(strongestAnimalFinder);
-        map.breeding(energyToBeingFullStuffed,breadingEnergyLoss,currentTurn,typeOfMutation,typeOfReproduction);
+        map.breeding(energyToBeingFullStuffed, breadingEnergyLoss, currentTurn, typeOfMutation, typeOfReproduction);
         map.generatePlants(numOfNewPlantsPerTurn);
         currentTurn++;
         notifyObserver();

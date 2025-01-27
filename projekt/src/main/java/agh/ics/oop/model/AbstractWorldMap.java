@@ -83,19 +83,22 @@ public abstract class AbstractWorldMap
     }
 
     public void movesAllAnimals() {
-        List<Animal> animalList = animals.values().stream()
-                .flatMap(Set::stream)
-                .toList();
+        synchronized (animals) {
+            List<Animal> animalList = animals.values().stream()
+                    .flatMap(Set::stream)
+                    .toList();
 
-        animalList.forEach(this::move);
-
+            animalList.forEach(this::move);
+        }
         mapChanged("Ruszono zwierzakami");
     }
 
     public void clearDeathAnimal() {
-        animals.forEach((key, animalsInSquare) -> animalsInSquare.removeIf(animal ->
-                !animal.ableToWalk(energyLoss.howManyEnergyToWalk(animal),genomesListener)
-        ));
+        synchronized (animals) {
+            animals.forEach((key, animalsInSquare) -> animalsInSquare.removeIf(animal ->
+                    !animal.ableToWalk(energyLoss.howManyEnergyToWalk(animal), genomesListener)
+            ));
+        }
         mapChanged("Zabijam zwierzaki");
     }
 
@@ -104,15 +107,19 @@ public abstract class AbstractWorldMap
     public abstract MoveResult animalMoveChanges(Animal animal);
 
     public void animalsConsume(StrongestAnimalFinder strongestAnimalFinder){
-        for (var pos : animals.keySet()){
-            if (plants.containsKey(pos) && !animals.get(pos).isEmpty()){
-                Animal winner = strongestAnimalFinder.findStrongestAnimal(animals.get(pos));
-                winner.eatGrass(energyFromPlant);
-                plants.remove(pos);
-                if (equator.isVectorIn(pos))
-                    equatorPlantGenerator.acceptPositionToChoice(pos);
-                else
-                    polesPlantGenerator.acceptPositionToChoice(pos);
+        synchronized (animals){
+            for (var pos : animals.keySet()) {
+                synchronized (plants) {
+                    if (plants.containsKey(pos) && !animals.get(pos).isEmpty()) {
+                        Animal winner = strongestAnimalFinder.findStrongestAnimal(animals.get(pos));
+                        winner.eatGrass(energyFromPlant);
+                        plants.remove(pos);
+                        if (equator.isVectorIn(pos))
+                            equatorPlantGenerator.acceptPositionToChoice(pos);
+                        else
+                            polesPlantGenerator.acceptPositionToChoice(pos);
+                    }
+                }
             }
         }
         for (MapChangeListener observer : observers) {
@@ -121,17 +128,18 @@ public abstract class AbstractWorldMap
     }
 
     public void breeding(int energyForAnimalsForBreeding, int breedingLoss, int actualTurn, MutateGenome mutateMethod, ReproductionStrategy repr){
-        for (var pos : animals.keySet()){
-            var animalsReadyToBreeding = animals.get(pos).stream().
+        synchronized (animals) {
+            for (var pos : animals.keySet()){
+                var animalsReadyToBreeding = animals.get(pos).stream().
                     filter(animal -> animal.getEnergy() >= energyForAnimalsForBreeding).toList();
+                var reproductionResults = repr.reproduce(animalsReadyToBreeding, breedingLoss);
 
-            var reproductionResults = repr.reproduce(animalsReadyToBreeding, breedingLoss);
-
-            for (var result : reproductionResults){
-                Animal child = new Animal(pos, breedingLoss * 2, actualTurn, mutateMethod, result.genome(),genomesListener);
-                place(child);
-                for (var parent : result.parents()){
-                    parent.addChild(child);
+                for (var result : reproductionResults) {
+                    Animal child = new Animal(pos, breedingLoss * 2, actualTurn, mutateMethod, result.genome(), genomesListener);
+                    place(child);
+                    for (var parent : result.parents()) {
+                        parent.addChild(child);
+                    }
                 }
             }
         }

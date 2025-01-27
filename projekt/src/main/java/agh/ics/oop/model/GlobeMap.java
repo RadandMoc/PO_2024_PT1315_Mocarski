@@ -27,18 +27,21 @@ import java.util.*;
         }
         polesPlantGenerator.setHowManyGenerate(poles);
         equatorPlantGenerator.setHowManyGenerate(center);
-        try{
-            for(Vector2d pos: equatorPlantGenerator){
-                plants.put(pos,new Plant(pos));
+        synchronized (plants) {
+            try {
+                for (Vector2d pos : equatorPlantGenerator) {
+                    plants.put(pos, new Plant(pos));
+                }
             }
+            catch (ToMuchValuesToGenerateException ignored){}
         }
-        catch (ToMuchValuesToGenerateException ignored){}
-        try{
-            for(Vector2d pos:polesPlantGenerator){
-                plants.put(pos,new Plant(pos));
+        synchronized (plants) {
+            try {
+                for (Vector2d pos : polesPlantGenerator) {
+                    plants.put(pos, new Plant(pos));
+                }
+            } catch (ToMuchValuesToGenerateException ignored) {
             }
-        }
-        catch (ToMuchValuesToGenerateException ignored){
         }
     }
 
