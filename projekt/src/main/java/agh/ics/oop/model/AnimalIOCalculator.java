@@ -2,11 +2,13 @@ package agh.ics.oop.model;
 
 import java.util.*;
 
-public class AnimalGenomesPopularityCalculator {
+public class AnimalIOCalculator {
     private final HashMap<String,List<Animal>> activeAnimals = new HashMap<>();
     private String popularGenome = "";
     private int popularity = 0;
     private boolean needActualization = false;
+    private float avgLifeTime = 0;
+    private int numOfDeadAnimals = 0;
 
     public void newAnimal(Animal animal){
         String genome = animal.getGenome();
@@ -32,6 +34,8 @@ public class AnimalGenomesPopularityCalculator {
         String genome = animal.getGenome();
         if(activeAnimals.containsKey(genome)){
             int numOfGenomes = activeAnimals.get(genome).size();
+            avgLifeTime = (avgLifeTime*numOfDeadAnimals + animal.getLifeTime())/ (numOfDeadAnimals+1);
+            numOfDeadAnimals++;
             if(numOfGenomes>1){
                 activeAnimals.get(genome).remove(animal);
                 if (Objects.equals(popularGenome, genome) && !needActualization){
@@ -81,5 +85,9 @@ public class AnimalGenomesPopularityCalculator {
             }
         }
         return positions;
+    }
+
+    public float getAvgLifeTime(){
+        return avgLifeTime;
     }
 }

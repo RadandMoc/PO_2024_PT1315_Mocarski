@@ -15,7 +15,7 @@ public class Animal implements WorldElement{
     private final List<Animal> children = new ArrayList<>();
     private int eatenGrass = 0;
 
-    public Animal(Vector2d position, int energy, int turnOfBirth, MutateGenome mutateMethod, List<Byte> parentsGenome, AnimalGenomesPopularityCalculator genomesListener){
+    public Animal(Vector2d position, int energy, int turnOfBirth, MutateGenome mutateMethod, List<Byte> parentsGenome, AnimalIOCalculator genomesListener){
         this.turnOfBirth = turnOfBirth;
         this.energy = energy;
         this.position = position;
@@ -26,7 +26,7 @@ public class Animal implements WorldElement{
             genomesListener.newAnimal(this);
     }
 
-    public Animal(Vector2d position, int energy, int turnOfBirth, List<Byte> genome, MapDirection orientation, int genomeIdx, AnimalGenomesPopularityCalculator genomesListener){
+    public Animal(Vector2d position, int energy, int turnOfBirth, List<Byte> genome, MapDirection orientation, int genomeIdx, AnimalIOCalculator genomesListener){
         this.turnOfBirth = turnOfBirth;
         this.energy = energy;
         this.position = position;
@@ -36,7 +36,7 @@ public class Animal implements WorldElement{
         if(genomesListener != null)
             genomesListener.newAnimal(this);
     }
-    public Animal(Vector2d position, int energy, int turnOfBirth, List<Byte> genome, AnimalGenomesPopularityCalculator genomesListener){
+    public Animal(Vector2d position, int energy, int turnOfBirth, List<Byte> genome, AnimalIOCalculator genomesListener){
         this(position,energy,turnOfBirth,genome,MapDirection.generateRandomDirection(),new Random().nextInt(genome.size()),genomesListener);
     }
 
@@ -54,7 +54,7 @@ public class Animal implements WorldElement{
         this.changeEnergy(-consequences.energy());
     }
 
-    public boolean ableToWalk(int requiredEnergy, AnimalGenomesPopularityCalculator genomesListener){
+    public boolean ableToWalk(int requiredEnergy, AnimalIOCalculator genomesListener){
         if (energy - requiredEnergy < 0){
             isDead = true;
             if(genomesListener != null)

@@ -45,6 +45,10 @@ public class MapDataProvider implements SimulationDataProvider, SimTurnListener 
         return map.theMostPopularGenome();
     }
 
+    public float getAverageLifeTime() {
+        return map.getAverageLifeTime();
+    }
+
     @Override
     public void onNewTurnChange(Simulation sim) {
         synchronized (map.animals) {

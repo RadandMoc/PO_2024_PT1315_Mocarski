@@ -11,7 +11,7 @@ public class GenomesPopularityTest {
     @Test
     public void popularGenomes(){
         //given
-        AnimalGenomesPopularityCalculator listener = new AnimalGenomesPopularityCalculator();
+        AnimalIOCalculator listener = new AnimalIOCalculator();
         List<Byte> gen1 = List.of((byte)1,(byte)2,(byte)3);
         List<Byte> gen2 = List.of((byte)1,(byte)2,(byte)3);
         List<Byte> gen3 = List.of((byte)3,(byte)2,(byte)1);
@@ -34,7 +34,7 @@ public class GenomesPopularityTest {
     @Test
     public void popularSecondGenomes(){
         //given
-        AnimalGenomesPopularityCalculator listener = new AnimalGenomesPopularityCalculator();
+        AnimalIOCalculator listener = new AnimalIOCalculator();
         List<Byte> gen1 = List.of((byte)1,(byte)2,(byte)3);
         List<Byte> gen2 = List.of((byte)3,(byte)2,(byte)1);
         Vector2d v = new Vector2d(2,2);
@@ -56,7 +56,7 @@ public class GenomesPopularityTest {
     @Test
     public void popularGenomeWithDelete(){
         //given
-        AnimalGenomesPopularityCalculator listener = new AnimalGenomesPopularityCalculator();
+        AnimalIOCalculator listener = new AnimalIOCalculator();
         List<Byte> gen1 = List.of((byte)1,(byte)2,(byte)3);
         List<Byte> gen2 = List.of((byte)1,(byte)2,(byte)3);
         List<Byte> gen3 = List.of((byte)3,(byte)2,(byte)1);
@@ -87,7 +87,7 @@ public class GenomesPopularityTest {
     @Test
     public void popularGenomeWithSingleDelete(){
         //given
-        AnimalGenomesPopularityCalculator listener = new AnimalGenomesPopularityCalculator();
+        AnimalIOCalculator listener = new AnimalIOCalculator();
         List<Byte> gen1 = List.of((byte)1,(byte)2,(byte)3);
         List<Byte> gen2 = List.of((byte)1,(byte)2,(byte)3);
         List<Byte> gen3 = List.of((byte)3,(byte)2,(byte)1);
@@ -116,7 +116,7 @@ public class GenomesPopularityTest {
     @Test
     public void singleUsedGenomes(){
         //given
-        AnimalGenomesPopularityCalculator listener = new AnimalGenomesPopularityCalculator();
+        AnimalIOCalculator listener = new AnimalIOCalculator();
         List<Byte> gen1 = List.of((byte)1,(byte)2,(byte)3);
         List<Byte> gen2 = List.of((byte)2,(byte)2,(byte)2);
         List<Byte> gen3 = List.of((byte)3,(byte)2,(byte)1);

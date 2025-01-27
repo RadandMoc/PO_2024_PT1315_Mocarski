@@ -15,7 +15,7 @@ public abstract class AbstractWorldMap
     protected final RandomPositionGenerator equatorPlantGenerator;
     protected final RandomPositionGenerator polesPlantGenerator;
     protected final Boundary equator;
-    private final AnimalGenomesPopularityCalculator genomesListener = new AnimalGenomesPopularityCalculator();
+    private final AnimalIOCalculator genomesListener = new AnimalIOCalculator();
     private final Comparator<Animal> animalComparator = new AnimalConflictComparator();
 
     public AbstractWorldMap(int width, int height, Vector2d leftDownBoundary, int plantEnergy, EnergyLoss energyLoss, int startNumOfPlants){
@@ -193,6 +193,10 @@ public abstract class AbstractWorldMap
 
     public String theMostPopularGenome(){
         return genomesListener.getMostPopularGenome();
+    }
+
+    public float getAverageLifeTime(){
+        return genomesListener.getAvgLifeTime();
     }
 
     public abstract Iterator<Vector2d> plantsPreferredZone();
