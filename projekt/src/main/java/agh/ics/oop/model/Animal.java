@@ -1,7 +1,6 @@
 package agh.ics.oop.model;
 
 import java.util.*;
-import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 
 public class Animal implements WorldElement{
@@ -42,10 +41,16 @@ public class Animal implements WorldElement{
     }
 
     public void move(AbstractWorldMap map){
-        orientation = orientation.change(genome.get(genomeIdx));
+        synchronized (orientation) {
+            orientation = orientation.change(genome.get(genomeIdx));
+        }
         MoveResult consequences = map.animalMoveChanges(this);
-        position = consequences.position();
-        orientation = consequences.orientation();
+        synchronized (position) {
+            position = consequences.position();
+        }
+        synchronized (orientation) {
+            orientation = consequences.orientation();
+        }
         this.changeEnergy(-consequences.energy());
     }
 
@@ -81,7 +86,11 @@ public class Animal implements WorldElement{
     }
 
     public int getNumOfChild(){
-        return children.size();
+        int numOfChild;
+        synchronized (children) {
+            numOfChild = children.size();
+        }
+        return numOfChild;
     }
 
     public MapDirection getOrientation() {
