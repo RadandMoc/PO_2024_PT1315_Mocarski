@@ -12,20 +12,22 @@ public class AnimalIOCalculator {
 
     public void newAnimal(Animal animal){
         String genome = animal.getGenome();
-        if(activeAnimals.containsKey(genome)){
-            activeAnimals.get(genome).add(animal);
-            int val =  activeAnimals.get(genome).size();
-            if(val > popularity && !needActualization){
-                popularGenome = genome;
-                popularity = val;
-            }
-        }else{
-            List<Animal> animals = new ArrayList<>();
-            animals.add(animal);
-            activeAnimals.put(genome, animals);
-            if(1 > popularity && !needActualization){
-                popularGenome = genome;
-                popularity = 1;
+        synchronized (activeAnimals) {
+            if (activeAnimals.containsKey(genome)) {
+                activeAnimals.get(genome).add(animal);
+                int val = activeAnimals.get(genome).size();
+                if (val > popularity && !needActualization) {
+                    popularGenome = genome;
+                    popularity = val;
+                }
+            } else {
+                List<Animal> animals = new ArrayList<>();
+                animals.add(animal);
+                activeAnimals.put(genome, animals);
+                if (1 > popularity && !needActualization) {
+                    popularGenome = genome;
+                    popularity = 1;
+                }
             }
         }
     }
@@ -36,22 +38,23 @@ public class AnimalIOCalculator {
             int numOfGenomes = activeAnimals.get(genome).size();
             avgLifeTime = (avgLifeTime*numOfDeadAnimals + animal.getLifeTime())/ (numOfDeadAnimals+1);
             numOfDeadAnimals++;
-            if(numOfGenomes>1){
-                activeAnimals.get(genome).remove(animal);
-                if (Objects.equals(popularGenome, genome) && !needActualization){
-                    needActualization = true;
-                }
-            }
-            else{
-                activeAnimals.remove(genome);
-                if (Objects.equals(popularGenome, genome) && !needActualization){
-                    for(Map.Entry<String, List<Animal>> entry : activeAnimals.entrySet()){
-                        popularGenome = entry.getKey();
-                        break;
+            synchronized (activeAnimals) {
+                if (numOfGenomes > 1) {
+                    activeAnimals.get(genome).remove(animal);
+                    if (Objects.equals(popularGenome, genome) && !needActualization) {
+                        needActualization = true;
                     }
-                    if(Objects.equals(popularGenome, genome)){
-                        popularGenome = "";
-                        popularity = 0;
+                } else {
+                    activeAnimals.remove(genome);
+                    if (Objects.equals(popularGenome, genome) && !needActualization) {
+                        for (Map.Entry<String, List<Animal>> entry : activeAnimals.entrySet()) {
+                            popularGenome = entry.getKey();
+                            break;
+                        }
+                        if (Objects.equals(popularGenome, genome)) {
+                            popularGenome = "";
+                            popularity = 0;
+                        }
                     }
                 }
             }
@@ -63,10 +66,12 @@ public class AnimalIOCalculator {
         if(needActualization){
             String maxKey = "";
             int maxValue = Integer.MIN_VALUE;
-            for (Map.Entry<String, List<Animal>> entry : activeAnimals.entrySet()) {
-                if (entry.getValue().size() > maxValue) {
-                    maxValue = entry.getValue().size();
-                    maxKey = entry.getKey();
+            synchronized (activeAnimals) {
+                for (Map.Entry<String, List<Animal>> entry : activeAnimals.entrySet()) {
+                    if (entry.getValue().size() > maxValue) {
+                        maxValue = entry.getValue().size();
+                        maxKey = entry.getKey();
+                    }
                 }
             }
             needActualization = false;
@@ -79,9 +84,11 @@ public class AnimalIOCalculator {
 
     public List<Vector2d> getAnimalsPositionsWithGenome(String genome){
         List<Vector2d> positions = new ArrayList<>();
-        if(activeAnimals.containsKey(genome)){
-            for(Animal animal : activeAnimals.get(genome)){
-                positions.add(animal.position());
+        synchronized (activeAnimals) {
+            if (activeAnimals.containsKey(genome)) {
+                for (Animal animal : activeAnimals.get(genome)) {
+                    positions.add(animal.position());
+                }
             }
         }
         return positions;
