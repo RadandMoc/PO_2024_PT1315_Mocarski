@@ -33,18 +33,26 @@ public abstract class AbstractWorldMap
     }
 
     public boolean isOccupied(Vector2d position){
-        return animals.containsKey(position) || plants.containsKey(position);
+        synchronized (animals) {
+            synchronized (plants) {
+                return animals.containsKey(position) || plants.containsKey(position);
+            }
+        }
     }
 
     public Optional<WorldElement> objectAt(Vector2d position){
-        if (animals.containsKey(position) && !animals.get(position).isEmpty()) {
-            return animals.get(position).stream()
-                    .min(animalComparator)
-                    .map(WorldElement.class::cast);
+        synchronized (animals){
+            if (animals.containsKey(position) && !animals.get(position).isEmpty()) {
+                return animals.get(position).stream()
+                        .min(animalComparator)
+                        .map(WorldElement.class::cast);
+            }
         }
 
-        if (plants.containsKey(position)) {
-            return Optional.of(plants.get(position));
+        synchronized (plants) {
+            if (plants.containsKey(position)) {
+                return Optional.of(plants.get(position));
+            }
         }
 
         return Optional.empty();

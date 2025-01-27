@@ -107,26 +107,26 @@ public class ShowSimulationPresenter implements MapChangeListener, SimTurnListen
         }
     }
     public void addElements(int xMin, int xMax, int yMin, int yMax) {
-        synchronized (worldMap) {
-            int worldElementIdx = 0;
-            for (int i = xMin; i <= xMax; i++) {
-                for (int j = yMin; j <= yMax; j++) {
-                    Vector2d pos = new Vector2d(i, j);
-                    if (worldMap.isOccupied(pos)) {
-                        WorldElement element = worldMap.objectAt(pos).orElse(null);
-                        if (element != null) {
-                            WorldElementBox box = setWorldElementsBox(worldElementIdx, element);
-                            mapGrid.add(box.getVBox(), i - xMin + 1, yMax - j + 1);
-                            ++worldElementIdx;
-                        }
+
+        int worldElementIdx = 0;
+        for (int i = xMin; i <= xMax; i++) {
+            for (int j = yMin; j <= yMax; j++) {
+                Vector2d pos = new Vector2d(i, j);
+                if (worldMap.isOccupied(pos)) {
+                    WorldElement element = worldMap.objectAt(pos).orElse(null);
+                    if (element != null) {
+                        WorldElementBox box = setWorldElementsBox(worldElementIdx, element);
+                        mapGrid.add(box.getVBox(), i - xMin + 1, yMax - j + 1);
+                        ++worldElementIdx;
                     }
                 }
             }
-
-            for (int j = worldElementIdx; j < worldElementsBox.size(); ++j) {
-                worldElementsBox.get(j).setNull();
-            }
         }
+
+        for (int j = worldElementIdx; j < worldElementsBox.size(); ++j) {
+            worldElementsBox.get(j).setNull();
+        }
+
     }
 
 
