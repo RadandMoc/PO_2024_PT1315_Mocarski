@@ -17,28 +17,7 @@ public class DeadAnimalsAverageAgeStatistic implements Statistic {
 
     @Override
     public String getValue() {
-        Set<Animal> startingAnimals = dataProvider.getStartingAnimals();
-        Set<Animal> deadAnimals = new HashSet<>();
-
-        startingAnimals.forEach(animal -> {
-            Set<Animal> allDescendants = animal.getAllDescendants();
-            allDescendants.add(animal);
-
-            allDescendants.stream()
-                    .filter(Animal::getIsDead)
-                    .forEach(deadAnimals::add);
-        });
-
-        if (deadAnimals.isEmpty()) {
-            return "Średni wiek martwych zwierząt: 0";
-        }
-
-        double avgAge = deadAnimals.stream()
-                .mapToInt(Animal::getLifeTime)
-                .average()
-                .orElse(0.0);
-
-        return String.format("Średni wiek martwych zwierząt: %.2f", avgAge);
+        return String.format("Średni wiek martwych zwierząt: %.2f", dataProvider.getAverageLifeTime());
     }
 }
 

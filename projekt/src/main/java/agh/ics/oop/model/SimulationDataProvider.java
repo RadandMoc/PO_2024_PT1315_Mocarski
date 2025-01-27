@@ -9,4 +9,5 @@ public interface SimulationDataProvider {
     int getMapSize();
     Set<Animal> getStartingAnimals();
     String getMostPopularGenome();
+    float getAverageLifeTime();
 }
