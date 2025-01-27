@@ -170,6 +170,7 @@ public class ShowSimulationPresenter implements MapChangeListener, SimTurnListen
             statisticsBox.getChildren().clear();
             for (String s : statistics) {
                 Label label = new Label(s);
+                label.setWrapText(true);
                 statisticsBox.getChildren().add(label);
             }
         });
