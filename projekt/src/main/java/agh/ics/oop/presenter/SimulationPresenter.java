@@ -219,10 +219,10 @@ public class SimulationPresenter {
             MutateGenome mutateGenome = null;
 
             try {
-                mutateGenome = MutationFactory.createMutation(mutationStrategy.getValue(), minMutationSpinner.getValue(), maxMutationSpinner.getValue(), genomeLengthValue);
+                mutateGenome = MutationFactory.createMutation(mutationStrategy.getValue(), minMutationSpinner.getValue(), maxMutationSpinner.getValue());
             }
             catch (IllegalArgumentException e){
-                mutateGenome = MutationFactory.createMutation(mutationStrategy.getValue(), minMutationSpinner.getValue(), min(maxMutationSpinner.getValue(),genomeLengthValue), genomeLengthValue);
+                mutateGenome = MutationFactory.createMutation(mutationStrategy.getValue(), minMutationSpinner.getValue(), min(maxMutationSpinner.getValue(),genomeLengthValue));
                 showError(e.getMessage());
             }
 
