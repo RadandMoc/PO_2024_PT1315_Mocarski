@@ -45,7 +45,9 @@ public class Simulation {
         this.breadingEnergyLoss = breadingEnergyLoss;
         typeOfMutation = selectedMutatation;
         this.typeOfReproduction = typeOfReproduction;
-        this.showStatistics = StatisticFabric.CreateClassicalStatistics( new MapDataProvider(map, animalSet));
+        MapDataProvider dataProvider = new MapDataProvider(map, animalSet);
+        addObserver(dataProvider);
+        this.showStatistics = StatisticFabric.CreateClassicalStatistics(dataProvider );
         this.saveStatistics = saveStatistics;
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss-SSS");
         this.fileName = "save_No" + LocalDateTime.now().format(formatter) + ".csv";
