@@ -145,11 +145,10 @@ public abstract class AbstractWorldMap
         }
     }
 
-    public HashSet<Animal> generateRandomAnimals(int numOfAnimals,int genomeLength,int startEnergy){
+    public void generateRandomAnimals(int numOfAnimals,int genomeLength,int startEnergy){
         Random random = new Random();
         int x;
         int y;
-        HashSet<Animal> animalsSet = new HashSet<>();
         for (int i = 0; i < numOfAnimals; i++) {
             x = random.nextInt(width) + boundary.lowerLeft().x();
             y = random.nextInt(height) + boundary.lowerLeft().y();
@@ -160,10 +159,8 @@ public abstract class AbstractWorldMap
             Vector2d pos = new Vector2d(x,y);
             Animal animal = new Animal(pos,startEnergy,0,genome,genomesListener);
             this.place(animal);
-            animalsSet.add(animal);
         }
 
-        return animalsSet;
     }
 
     public Boundary getBoundary(){

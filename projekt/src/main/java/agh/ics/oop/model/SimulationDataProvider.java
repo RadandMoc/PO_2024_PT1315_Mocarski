@@ -7,7 +7,6 @@ public interface SimulationDataProvider {
     Stream<Animal> getAllAnimalsStream();
     Stream<Plant> getAllPlantsStream();
     int getMapSize();
-    Set<Animal> getStartingAnimals();
     String getMostPopularGenome();
     float getAverageLifeTime();
 }

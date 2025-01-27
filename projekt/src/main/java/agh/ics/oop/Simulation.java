@@ -38,14 +38,14 @@ public class Simulation {
         // energia rodziców zużywana by stworzyć potomka -> GUI
         // int minNumOfMutation,
         // wariant zachowania zwierzaków -> stworzę interfejs
-        var animalSet = map.generateRandomAnimals(startingAnimals,lenOfGenome,startingEnergy);
+        map.generateRandomAnimals(startingAnimals,lenOfGenome,startingEnergy);
         this.energyToBeingFullStuffed = energyToBeingFullStuffed;
         this.startingEnergy = startingEnergy;
         this.numOfNewPlantsPerTurn = numOfNewPlantsPerTurn;
         this.breadingEnergyLoss = breadingEnergyLoss;
         typeOfMutation = selectedMutatation;
         this.typeOfReproduction = typeOfReproduction;
-        MapDataProvider dataProvider = new MapDataProvider(map, animalSet);
+        MapDataProvider dataProvider = new MapDataProvider(map);
         addObserver(dataProvider);
         this.showStatistics = StatisticFabric.CreateClassicalStatistics(dataProvider );
         this.saveStatistics = saveStatistics;

@@ -10,14 +10,13 @@ import java.util.stream.Stream;
 
 public class MapDataProvider implements SimulationDataProvider, SimTurnListener  {
     private final AbstractWorldMap map;
-    private final Set<Animal> startingAnimals;
 
     private List<Animal> currentAnimals;
     private List<Plant> currentPlants;
 
-    public MapDataProvider(AbstractWorldMap map, Set<Animal> startingAnimals) {
+    public MapDataProvider(AbstractWorldMap map) {
         this.map = map;
-        this.startingAnimals = startingAnimals;
+
     }
 
     @Override
@@ -35,10 +34,6 @@ public class MapDataProvider implements SimulationDataProvider, SimTurnListener 
         return map.height * map.width;
     }
 
-    @Override
-    public Set<Animal> getStartingAnimals() {
-        return startingAnimals;
-    }
 
     @Override
     public String getMostPopularGenome() {
