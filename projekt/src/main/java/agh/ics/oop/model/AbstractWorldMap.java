@@ -203,6 +203,10 @@ public abstract class AbstractWorldMap
 
     // very dangerous and stupid code. It may be dangerous for you. Please consult with your doctor or pharmacist
     public List<Animal> getAnimals(){
-        return animals.values().stream().flatMap(Collection::stream).toList();
+        List<Animal> result;
+        synchronized (animals) {
+            result = animals.values().stream().flatMap(Collection::stream).toList();
+        }
+        return result;
     }
 }
