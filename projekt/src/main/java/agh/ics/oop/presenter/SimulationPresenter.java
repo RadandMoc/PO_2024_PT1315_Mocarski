@@ -1,4 +1,5 @@
 package agh.ics.oop.presenter;
+
 import agh.ics.oop.Simulation;
 import agh.ics.oop.fabric.MutationFactory;
 import agh.ics.oop.model.*;
@@ -132,12 +133,12 @@ public class SimulationPresenter {
                 newStage.show();
 
                 Thread simulationThread = new Thread(() -> {
-                    for(int i = 0; i < 100000; i++){
+                    for (int i = 0; i < 100000; i++) {
                         if (Thread.currentThread().isInterrupted()) {
                             return;
                         }
 
-                        synchronized(presenter.getPauseLock()) {
+                        synchronized (presenter.getPauseLock()) {
                             while (presenter.isPaused()) {
                                 try {
                                     presenter.getPauseLock().wait();
@@ -187,8 +188,8 @@ public class SimulationPresenter {
             int energyFromPlantValue = validateIntegerField(energyFromPlant);
             int genomeLengthValue = validateIntegerField(genomeLength);
             int energyForBeingFullStaffedValue = validateIntegerField(energyForBeingFullStaffed);
-            int startingEnergyValue = validateIntegerField(startingEnergy );
-            int numOfNewPlantsPerTurnValue = validateIntegerField(numOfNewPlantsPerTurn );
+            int startingEnergyValue = validateIntegerField(startingEnergy);
+            int numOfNewPlantsPerTurnValue = validateIntegerField(numOfNewPlantsPerTurn);
             int breadingEnergyLossValue = validateIntegerField(breadingEnergyLoss);
             int energyLossValue = validateIntegerField(energyLoss);
 
@@ -200,19 +201,19 @@ public class SimulationPresenter {
                     energyForBeingFullStaffedValue, startingEnergyValue,
                     numOfNewPlantsPerTurnValue, breadingEnergyLossValue,
                     startsNumOfPlantsValue, startingAnimalsValue));
-            if (!isAllAboveZero){
+            if (!isAllAboveZero) {
                 showError("Please correct variable with value below or equal 0 ");
                 return;
             }
-            if(genomeLengthValue<2){
+            if (genomeLengthValue < 2) {
                 showError("Please entry genome length value upper than 1");
                 return;
             }
 
             int energyLossPerMoveToPoleValue = 0;
-            if (energyLossPerMoveToPole.isVisible()){
+            if (energyLossPerMoveToPole.isVisible()) {
                 energyLossPerMoveToPoleValue = validateIntegerField(energyLossPerMoveToPole);
-                if (energyLossPerMoveToPoleValue <= 0){
+                if (energyLossPerMoveToPoleValue <= 0) {
                     return;
                 }
             }
@@ -220,15 +221,14 @@ public class SimulationPresenter {
 
             try {
                 mutateGenome = MutationFactory.createMutation(mutationStrategy.getValue(), minMutationSpinner.getValue(), maxMutationSpinner.getValue());
-            }
-            catch (IllegalArgumentException e){
-                mutateGenome = MutationFactory.createMutation(mutationStrategy.getValue(), minMutationSpinner.getValue(), min(maxMutationSpinner.getValue(),genomeLengthValue));
+            } catch (IllegalArgumentException e) {
+                mutateGenome = MutationFactory.createMutation(mutationStrategy.getValue(), minMutationSpinner.getValue(), min(maxMutationSpinner.getValue(), genomeLengthValue));
                 showError(e.getMessage());
             }
 
             AbstractWorldMap map = null;
 
-            Vector2d leftDownBoundary = new Vector2d(xValue,yValue);
+            Vector2d leftDownBoundary = new Vector2d(xValue, yValue);
             map = switch (mapChoice.getSelectionModel().getSelectedItem()) {
                 case "Globe" -> new GlobeMap(widthValue, heightValue, leftDownBoundary, energyFromPlantValue,
                         new ClassicalEnergyLoss(energyLossValue), startsNumOfPlantsValue);
@@ -242,11 +242,10 @@ public class SimulationPresenter {
 
             final Simulation sim = new Simulation(map, startingAnimalsValue, startingEnergyValue,
                     energyForBeingFullStaffedValue, breadingEnergyLossValue, genomeLengthValue,
-                    mutateGenome, numOfNewPlantsPerTurnValue,  new ClassicAnimalReproduction(), wantLogsCbx.isSelected());
-                new Thread(() -> {
+                    mutateGenome, numOfNewPlantsPerTurnValue, new ClassicAnimalReproduction(), wantLogsCbx.isSelected());
+            new Thread(() -> {
                 openNewWindow(finalMap, sim);
             }).start();
-
 
 
         } catch (IllegalArgumentException e) {
@@ -342,7 +341,7 @@ public class SimulationPresenter {
     }
 
     private boolean checkIfAboveZero(List<Integer> integers) {
-        return integers.stream().allMatch(x -> x>0);
+        return integers.stream().allMatch(x -> x > 0);
     }
 
     private int validateIntegerField(TextField textField) {

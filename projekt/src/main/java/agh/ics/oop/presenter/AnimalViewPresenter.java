@@ -32,6 +32,7 @@ public class AnimalViewPresenter implements SimTurnListener {
 
     @FXML
     ImageView animalImage = new ImageView();
+
     {
         animalImage.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/animal.png"))));
     }
@@ -53,7 +54,7 @@ public class AnimalViewPresenter implements SimTurnListener {
         descendants.setText("liczba potomków %d".formatted(animal.getAllDescendants().size()));
         lifetime.setText("dlugosc zycia %d".formatted(animal.getLifeTime()));
         turnOfDeath.setText("Tura śmierci: zwierze zyje");
-        if (animal.getIsDead()){
+        if (animal.getIsDead()) {
             turnOfDeath.setText("Tura śmierci: %d".formatted(animal.getTurnOfDeath()));
         }
     }

@@ -3,14 +3,14 @@ package agh.ics.oop.model;
 import java.util.*;
 
 public class AnimalIOCalculator {
-    private final HashMap<String,List<Animal>> activeAnimals = new HashMap<>();
+    private final HashMap<String, List<Animal>> activeAnimals = new HashMap<>();
     private String popularGenome = "";
     private int popularity = 0;
     private boolean needActualization = false;
     private float avgLifeTime = 0;
     private int numOfDeadAnimals = 0;
 
-    public void newAnimal(Animal animal){
+    public void newAnimal(Animal animal) {
         String genome = animal.getGenome();
         synchronized (activeAnimals) {
             if (activeAnimals.containsKey(genome)) {
@@ -32,11 +32,11 @@ public class AnimalIOCalculator {
         }
     }
 
-    public void deleteAnimal(Animal animal){
+    public void deleteAnimal(Animal animal) {
         String genome = animal.getGenome();
-        if(activeAnimals.containsKey(genome)){
+        if (activeAnimals.containsKey(genome)) {
             int numOfGenomes = activeAnimals.get(genome).size();
-            avgLifeTime = (avgLifeTime*numOfDeadAnimals + animal.getLifeTime())/ (numOfDeadAnimals+1);
+            avgLifeTime = (avgLifeTime * numOfDeadAnimals + animal.getLifeTime()) / (numOfDeadAnimals + 1);
             numOfDeadAnimals++;
             synchronized (activeAnimals) {
                 if (numOfGenomes > 1) {
@@ -58,12 +58,12 @@ public class AnimalIOCalculator {
                     }
                 }
             }
-        }else
+        } else
             throw new IllegalStateException("There is no genome with this type.");
     }
 
-    public String getMostPopularGenome(){
-        if(needActualization){
+    public String getMostPopularGenome() {
+        if (needActualization) {
             String maxKey = "";
             int maxValue = Integer.MIN_VALUE;
             synchronized (activeAnimals) {
@@ -82,7 +82,7 @@ public class AnimalIOCalculator {
         return popularGenome;
     }
 
-    public List<Vector2d> getAnimalsPositionsWithGenome(String genome){
+    public List<Vector2d> getAnimalsPositionsWithGenome(String genome) {
         List<Vector2d> positions = new ArrayList<>();
         synchronized (activeAnimals) {
             if (activeAnimals.containsKey(genome)) {
@@ -94,7 +94,7 @@ public class AnimalIOCalculator {
         return positions;
     }
 
-    public float getAvgLifeTime(){
+    public float getAvgLifeTime() {
         return avgLifeTime;
     }
 }

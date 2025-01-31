@@ -2,6 +2,7 @@ package agh.ics.oop.fabric;
 
 import agh.ics.oop.model.*;
 import agh.ics.oop.statistic.*;
+
 import java.util.List;
 
 public class StatisticFabric {

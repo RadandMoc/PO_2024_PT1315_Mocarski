@@ -53,9 +53,9 @@ public class RandomPositionGenerator implements Iterable<Vector2d> {
             long checkingIndex = 0;
             for (int i = 0; i <= maxHeight; i++) {
                 for (int j = 0; j <= maxWidth; j++) {
-                    position = new Vector2d(i,j);
-                    if(!generatedPositions.contains(position)){
-                        if(checkingIndex == index){
+                    position = new Vector2d(i, j);
+                    if (!generatedPositions.contains(position)) {
+                        if (checkingIndex == index) {
                             generatedPositions.add(position);
                             generatedCount++;
                             return position;
@@ -66,13 +66,13 @@ public class RandomPositionGenerator implements Iterable<Vector2d> {
             }
 
             /* Powyższe rozwiązanie spełnia wymagania bonusu, ale widzę tutaj inne, lepsze rozwiązanie (którego nie chce mi się implementować żeby nie tracić czasu)
-            * mogę posiadać listę indexów po przerzutowaniu na jeden wymiar.
-            * Po wylosowaniu indexu sprawdzić, które indexy z tych co były i powiększyć odpowiednio wylosowany index.
-            * Następnie w forze od wysokości sprawdzasz, czy będzie w danej szerokości (czy wynik będzie dla danego i z powyższych forów)
-            * Jeśli tam będzie, to checkingIndex powiększamy o maxWidth+1 i omijamy całkowicie tego for j ... aż dojdziemy do odpowiedniego i.
-            *
-            * Niezależnie od wersji lepszej czy gorszej, każda z nich ma złożoność O(n). Iteracja nie wykrozczy poza pola jednostkowe symulowanej figury (prostokąta)
-            *  */
+             * mogę posiadać listę indexów po przerzutowaniu na jeden wymiar.
+             * Po wylosowaniu indexu sprawdzić, które indexy z tych co były i powiększyć odpowiednio wylosowany index.
+             * Następnie w forze od wysokości sprawdzasz, czy będzie w danej szerokości (czy wynik będzie dla danego i z powyższych forów)
+             * Jeśli tam będzie, to checkingIndex powiększamy o maxWidth+1 i omijamy całkowicie tego for j ... aż dojdziemy do odpowiedniego i.
+             *
+             * Niezależnie od wersji lepszej czy gorszej, każda z nich ma złożoność O(n). Iteracja nie wykrozczy poza pola jednostkowe symulowanej figury (prostokąta)
+             *  */
 
             throw new IllegalStateException();
         }

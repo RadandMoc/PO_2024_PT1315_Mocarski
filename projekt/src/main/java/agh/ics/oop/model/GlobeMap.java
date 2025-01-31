@@ -1,10 +1,11 @@
 package agh.ics.oop.model;
+
 import java.util.*;
 
-    public class GlobeMap extends AbstractWorldMap{
+public class GlobeMap extends AbstractWorldMap {
 
     public GlobeMap(int width, int height, Vector2d leftDownBoundary, int plantEnergy, EnergyLoss energyLoss, int startNumOfPlants) {
-        super(width, height, leftDownBoundary, plantEnergy, energyLoss,startNumOfPlants);
+        super(width, height, leftDownBoundary, plantEnergy, energyLoss, startNumOfPlants);
     }
 
     @Override
@@ -19,7 +20,7 @@ import java.util.*;
         double decision;
         for (int i = 0; i < numOfPlants; i++) {
             decision = random.nextDouble();
-            if(decision<0.8){
+            if (decision < 0.8) {
                 center++;
             } else {
                 poles++;
@@ -32,8 +33,8 @@ import java.util.*;
                 for (Vector2d pos : equatorPlantGenerator) {
                     plants.put(pos, new Plant(pos));
                 }
+            } catch (ToMuchValuesToGenerateException ignored) {
             }
-            catch (ToMuchValuesToGenerateException ignored){}
         }
         synchronized (plants) {
             try {
@@ -51,17 +52,13 @@ import java.util.*;
         MapDirection orientation = animal.getOrientation();
         Vector2d preMove = animalPosition.add(orientation.toUnitVector());
         int energyLost = energyLoss.howManyEnergyToWalk(animal);
-        if (preMove.y() > boundary.upperRight().y() || preMove.y() < boundary.lowerLeft().y())
-        {
-            return new MoveResult(animalPosition, orientation.change(4),energyLoss.howManyEnergyToWalk(animal));
+        if (preMove.y() > boundary.upperRight().y() || preMove.y() < boundary.lowerLeft().y()) {
+            return new MoveResult(animalPosition, orientation.change(4), energyLoss.howManyEnergyToWalk(animal));
         }
-        if (preMove.x() > boundary.upperRight().x())
-        {
-            return new MoveResult(new Vector2d(boundary.lowerLeft().x(),preMove.y()), orientation, energyLost);
-        }
-        else if (preMove.x() < boundary.lowerLeft().x())
-        {
-            return new MoveResult(new Vector2d(boundary.upperRight().x(),preMove.y()), orientation, energyLost);
+        if (preMove.x() > boundary.upperRight().x()) {
+            return new MoveResult(new Vector2d(boundary.lowerLeft().x(), preMove.y()), orientation, energyLost);
+        } else if (preMove.x() < boundary.lowerLeft().x()) {
+            return new MoveResult(new Vector2d(boundary.upperRight().x(), preMove.y()), orientation, energyLost);
         }
         return new MoveResult(preMove, orientation, energyLost);
     }

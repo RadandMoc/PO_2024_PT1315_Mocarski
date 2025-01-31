@@ -8,7 +8,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class MapDataProvider implements SimulationDataProvider, SimTurnListener  {
+public class MapDataProvider implements SimulationDataProvider, SimTurnListener {
     private final AbstractWorldMap map;
 
     private List<Animal> currentAnimals;

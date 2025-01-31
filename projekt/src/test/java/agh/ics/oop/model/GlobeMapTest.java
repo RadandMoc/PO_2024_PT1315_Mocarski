@@ -11,9 +11,9 @@ class GlobeMapTest {
 
 
     @Test
-    public void moveTestForGlobeMap(){
+    public void moveTestForGlobeMap() {
         // given
-        GlobeMap map = new GlobeMap(20,20,new Vector2d(0,0),20, new ClassicalEnergyLoss(50),0);
+        GlobeMap map = new GlobeMap(20, 20, new Vector2d(0, 0), 20, new ClassicalEnergyLoss(50), 0);
         final List<Byte> directions1 = List.of(
                 (byte) 5
         );
@@ -26,10 +26,10 @@ class GlobeMapTest {
         final List<Byte> directions4 = List.of(
                 (byte) 7
         );
-        Animal a1 = new Animal(new Vector2d(0,0), 100, 0,directions1,MapDirection.N,0,null);
-        Animal a2 = new Animal(new Vector2d(19,19), 100, 0,directions2,MapDirection.N,0,null);
-        Animal a3 = new Animal(new Vector2d(19,0), 100, 0,directions3,MapDirection.N,0,null);
-        Animal a4 = new Animal(new Vector2d(0,19), 100, 0,directions4,MapDirection.N,0,null);
+        Animal a1 = new Animal(new Vector2d(0, 0), 100, 0, directions1, MapDirection.N, 0, null);
+        Animal a2 = new Animal(new Vector2d(19, 19), 100, 0, directions2, MapDirection.N, 0, null);
+        Animal a3 = new Animal(new Vector2d(19, 0), 100, 0, directions3, MapDirection.N, 0, null);
+        Animal a4 = new Animal(new Vector2d(0, 19), 100, 0, directions4, MapDirection.N, 0, null);
 
         map.place(a1);
         map.place(a2);
@@ -40,20 +40,20 @@ class GlobeMapTest {
         map.movesAllAnimals();
 
         // then
-        assertEquals(new Vector2d(0,0), a1.position());
+        assertEquals(new Vector2d(0, 0), a1.position());
         assertEquals(MapDirection.NE, a1.getOrientation());
-        assertEquals(new Vector2d(19,19), a2.position());
+        assertEquals(new Vector2d(19, 19), a2.position());
         assertEquals(MapDirection.S, a2.getOrientation());
-        assertEquals(new Vector2d(19,0), a3.position());
+        assertEquals(new Vector2d(19, 0), a3.position());
         assertEquals(MapDirection.NW, a3.getOrientation());
-        assertEquals(new Vector2d(0,19), a4.position());
+        assertEquals(new Vector2d(0, 19), a4.position());
         assertEquals(MapDirection.SE, a4.getOrientation());
     }
 
     @Test
-    public void moveTestIfAnimalGoToAnotherSideGlobeMap(){
+    public void moveTestIfAnimalGoToAnotherSideGlobeMap() {
         // given
-        GlobeMap map = new GlobeMap(20,20,new Vector2d(0,0),20, new ClassicalEnergyLoss(50),0);
+        GlobeMap map = new GlobeMap(20, 20, new Vector2d(0, 0), 20, new ClassicalEnergyLoss(50), 0);
         final List<Byte> directions1 = List.of(
                 (byte) 6
         );
@@ -67,10 +67,10 @@ class GlobeMapTest {
                 (byte) 3
         );
 
-        Animal a1 = new Animal(new Vector2d(0,10), 100, 0,directions1,MapDirection.N,0,null);
-        Animal a2 = new Animal(new Vector2d(19,10), 100, 0,directions2,MapDirection.N,0,null);
-        Animal a3 = new Animal(new Vector2d(0,10), 100, 0,directions3,MapDirection.N,0,null);
-        Animal a4 = new Animal(new Vector2d(19,10), 100, 0,directions4,MapDirection.N,0,null);
+        Animal a1 = new Animal(new Vector2d(0, 10), 100, 0, directions1, MapDirection.N, 0, null);
+        Animal a2 = new Animal(new Vector2d(19, 10), 100, 0, directions2, MapDirection.N, 0, null);
+        Animal a3 = new Animal(new Vector2d(0, 10), 100, 0, directions3, MapDirection.N, 0, null);
+        Animal a4 = new Animal(new Vector2d(19, 10), 100, 0, directions4, MapDirection.N, 0, null);
 
 
         map.place(a1);
@@ -82,39 +82,39 @@ class GlobeMapTest {
         map.movesAllAnimals();
 
         // then
-        assertEquals(new Vector2d(19,10), a1.position());
-        assertEquals(new Vector2d(0,10), a2.position());
-        assertEquals(new Vector2d(19,11), a3.position());
-        assertEquals(new Vector2d(0,9), a4.position());
+        assertEquals(new Vector2d(19, 10), a1.position());
+        assertEquals(new Vector2d(0, 10), a2.position());
+        assertEquals(new Vector2d(19, 11), a3.position());
+        assertEquals(new Vector2d(0, 9), a4.position());
     }
 
     @Test
-    public void moveTestMoveWithinBoundariesGlobeMap(){
+    public void moveTestMoveWithinBoundariesGlobeMap() {
         // given
-        final GlobeMap map = new GlobeMap(20,20,new Vector2d(0,0),20, new ClassicalEnergyLoss(50),0);
+        final GlobeMap map = new GlobeMap(20, 20, new Vector2d(0, 0), 20, new ClassicalEnergyLoss(50), 0);
         final List<Byte> directions1 = Arrays.asList(
-                (byte)6, (byte)6, (byte)6, (byte)6, (byte)6
+                (byte) 6, (byte) 6, (byte) 6, (byte) 6, (byte) 6
         );
-        Animal a1 = new Animal(new Vector2d(10,10), 100, 0,directions1,MapDirection.N,0,null);
+        Animal a1 = new Animal(new Vector2d(10, 10), 100, 0, directions1, MapDirection.N, 0, null);
         map.place(a1);
 
         // when
         map.movesAllAnimals();
         // then
-        assertEquals(new Vector2d(9,10), a1.position());
+        assertEquals(new Vector2d(9, 10), a1.position());
     }
 
     @Test
-    public void consumeTest(){
+    public void consumeTest() {
         // given
-        GlobeMap map = new GlobeMap(20,20,new Vector2d(0,0),20, new ClassicalEnergyLoss(20),0);
-        Vector2d pos1 = new Vector2d(5,5);
-        Vector2d pos2 = new Vector2d(3,1);
-        Vector2d pos3 = new Vector2d(7,1);
+        GlobeMap map = new GlobeMap(20, 20, new Vector2d(0, 0), 20, new ClassicalEnergyLoss(20), 0);
+        Vector2d pos1 = new Vector2d(5, 5);
+        Vector2d pos2 = new Vector2d(3, 1);
+        Vector2d pos3 = new Vector2d(7, 1);
 
-        Animal animal1 = new Animal(pos1, 100, 0, new ArrayList<>(),MapDirection.N,0,null);
-        Animal animal2 = new Animal(pos2, 100, 0, new ArrayList<>(),MapDirection.N,0,null);
-        Animal animal3 = new Animal(pos3, 100, 0, new ArrayList<>(),MapDirection.N,0,null);
+        Animal animal1 = new Animal(pos1, 100, 0, new ArrayList<>(), MapDirection.N, 0, null);
+        Animal animal2 = new Animal(pos2, 100, 0, new ArrayList<>(), MapDirection.N, 0, null);
+        Animal animal3 = new Animal(pos3, 100, 0, new ArrayList<>(), MapDirection.N, 0, null);
 
         map.place(animal1);
         map.place(animal2);
@@ -132,9 +132,9 @@ class GlobeMapTest {
         map.animalsConsume(new ConsumeConflictSolver());
 
         //then
-        assertEquals(120,animal1.getEnergy());
-        assertEquals(120,animal2.getEnergy());
-        assertEquals(120,animal3.getEnergy());
+        assertEquals(120, animal1.getEnergy());
+        assertEquals(120, animal2.getEnergy());
+        assertEquals(120, animal3.getEnergy());
         assertTrue(map.plants.isEmpty());
     }
 }

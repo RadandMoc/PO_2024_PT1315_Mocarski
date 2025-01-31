@@ -28,7 +28,8 @@
     </left>
 
     <right>
-        <VBox fx:id="animalsToSelectContainer" spacing="10.0" alignment="TOP_RIGHT" style="-fx-padding: 10;" visible="false"/>
+        <VBox fx:id="animalsToSelectContainer" spacing="10.0" alignment="TOP_RIGHT" style="-fx-padding: 10;"
+              visible="false"/>
     </right>
 
     <center>

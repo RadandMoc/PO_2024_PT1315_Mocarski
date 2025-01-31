@@ -53,17 +53,17 @@ public class WorldElementBox {
         return vBox;
     }
 
-    public void UpdateForAnimal(int energy){
+    public void UpdateForAnimal(int energy) {
         imageView.setImage(loadImage("/animal.png"));
         energyLabel.setText("%d".formatted(energy));
     }
 
-    public void UpdateForPlant(){
+    public void UpdateForPlant() {
         imageView.setImage(loadImage("/plant.png"));
         energyLabel.setText("");
     }
 
-    public void setNull(){
+    public void setNull() {
         imageView.setImage(null);
         energyLabel.setText("");
     }

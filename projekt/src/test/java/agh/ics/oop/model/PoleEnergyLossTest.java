@@ -8,14 +8,14 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PoleEnergyLossTest {
     @Test
-    public void testEnergy(){
+    public void testEnergy() {
         // given
-        Animal animal1 = new Animal(new Vector2d(6,6), 50, 10, List.of((byte)0,(byte)1,(byte)2,(byte)3),null);
-        Animal animal2 = new Animal(new Vector2d(3,3), 50, 10, List.of((byte)0,(byte)1,(byte)2,(byte)3),null);
-        Animal animal3 = new Animal(new Vector2d(-3,-3), 50, 10, List.of((byte)0,(byte)1,(byte)2,(byte)3),null);
+        Animal animal1 = new Animal(new Vector2d(6, 6), 50, 10, List.of((byte) 0, (byte) 1, (byte) 2, (byte) 3), null);
+        Animal animal2 = new Animal(new Vector2d(3, 3), 50, 10, List.of((byte) 0, (byte) 1, (byte) 2, (byte) 3), null);
+        Animal animal3 = new Animal(new Vector2d(-3, -3), 50, 10, List.of((byte) 0, (byte) 1, (byte) 2, (byte) 3), null);
 
 
-        PoleEnergyLoss energyLossMethod = new PoleEnergyLoss(new Boundary(new Vector2d(0,0), new Vector2d(4,4)),10,1);
+        PoleEnergyLoss energyLossMethod = new PoleEnergyLoss(new Boundary(new Vector2d(0, 0), new Vector2d(4, 4)), 10, 1);
 
 
         // when

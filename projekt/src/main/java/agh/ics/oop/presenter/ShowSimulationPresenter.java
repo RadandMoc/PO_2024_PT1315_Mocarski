@@ -52,7 +52,6 @@ public class ShowSimulationPresenter implements MapChangeListener, SimTurnListen
     private int timeDelayBetweenTurns = 1000;
 
 
-
     private static final int CELL_WIDTH = 30;
     private static final int CELL_HEIGHT = 30;
 
@@ -67,13 +66,13 @@ public class ShowSimulationPresenter implements MapChangeListener, SimTurnListen
         clearGrid();
         Boundary boundary = worldMap.getBoundary();
 
-        int minx =  boundary.lowerLeft().x();
-        int maxX =  boundary.upperRight().x();
-        drawColumn(minx,maxX);
+        int minx = boundary.lowerLeft().x();
+        int maxX = boundary.upperRight().x();
+        drawColumn(minx, maxX);
 
-        int minY =  boundary.lowerLeft().y();
-        int maxY =  boundary.upperRight().y();
-        drawRow(minY,maxY);
+        int minY = boundary.lowerLeft().y();
+        int maxY = boundary.upperRight().y();
+        drawRow(minY, maxY);
         addElements(minx, maxX, minY, maxY);
         mapGrid.setGridLinesVisible(true);
     }
@@ -106,6 +105,7 @@ public class ShowSimulationPresenter implements MapChangeListener, SimTurnListen
             mapGrid.add(label, 0, maxY - i + 1);
         }
     }
+
     public void addElements(int xMin, int xMax, int yMin, int yMax) {
 
         int worldElementIdx = 0;
@@ -130,8 +130,8 @@ public class ShowSimulationPresenter implements MapChangeListener, SimTurnListen
     }
 
 
-    private WorldElementBox setWorldElementsBox(int idx, WorldElement element){
-        if (idx < worldElementsBox.size()){
+    private WorldElementBox setWorldElementsBox(int idx, WorldElement element) {
+        if (idx < worldElementsBox.size()) {
             WorldElementBox box = worldElementsBox.get(idx);
             element.updateWorldElementBox(box);
             return box;
@@ -143,7 +143,6 @@ public class ShowSimulationPresenter implements MapChangeListener, SimTurnListen
     }
 
 
-
     private void clearGrid() {
         mapGrid.getChildren().retainAll(mapGrid.getChildren().get(0));
         mapGrid.getColumnConstraints().clear();
@@ -151,7 +150,7 @@ public class ShowSimulationPresenter implements MapChangeListener, SimTurnListen
     }
 
 
-    public void setWorldMap(AbstractWorldMap map){
+    public void setWorldMap(AbstractWorldMap map) {
         worldMap = map;
     }
 
@@ -210,17 +209,15 @@ public class ShowSimulationPresenter implements MapChangeListener, SimTurnListen
     }
 
     @FXML
-    private void onAcceptSpeedUpClicked(){
+    private void onAcceptSpeedUpClicked() {
         try {
             int newDelay = Integer.parseInt(speedUp.getText());
-            if (newDelay > 0){
+            if (newDelay > 0) {
                 timeDelayBetweenTurns = 100 * newDelay;
-            }
-            else {
+            } else {
                 showAlert("Wpisz liczbe wieksza od 0. (decysekundy to 1/10 sekundy)", Alert.AlertType.WARNING);
             }
-        }
-        catch (NumberFormatException ignored) {
+        } catch (NumberFormatException ignored) {
             showAlert("Musi to być liczba naturalna (int) większa od 0", Alert.AlertType.ERROR);
         }
     }
@@ -260,14 +257,14 @@ public class ShowSimulationPresenter implements MapChangeListener, SimTurnListen
     }
 
 
-    private void highlightMostPopularGenome(){
+    private void highlightMostPopularGenome() {
         Boundary boundary = worldMap.getBoundary();
         int minx = boundary.lowerLeft().x();
         int maxY = boundary.upperRight().y();
 
         var positions = worldMap.getAnimalsPositionsWithGenome(worldMap.theMostPopularGenome());
 
-        for (Vector2d pos : positions){
+        for (Vector2d pos : positions) {
             Pane highlightPane = new Pane();
             highlightPane.setStyle("-fx-background-color: linear-gradient(to bottom right, #ffcccc, #ff6666); " +
                     "-fx-border-color: #ff9999; -fx-border-width: 0.5;");
@@ -323,7 +320,7 @@ public class ShowSimulationPresenter implements MapChangeListener, SimTurnListen
         this.simulationThread = simulationThread;
     }
 
-    public void setSimulation(Simulation sim){
+    public void setSimulation(Simulation sim) {
         this.simulation = sim;
     }
 

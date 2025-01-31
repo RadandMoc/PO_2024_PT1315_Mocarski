@@ -2,8 +2,7 @@ package agh.ics.oop.model;
 
 import java.util.*;
 
-public abstract class AbstractWorldMap
-{
+public abstract class AbstractWorldMap {
     protected final HashMap<Vector2d, HashSet<Animal>> animals = new HashMap<>();
     protected final HashMap<Vector2d, Plant> plants = new HashMap<>();
     private final List<MapChangeListener> observers = new ArrayList<>();
@@ -18,21 +17,21 @@ public abstract class AbstractWorldMap
     private final AnimalIOCalculator genomesListener = new AnimalIOCalculator();
     private final Comparator<Animal> animalComparator = new AnimalConflictComparator();
 
-    public AbstractWorldMap(int width, int height, Vector2d leftDownBoundary, int plantEnergy, EnergyLoss energyLoss, int startNumOfPlants){
+    public AbstractWorldMap(int width, int height, Vector2d leftDownBoundary, int plantEnergy, EnergyLoss energyLoss, int startNumOfPlants) {
         this.width = width;
         this.height = height;
         Vector2d rightUpBoundary = new Vector2d(leftDownBoundary.x() + width - 1, leftDownBoundary.y() + height - 1);
-        boundary = new Boundary(leftDownBoundary,rightUpBoundary);
+        boundary = new Boundary(leftDownBoundary, rightUpBoundary);
         energyFromPlant = plantEnergy;
         this.energyLoss = energyLoss;
-        polesPlantGenerator = new RandomPositionGenerator(boundary,0);
+        polesPlantGenerator = new RandomPositionGenerator(boundary, 0);
         equator = calculateEquator(leftDownBoundary, height, width);
-        equatorPlantGenerator = new RandomPositionGenerator(equator,0);
+        equatorPlantGenerator = new RandomPositionGenerator(equator, 0);
         polesPlantGenerator.deleteRectangle(equator);
         generatePlants(startNumOfPlants);
     }
 
-    public boolean isOccupied(Vector2d position){
+    public boolean isOccupied(Vector2d position) {
         synchronized (animals) {
             synchronized (plants) {
                 return animals.containsKey(position) || plants.containsKey(position);
@@ -40,8 +39,8 @@ public abstract class AbstractWorldMap
         }
     }
 
-    public Optional<WorldElement> objectAt(Vector2d position){
-        synchronized (animals){
+    public Optional<WorldElement> objectAt(Vector2d position) {
+        synchronized (animals) {
             if (animals.containsKey(position) && !animals.get(position).isEmpty()) {
                 return animals.get(position).stream()
                         .min(animalComparator)
@@ -58,25 +57,25 @@ public abstract class AbstractWorldMap
         return Optional.empty();
     }
 
-    public void place(WorldElement mapObj){
-        if(mapObj instanceof Plant plant){
-            plants.put(plant.position(),plant);
-            if(equator.isVectorIn(plant.position()))
+    public void place(WorldElement mapObj) {
+        if (mapObj instanceof Plant plant) {
+            plants.put(plant.position(), plant);
+            if (equator.isVectorIn(plant.position()))
                 equatorPlantGenerator.deletePositionToChoice(plant.position());
             else
                 polesPlantGenerator.deletePositionToChoice(plant.position());
         } else if (mapObj instanceof Animal animal) {
-            if(!animals.containsKey(animal.position()))
-                animals.put(animal.position(),new HashSet<>());
+            if (!animals.containsKey(animal.position()))
+                animals.put(animal.position(), new HashSet<>());
             animals.get(animal.position()).add(animal);
         }
     }
 
-    private void move(Animal animal){
+    private void move(Animal animal) {
         Vector2d prevPos = animal.position();
         animal.move(this);
         Vector2d currPos = animal.position();
-        if (!prevPos.equals(currPos)){
+        if (!prevPos.equals(currPos)) {
             animals.get(prevPos).remove(animal);
             place(animal);
         }
@@ -106,8 +105,8 @@ public abstract class AbstractWorldMap
 
     public abstract MoveResult animalMoveChanges(Animal animal);
 
-    public void animalsConsume(StrongestAnimalFinder strongestAnimalFinder){
-        synchronized (animals){
+    public void animalsConsume(StrongestAnimalFinder strongestAnimalFinder) {
+        synchronized (animals) {
             for (var pos : animals.keySet()) {
                 synchronized (plants) {
                     if (plants.containsKey(pos) && !animals.get(pos).isEmpty()) {
@@ -127,11 +126,11 @@ public abstract class AbstractWorldMap
         }
     }
 
-    public void breeding(int energyForAnimalsForBreeding, int breedingLoss, int actualTurn, MutateGenome mutateMethod, ReproductionStrategy repr){
+    public void breeding(int energyForAnimalsForBreeding, int breedingLoss, int actualTurn, MutateGenome mutateMethod, ReproductionStrategy repr) {
         synchronized (animals) {
-            for (var pos : animals.keySet()){
+            for (var pos : animals.keySet()) {
                 var animalsReadyToBreeding = animals.get(pos).stream().
-                    filter(animal -> animal.getEnergy() >= energyForAnimalsForBreeding).toList();
+                        filter(animal -> animal.getEnergy() >= energyForAnimalsForBreeding).toList();
                 var reproductionResults = repr.reproduce(animalsReadyToBreeding, breedingLoss);
 
                 for (var result : reproductionResults) {
@@ -145,25 +144,25 @@ public abstract class AbstractWorldMap
         }
     }
 
-    public void generateRandomAnimals(int numOfAnimals,int genomeLength,int startEnergy){
+    public void generateRandomAnimals(int numOfAnimals, int genomeLength, int startEnergy) {
         Random random = new Random();
         int x;
         int y;
         for (int i = 0; i < numOfAnimals; i++) {
             x = random.nextInt(width) + boundary.lowerLeft().x();
             y = random.nextInt(height) + boundary.lowerLeft().y();
-            List<Byte>genome = new ArrayList<>();
+            List<Byte> genome = new ArrayList<>();
             for (int j = 0; j < genomeLength; j++) {
-                genome.add((byte)random.nextInt(8));
+                genome.add((byte) random.nextInt(8));
             }
-            Vector2d pos = new Vector2d(x,y);
-            Animal animal = new Animal(pos,startEnergy,0,genome,genomesListener);
+            Vector2d pos = new Vector2d(x, y);
+            Animal animal = new Animal(pos, startEnergy, 0, genome, genomesListener);
             this.place(animal);
         }
 
     }
 
-    public Boundary getBoundary(){
+    public Boundary getBoundary() {
         return boundary;
     }
 
@@ -173,11 +172,11 @@ public abstract class AbstractWorldMap
         }
     }
 
-    public static Boundary calculateEquator(Vector2d leftDownBoundary, int height, int width){
-        int maxHeight = leftDownBoundary.y()+height-1;
-        Vector2d equatorLowerLeft = new Vector2d(leftDownBoundary.x(), (maxHeight)*2/5);
-        Vector2d equatorUpperRight = new Vector2d(leftDownBoundary.x()+width-1, (maxHeight)*3/5);
-        return new Boundary(equatorLowerLeft,equatorUpperRight);
+    public static Boundary calculateEquator(Vector2d leftDownBoundary, int height, int width) {
+        int maxHeight = leftDownBoundary.y() + height - 1;
+        Vector2d equatorLowerLeft = new Vector2d(leftDownBoundary.x(), (maxHeight) * 2 / 5);
+        Vector2d equatorUpperRight = new Vector2d(leftDownBoundary.x() + width - 1, (maxHeight) * 3 / 5);
+        return new Boundary(equatorLowerLeft, equatorUpperRight);
     }
 
     public void addObserver(MapChangeListener observer) {
@@ -188,22 +187,22 @@ public abstract class AbstractWorldMap
         observers.remove(observer);
     }
 
-    public String theMostPopularGenome(){
+    public String theMostPopularGenome() {
         return genomesListener.getMostPopularGenome();
     }
 
-    public float getAverageLifeTime(){
+    public float getAverageLifeTime() {
         return genomesListener.getAvgLifeTime();
     }
 
     public abstract Iterator<Vector2d> plantsPreferredZone();
 
-    public List<Vector2d> getAnimalsPositionsWithGenome(String genome){
+    public List<Vector2d> getAnimalsPositionsWithGenome(String genome) {
         return genomesListener.getAnimalsPositionsWithGenome(genome);
     }
 
     // very dangerous and stupid code. It may be dangerous for you. Please consult with your doctor or pharmacist
-    public List<Animal> getAnimals(){
+    public List<Animal> getAnimals() {
         List<Animal> result;
         synchronized (animals) {
             result = animals.values().stream().flatMap(Collection::stream).toList();

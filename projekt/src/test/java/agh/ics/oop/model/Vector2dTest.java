@@ -8,49 +8,49 @@ import org.junit.jupiter.api.Test;
 public class Vector2dTest {
 
     @Test
-    public void equalsForSameVectors(){
+    public void equalsForSameVectors() {
         // Given
-        Vector2d vec = new Vector2d(243,-271);
+        Vector2d vec = new Vector2d(243, -271);
         Vector2d copy;
         // When
         copy = vec;
         // Then
-        assertEquals(vec,copy);
+        assertEquals(vec, copy);
     }
 
     @Test
-    public void equalsForEqualsVectors(){
+    public void equalsForEqualsVectors() {
         // Given
-        Vector2d vec1 = new Vector2d(243,-271);
-        Vector2d vec2 = new Vector2d(243,-271);
+        Vector2d vec1 = new Vector2d(243, -271);
+        Vector2d vec2 = new Vector2d(243, -271);
         // When
 
         // Then
-        assertEquals(vec1,vec2);
+        assertEquals(vec1, vec2);
     }
 
     @Test
-    public void equalsForNotEqualsVectors(){
+    public void equalsForNotEqualsVectors() {
         // Given
-        Vector2d vec1 = new Vector2d(243,-271);
-        Vector2d vec2 = new Vector2d(-243,271);
-        Vector2d vec3 = new Vector2d(2,1);
-        Vector2d vec4 = new Vector2d(1,38);
+        Vector2d vec1 = new Vector2d(243, -271);
+        Vector2d vec2 = new Vector2d(-243, 271);
+        Vector2d vec3 = new Vector2d(2, 1);
+        Vector2d vec4 = new Vector2d(1, 38);
         // When
 
         // Then
-        assertNotEquals(vec1,vec2);
-        assertNotEquals(vec1,vec3);
-        assertNotEquals(vec1,vec4);
-        assertNotEquals(vec2,vec3);
-        assertNotEquals(vec2,vec4);
-        assertNotEquals(vec3,vec4);
+        assertNotEquals(vec1, vec2);
+        assertNotEquals(vec1, vec3);
+        assertNotEquals(vec1, vec4);
+        assertNotEquals(vec2, vec3);
+        assertNotEquals(vec2, vec4);
+        assertNotEquals(vec3, vec4);
     }
 
     @Test
-    public void checkToString(){
+    public void checkToString() {
         // Given
-        Vector2d vec = new Vector2d(12,21);
+        Vector2d vec = new Vector2d(12, 21);
         String correct_text = "(12,21)";
         String funcAnswer;
         // When
@@ -60,10 +60,10 @@ public class Vector2dTest {
     }
 
     @Test
-    public void precedesForSameValues(){
+    public void precedesForSameValues() {
         // Given
-        Vector2d vec1 = new Vector2d(12,21);
-        Vector2d vec2 = new Vector2d(12,21);
+        Vector2d vec1 = new Vector2d(12, 21);
+        Vector2d vec2 = new Vector2d(12, 21);
         boolean funcAnswer;
         // When
         funcAnswer = vec1.precedes(vec2);
@@ -72,10 +72,10 @@ public class Vector2dTest {
     }
 
     @Test
-    public void precedesForCorrectData(){
+    public void precedesForCorrectData() {
         // Given
-        Vector2d vec1 = new Vector2d(12,21);
-        Vector2d vec2 = new Vector2d(13,22);
+        Vector2d vec1 = new Vector2d(12, 21);
+        Vector2d vec2 = new Vector2d(13, 22);
         boolean funcAnswer;
         // When
         funcAnswer = vec1.precedes(vec2);
@@ -84,12 +84,12 @@ public class Vector2dTest {
     }
 
     @Test
-    public void precedesForNotCorrectData(){
+    public void precedesForNotCorrectData() {
         // Given
-        Vector2d vec1 = new Vector2d(12,21);
-        Vector2d vec2 = new Vector2d(11,20);
-        Vector2d vec3 = new Vector2d(11,22);
-        Vector2d vec4 = new Vector2d(13,20);
+        Vector2d vec1 = new Vector2d(12, 21);
+        Vector2d vec2 = new Vector2d(11, 20);
+        Vector2d vec3 = new Vector2d(11, 22);
+        Vector2d vec4 = new Vector2d(13, 20);
         boolean bothWrong;
         boolean firstWrong;
         boolean secWrong;
@@ -104,11 +104,11 @@ public class Vector2dTest {
     }
 
     @Test
-    public void correctFollows(){
+    public void correctFollows() {
         // Given
-        Vector2d vec1 = new Vector2d(12,21);
-        Vector2d vec2 = new Vector2d(12,21);
-        Vector2d vec3 = new Vector2d(11,20);
+        Vector2d vec1 = new Vector2d(12, 21);
+        Vector2d vec2 = new Vector2d(12, 21);
+        Vector2d vec3 = new Vector2d(11, 20);
         boolean vecEquals;
         boolean vecSmaller;
         // When
@@ -120,10 +120,10 @@ public class Vector2dTest {
     }
 
     @Test
-    public void incorrectFollows(){
+    public void incorrectFollows() {
         // Given
-        Vector2d vec1 = new Vector2d(12,21);
-        Vector2d vec2 = new Vector2d(13,22);
+        Vector2d vec1 = new Vector2d(12, 21);
+        Vector2d vec2 = new Vector2d(13, 22);
         boolean funcAnswer;
         // When
         funcAnswer = vec1.follows(vec2);
@@ -132,13 +132,13 @@ public class Vector2dTest {
     }
 
     @Test
-    public void upperRightTests(){
+    public void upperRightTests() {
         // Given
-        Vector2d vec1 = new Vector2d(1,3);
-        Vector2d vec2 = new Vector2d(3,1);
-        Vector2d vec3 = new Vector2d(0,0);
-        Vector2d vec4 = new Vector2d(-1,-2);
-        Vector2d vec5 = new Vector2d(-2,-1);
+        Vector2d vec1 = new Vector2d(1, 3);
+        Vector2d vec2 = new Vector2d(3, 1);
+        Vector2d vec3 = new Vector2d(0, 0);
+        Vector2d vec4 = new Vector2d(-1, -2);
+        Vector2d vec5 = new Vector2d(-2, -1);
         Vector2d ans_vecs_1_2;
         Vector2d ans_vecs_1_3;
         Vector2d ans_vecs_1_4;
@@ -155,23 +155,23 @@ public class Vector2dTest {
         ans_vecs_3_5 = vec3.upperRight(vec5);
         ans_vecs_4_5 = vec4.upperRight(vec5);
         // Then
-        assertEquals(new Vector2d(3,3),ans_vecs_1_2);
-        assertEquals(new Vector2d(1,3),ans_vecs_1_3);
-        assertEquals(new Vector2d(1,3),ans_vecs_1_4);
-        assertEquals(new Vector2d(1,3),ans_vecs_3_1);
-        assertEquals(new Vector2d(0,0),ans_vecs_3_4);
-        assertEquals(new Vector2d(0,0),ans_vecs_3_5);
-        assertEquals(new Vector2d(-1,-1),ans_vecs_4_5);
+        assertEquals(new Vector2d(3, 3), ans_vecs_1_2);
+        assertEquals(new Vector2d(1, 3), ans_vecs_1_3);
+        assertEquals(new Vector2d(1, 3), ans_vecs_1_4);
+        assertEquals(new Vector2d(1, 3), ans_vecs_3_1);
+        assertEquals(new Vector2d(0, 0), ans_vecs_3_4);
+        assertEquals(new Vector2d(0, 0), ans_vecs_3_5);
+        assertEquals(new Vector2d(-1, -1), ans_vecs_4_5);
     }
 
     @Test
-    public void lowerLeftTests(){
+    public void lowerLeftTests() {
         // Given
-        Vector2d vec1 = new Vector2d(1,3);
-        Vector2d vec2 = new Vector2d(3,1);
-        Vector2d vec3 = new Vector2d(0,0);
-        Vector2d vec4 = new Vector2d(-1,-2);
-        Vector2d vec5 = new Vector2d(-2,-1);
+        Vector2d vec1 = new Vector2d(1, 3);
+        Vector2d vec2 = new Vector2d(3, 1);
+        Vector2d vec3 = new Vector2d(0, 0);
+        Vector2d vec4 = new Vector2d(-1, -2);
+        Vector2d vec5 = new Vector2d(-2, -1);
         Vector2d ans_vecs_1_2;
         Vector2d ans_vecs_1_3;
         Vector2d ans_vecs_1_4;
@@ -188,21 +188,21 @@ public class Vector2dTest {
         ans_vecs_3_5 = vec3.lowerLeft(vec5);
         ans_vecs_4_5 = vec4.lowerLeft(vec5);
         // Then
-        assertEquals(new Vector2d(1,1),ans_vecs_1_2);
-        assertEquals(new Vector2d(0,0),ans_vecs_1_3);
-        assertEquals(new Vector2d(-1,-2),ans_vecs_1_4);
-        assertEquals(new Vector2d(0,0),ans_vecs_3_1);
-        assertEquals(new Vector2d(-1,-2),ans_vecs_3_4);
-        assertEquals(new Vector2d(-2,-1),ans_vecs_3_5);
-        assertEquals(new Vector2d(-2,-2),ans_vecs_4_5);
+        assertEquals(new Vector2d(1, 1), ans_vecs_1_2);
+        assertEquals(new Vector2d(0, 0), ans_vecs_1_3);
+        assertEquals(new Vector2d(-1, -2), ans_vecs_1_4);
+        assertEquals(new Vector2d(0, 0), ans_vecs_3_1);
+        assertEquals(new Vector2d(-1, -2), ans_vecs_3_4);
+        assertEquals(new Vector2d(-2, -1), ans_vecs_3_5);
+        assertEquals(new Vector2d(-2, -2), ans_vecs_4_5);
     }
 
     @Test
-    public void addVectorsTests(){
+    public void addVectorsTests() {
         // Given
-        Vector2d vec1 = new Vector2d(1,3);
-        Vector2d vec2 = new Vector2d(3,1);
-        Vector2d vec3 = new Vector2d(-1,-1);
+        Vector2d vec1 = new Vector2d(1, 3);
+        Vector2d vec2 = new Vector2d(3, 1);
+        Vector2d vec3 = new Vector2d(-1, -1);
         Vector2d ans_vecs_1_2;
         Vector2d ans_vecs_2_1;
         Vector2d ans_vecs_1_3;
@@ -211,17 +211,17 @@ public class Vector2dTest {
         ans_vecs_2_1 = vec2.add(vec1);
         ans_vecs_1_3 = vec1.add(vec3);
         // Then
-        assertEquals(new Vector2d(4,4),ans_vecs_1_2);
-        assertEquals(new Vector2d(4,4),ans_vecs_2_1);
-        assertEquals(new Vector2d(0,2),ans_vecs_1_3);
+        assertEquals(new Vector2d(4, 4), ans_vecs_1_2);
+        assertEquals(new Vector2d(4, 4), ans_vecs_2_1);
+        assertEquals(new Vector2d(0, 2), ans_vecs_1_3);
     }
 
     @Test
-    public void subtractVectorsTests(){
+    public void subtractVectorsTests() {
         // Given
-        Vector2d vec1 = new Vector2d(1,3);
-        Vector2d vec2 = new Vector2d(3,1);
-        Vector2d vec3 = new Vector2d(-1,-1);
+        Vector2d vec1 = new Vector2d(1, 3);
+        Vector2d vec2 = new Vector2d(3, 1);
+        Vector2d vec3 = new Vector2d(-1, -1);
         Vector2d ans_vecs_1_2;
         Vector2d ans_vecs_2_1;
         Vector2d ans_vecs_1_3;
@@ -230,18 +230,18 @@ public class Vector2dTest {
         ans_vecs_2_1 = vec2.subtract(vec1);
         ans_vecs_1_3 = vec1.subtract(vec3);
         // Then
-        assertEquals(new Vector2d(-2,2),ans_vecs_1_2);
-        assertEquals(new Vector2d(2,-2),ans_vecs_2_1);
-        assertEquals(new Vector2d(2,4),ans_vecs_1_3);
+        assertEquals(new Vector2d(-2, 2), ans_vecs_1_2);
+        assertEquals(new Vector2d(2, -2), ans_vecs_2_1);
+        assertEquals(new Vector2d(2, 4), ans_vecs_1_3);
     }
 
     @Test
-    public void oppositVectorsTests(){
+    public void oppositVectorsTests() {
         // Given
-        Vector2d vec1 = new Vector2d(1,3);
-        Vector2d vec2 = new Vector2d(0,0);
-        Vector2d vec3 = new Vector2d(-1,-3);
-        Vector2d vec4 = new Vector2d(-1,3);
+        Vector2d vec1 = new Vector2d(1, 3);
+        Vector2d vec2 = new Vector2d(0, 0);
+        Vector2d vec3 = new Vector2d(-1, -3);
+        Vector2d vec4 = new Vector2d(-1, 3);
         Vector2d ans_vec_1;
         Vector2d ans_vec_2;
         Vector2d ans_vec_3;
@@ -252,26 +252,26 @@ public class Vector2dTest {
         ans_vec_3 = vec3.opposite();
         ans_vec_4 = vec4.opposite();
         // Then
-        assertEquals(new Vector2d(-1,-3),ans_vec_1);
-        assertEquals(new Vector2d(0,0),ans_vec_2);
-        assertEquals(new Vector2d(1,3),ans_vec_3);
-        assertEquals(new Vector2d(1,-3),ans_vec_4);
+        assertEquals(new Vector2d(-1, -3), ans_vec_1);
+        assertEquals(new Vector2d(0, 0), ans_vec_2);
+        assertEquals(new Vector2d(1, 3), ans_vec_3);
+        assertEquals(new Vector2d(1, -3), ans_vec_4);
     }
 
     @Test
-    public void isVectorInBoundaryTest(){
+    public void isVectorInBoundaryTest() {
         // Given
-        Vector2d vectorIn1 = new Vector2d(1,1);
-        Vector2d vectorIn2 = new Vector2d(0,0);
-        Vector2d vectorIn3 = new Vector2d(0,2);
-        Vector2d vectorIn4 = new Vector2d(2,0);
-        Vector2d vectorIn5 = new Vector2d(2,2);
-        Vector2d vectorOut1 = new Vector2d(-1,1);
-        Vector2d vectorOut2 = new Vector2d(1,-1);
-        Vector2d vectorOut3 = new Vector2d(3,1);
-        Vector2d vectorOut4 = new Vector2d(1,3);
-        Vector2d vectorOut5 = new Vector2d(3,3);
-        Boundary boundary = new Boundary(new Vector2d(0,0),new Vector2d(2,2));
+        Vector2d vectorIn1 = new Vector2d(1, 1);
+        Vector2d vectorIn2 = new Vector2d(0, 0);
+        Vector2d vectorIn3 = new Vector2d(0, 2);
+        Vector2d vectorIn4 = new Vector2d(2, 0);
+        Vector2d vectorIn5 = new Vector2d(2, 2);
+        Vector2d vectorOut1 = new Vector2d(-1, 1);
+        Vector2d vectorOut2 = new Vector2d(1, -1);
+        Vector2d vectorOut3 = new Vector2d(3, 1);
+        Vector2d vectorOut4 = new Vector2d(1, 3);
+        Vector2d vectorOut5 = new Vector2d(3, 3);
+        Boundary boundary = new Boundary(new Vector2d(0, 0), new Vector2d(2, 2));
 
         // When
         boolean ans1 = boundary.isVectorIn(vectorIn1);

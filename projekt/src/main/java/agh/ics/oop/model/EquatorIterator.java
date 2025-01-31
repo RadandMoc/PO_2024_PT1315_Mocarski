@@ -4,12 +4,12 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 public class EquatorIterator implements Iterator<Vector2d> {
-        private final int startX;
-        private final int endX;
-        private final int endY;
+    private final int startX;
+    private final int endX;
+    private final int endY;
 
-        private int currentX;
-        private int currentY;
+    private int currentX;
+    private int currentY;
 
     public EquatorIterator(Boundary boundary) {
         this.startX = boundary.lowerLeft().x();

@@ -28,7 +28,7 @@ public class Simulation {
 
     public Simulation(AbstractWorldMap selectedMap, int startingAnimals, int startingEnergy,
                       int energyToBeingFullStuffed, int breadingEnergyLoss, int lenOfGenome,
-                      MutateGenome selectedMutatation, int numOfNewPlantsPerTurn, ReproductionStrategy typeOfReproduction, boolean saveStatistics){
+                      MutateGenome selectedMutatation, int numOfNewPlantsPerTurn, ReproductionStrategy typeOfReproduction, boolean saveStatistics) {
         map = selectedMap;
         // selectedMap.generatePlants(startedPlants);
         // energia zapewniana przez zjedzenie jednej rośliny -> GUI tworzymy dobra mape
@@ -38,7 +38,7 @@ public class Simulation {
         // energia rodziców zużywana by stworzyć potomka -> GUI
         // int minNumOfMutation,
         // wariant zachowania zwierzaków -> stworzę interfejs
-        map.generateRandomAnimals(startingAnimals,lenOfGenome,startingEnergy);
+        map.generateRandomAnimals(startingAnimals, lenOfGenome, startingEnergy);
         this.energyToBeingFullStuffed = energyToBeingFullStuffed;
         this.startingEnergy = startingEnergy;
         this.numOfNewPlantsPerTurn = numOfNewPlantsPerTurn;
@@ -47,7 +47,7 @@ public class Simulation {
         this.typeOfReproduction = typeOfReproduction;
         MapDataProvider dataProvider = new MapDataProvider(map);
         addObserver(dataProvider);
-        this.showStatistics = StatisticFabric.CreateClassicalStatistics(dataProvider );
+        this.showStatistics = StatisticFabric.CreateClassicalStatistics(dataProvider);
         this.saveStatistics = saveStatistics;
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss-SSS");
         this.fileName = "save_No" + LocalDateTime.now().format(formatter) + ".csv";
@@ -57,21 +57,21 @@ public class Simulation {
         return showStatistics;
     }
 
-    public void addObserver(SimTurnListener turnListener){
+    public void addObserver(SimTurnListener turnListener) {
         this.observers.add(turnListener);
     }
 
-    public void removeObserver(SimTurnListener turnListener){
+    public void removeObserver(SimTurnListener turnListener) {
         this.observers.remove(turnListener);
     }
 
-    public void notifyObserver(){
-        for(var observer : observers){
+    public void notifyObserver() {
+        for (var observer : observers) {
             observer.onNewTurnChange(this);
         }
     }
 
-    private void saveStatistics(){
+    private void saveStatistics() {
         List<String> statistics = showStatistics.show();
         StringBuilder sb = new StringBuilder();
         sb.append(currentTurn).append(": ");
@@ -100,7 +100,7 @@ public class Simulation {
         map.generatePlants(numOfNewPlantsPerTurn);
         currentTurn++;
         notifyObserver();
-        if(saveStatistics){
+        if (saveStatistics) {
             saveStatistics();
         }
     }

@@ -3,7 +3,7 @@ package agh.ics.oop.model;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class Animal implements WorldElement{
+public class Animal implements WorldElement {
     private MapDirection orientation;
     private Vector2d position;
     private int energy;
@@ -15,32 +15,33 @@ public class Animal implements WorldElement{
     private final List<Animal> children = new ArrayList<>();
     private int eatenGrass = 0;
 
-    public Animal(Vector2d position, int energy, int turnOfBirth, MutateGenome mutateMethod, List<Byte> parentsGenome, AnimalIOCalculator genomesListener){
+    public Animal(Vector2d position, int energy, int turnOfBirth, MutateGenome mutateMethod, List<Byte> parentsGenome, AnimalIOCalculator genomesListener) {
         this.turnOfBirth = turnOfBirth;
         this.energy = energy;
         this.position = position;
         this.genome = mutateMethod.mutate(parentsGenome);
         this.orientation = MapDirection.generateRandomDirection();
         this.genomeIdx = new Random().nextInt(genome.size());
-        if(genomesListener != null)
+        if (genomesListener != null)
             genomesListener.newAnimal(this);
     }
 
-    public Animal(Vector2d position, int energy, int turnOfBirth, List<Byte> genome, MapDirection orientation, int genomeIdx, AnimalIOCalculator genomesListener){
+    public Animal(Vector2d position, int energy, int turnOfBirth, List<Byte> genome, MapDirection orientation, int genomeIdx, AnimalIOCalculator genomesListener) {
         this.turnOfBirth = turnOfBirth;
         this.energy = energy;
         this.position = position;
         this.genome = genome;
         this.orientation = orientation;
         this.genomeIdx = genomeIdx;
-        if(genomesListener != null)
+        if (genomesListener != null)
             genomesListener.newAnimal(this);
     }
-    public Animal(Vector2d position, int energy, int turnOfBirth, List<Byte> genome, AnimalIOCalculator genomesListener){
-        this(position,energy,turnOfBirth,genome,MapDirection.generateRandomDirection(),new Random().nextInt(genome.size()),genomesListener);
+
+    public Animal(Vector2d position, int energy, int turnOfBirth, List<Byte> genome, AnimalIOCalculator genomesListener) {
+        this(position, energy, turnOfBirth, genome, MapDirection.generateRandomDirection(), new Random().nextInt(genome.size()), genomesListener);
     }
 
-    public void move(AbstractWorldMap map){
+    public void move(AbstractWorldMap map) {
         synchronized (orientation) {
             orientation = orientation.change(genome.get(genomeIdx));
         }
@@ -54,10 +55,10 @@ public class Animal implements WorldElement{
         this.changeEnergy(-consequences.energy());
     }
 
-    public boolean ableToWalk(int requiredEnergy, AnimalIOCalculator genomesListener){
-        if (energy - requiredEnergy < 0){
+    public boolean ableToWalk(int requiredEnergy, AnimalIOCalculator genomesListener) {
+        if (energy - requiredEnergy < 0) {
             isDead = true;
-            if(genomesListener != null)
+            if (genomesListener != null)
                 genomesListener.deleteAnimal(this);
             return false;
         }
@@ -66,26 +67,28 @@ public class Animal implements WorldElement{
         return true;
     }
 
-    public void changeEnergy(int energy){
+    public void changeEnergy(int energy) {
         this.energy += energy;
     }
 
-    public void eatGrass(int energy){
+    public void eatGrass(int energy) {
         this.energy += energy;
         eatenGrass++;
     }
 
-    public boolean getIsDead() {return isDead; }
+    public boolean getIsDead() {
+        return isDead;
+    }
 
     public int getEnergy() {
         return energy;
     }
 
-    public int getLifeTime(){
+    public int getLifeTime() {
         return turnOfAnimal;
     }
 
-    public int getNumOfChild(){
+    public int getNumOfChild() {
         int numOfChild;
         synchronized (children) {
             numOfChild = children.size();
@@ -97,9 +100,11 @@ public class Animal implements WorldElement{
         return orientation;
     }
 
-    public int getSizeOfGenome() {return this.genome.size();}
+    public int getSizeOfGenome() {
+        return this.genome.size();
+    }
 
-    public void addChild(Animal animal){
+    public void addChild(Animal animal) {
         synchronized (children) {
             children.add(animal);
         }
@@ -115,17 +120,17 @@ public class Animal implements WorldElement{
         fieldBox.UpdateForAnimal(energy);
     }
 
-    public List<Byte> getPartOfGen(int pointOfSlice, boolean fromRight){
+    public List<Byte> getPartOfGen(int pointOfSlice, boolean fromRight) {
         List<Byte> genomeSlice = new ArrayList<>();
 
-        if (fromRight){
-            for (int i = genome.size() - 1; i > genome.size() - 1 - pointOfSlice; --i){
+        if (fromRight) {
+            for (int i = genome.size() - 1; i > genome.size() - 1 - pointOfSlice; --i) {
                 genomeSlice.add(genome.get(i));
             }
             return genomeSlice.reversed();
         }
 
-        for (int i = 0; i < pointOfSlice; ++i){
+        for (int i = 0; i < pointOfSlice; ++i) {
             genomeSlice.add(genome.get(i));
         }
         return genomeSlice;
@@ -143,11 +148,11 @@ public class Animal implements WorldElement{
         return turnOfAnimal + turnOfBirth;
     }
 
-    public String getGenome(){
+    public String getGenome() {
         return genome.stream().map("%d"::formatted).collect(Collectors.joining());
     }
 
-    public Set<Animal> getAllDescendants(){
+    public Set<Animal> getAllDescendants() {
         Set<Animal> descendants = new HashSet<Animal>();
         synchronized (children) {
             for (Animal animal : children) {
@@ -162,6 +167,6 @@ public class Animal implements WorldElement{
 
     @Override
     public String toString() {
-        return "(%d,%d) with energy %d".formatted(position.x(),position.y(),energy);
+        return "(%d,%d) with energy %d".formatted(position.x(), position.y(), energy);
     }
 }

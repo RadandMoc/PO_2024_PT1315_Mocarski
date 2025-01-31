@@ -6,7 +6,7 @@ public enum MapDirection {
     N(new Vector2d(0, 1)),
     NE(new Vector2d(1, 1)),
     E(new Vector2d(1, 0)),
-    SE(new Vector2d(1,-1)),
+    SE(new Vector2d(1, -1)),
     S(new Vector2d(0, -1)),
     SW(new Vector2d(-1, -1)),
     W(new Vector2d(-1, 0)),
@@ -18,13 +18,13 @@ public enum MapDirection {
         diretctionToVector = vector;
     }
 
-    public static MapDirection generateRandomDirection(){
+    public static MapDirection generateRandomDirection() {
         return values()[new Random().nextInt(8)];
     }
 
     @Override
     public String toString() {
-        return switch (this){
+        return switch (this) {
             case N -> "Północ";
             case NE -> "Północny wschód";
             case E -> "Wschód";
@@ -36,11 +36,11 @@ public enum MapDirection {
         };
     }
 
-    public MapDirection change(int rotate){
+    public MapDirection change(int rotate) {
         return values()[(this.ordinal() + rotate) % values().length];
     }
 
-    public Vector2d toUnitVector(){
+    public Vector2d toUnitVector() {
         return diretctionToVector;
     }
 }

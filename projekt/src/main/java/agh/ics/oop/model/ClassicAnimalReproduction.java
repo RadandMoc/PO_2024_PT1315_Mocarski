@@ -3,15 +3,15 @@ package agh.ics.oop.model;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class ClassicAnimalReproduction implements ReproductionStrategy{
+public class ClassicAnimalReproduction implements ReproductionStrategy {
     private final Comparator<Animal> comparator = new AnimalConflictComparator();
     private final Random random;
 
-    public ClassicAnimalReproduction(int seedForRandom){
+    public ClassicAnimalReproduction(int seedForRandom) {
         random = new Random(seedForRandom);
     }
 
-    public ClassicAnimalReproduction(){
+    public ClassicAnimalReproduction() {
         this(new Random().nextInt());
     }
 
@@ -25,7 +25,7 @@ public class ClassicAnimalReproduction implements ReproductionStrategy{
         List<Animal> sortedAnimals = animalCollection.stream()
                 .sorted(comparator)
                 .collect(Collectors.toList());
-        if (comparator.compare(sortedAnimals.getFirst(), sortedAnimals.getLast()) >= 0){
+        if (comparator.compare(sortedAnimals.getFirst(), sortedAnimals.getLast()) >= 0) {
             sortedAnimals = sortedAnimals.reversed();
         }
 
@@ -33,7 +33,7 @@ public class ClassicAnimalReproduction implements ReproductionStrategy{
             Animal animal1 = sortedAnimals.get(i);
             Animal animal2 = sortedAnimals.get(i + 1);
             List<Byte> childGenome = breed(animal1, animal2);
-            reproductionResults.add(new ReproductionResult(childGenome,List.of(animal1,animal2)));
+            reproductionResults.add(new ReproductionResult(childGenome, List.of(animal1, animal2)));
             animal1.changeEnergy(-energyForBreeding);
             animal2.changeEnergy(-energyForBreeding);
         }
@@ -41,13 +41,13 @@ public class ClassicAnimalReproduction implements ReproductionStrategy{
         return reproductionResults;
     }
 
-    private List<Byte> breed(Animal animal1, Animal animal2){
+    private List<Byte> breed(Animal animal1, Animal animal2) {
         boolean isFromRight = random.nextBoolean();
         double percentOfGene = (double) animal1.getEnergy() / (animal1.getEnergy() + animal2.getEnergy());
         int genomeLength = animal1.getSizeOfGenome();
-        int pointOfSlice = (int)(percentOfGene * genomeLength);
+        int pointOfSlice = (int) (percentOfGene * genomeLength);
         List<Byte> animal1Gene = animal1.getPartOfGen(pointOfSlice, isFromRight);
-        List<Byte> animal2Gene = animal2.getPartOfGen(genomeLength-pointOfSlice, !isFromRight);
+        List<Byte> animal2Gene = animal2.getPartOfGen(genomeLength - pointOfSlice, !isFromRight);
 
         if (isFromRight) {
             animal2Gene.addAll(animal1Gene);

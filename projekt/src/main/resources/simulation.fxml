@@ -40,10 +40,10 @@
                 <Label text="Choose map"/>
                 <ComboBox fx:id="mapChoice" value="Globe">
                     <items>
-                    <FXCollections fx:factory="observableArrayList">
-                        <String fx:value="Globe" />
-                        <String fx:value="Globe with pole" />
-                    </FXCollections>
+                        <FXCollections fx:factory="observableArrayList">
+                            <String fx:value="Globe"/>
+                            <String fx:value="Globe with pole"/>
+                        </FXCollections>
                     </items>
                 </ComboBox>
                 <Label fx:id="energyLossLabel" text="EnergyLoss"/>
@@ -59,7 +59,7 @@
                 <ComboBox fx:id="plantGrowth" value="forested equatoria">
                     <items>
                         <FXCollections fx:factory="observableArrayList">
-                            <String fx:value="forested equatoria" />
+                            <String fx:value="forested equatoria"/>
                         </FXCollections>
                     </items>
                 </ComboBox>
@@ -72,7 +72,7 @@
                 <ComboBox fx:id="animalBehavior" value="full predestination">
                     <items>
                         <FXCollections fx:factory="observableArrayList">
-                            <String fx:value="full predestination" />
+                            <String fx:value="full predestination"/>
                         </FXCollections>
                     </items>
                 </ComboBox>
@@ -91,8 +91,8 @@
                 <ComboBox fx:id="mutationStrategy" value="RandomMutate">
                     <items>
                         <FXCollections fx:factory="observableArrayList">
-                            <MutationStrategy fx:constant="RandomMutate" />
-                            <MutationStrategy fx:constant="SwapMutate" />
+                            <MutationStrategy fx:constant="RandomMutate"/>
+                            <MutationStrategy fx:constant="SwapMutate"/>
                         </FXCollections>
                     </items>
                 </ComboBox>

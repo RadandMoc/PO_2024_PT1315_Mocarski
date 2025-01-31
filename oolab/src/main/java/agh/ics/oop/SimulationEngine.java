@@ -11,25 +11,25 @@ public class SimulationEngine {
     private final ArrayList<Thread> threads = new ArrayList<>();
     private final ExecutorService threadsInPool = Executors.newFixedThreadPool(4);
 
-    public SimulationEngine(List<Simulation> sims){
+    public SimulationEngine(List<Simulation> sims) {
         this.sims.addAll(sims);
     }
 
-    public void runSync(){
-        for (Simulation sim : sims){
+    public void runSync() {
+        for (Simulation sim : sims) {
             sim.run();
         }
     }
 
-    public void runAsync(){
-        for (Simulation sim : sims){
+    public void runAsync() {
+        for (Simulation sim : sims) {
             Thread simThread = new Thread(sim);
             simThread.start();
             threads.add(simThread);
         }
     }
 
-    public void awaitSimulationsEnd() throws InterruptedException{
+    public void awaitSimulationsEnd() throws InterruptedException {
         for (Thread thread : threads) {
             thread.join(); // Czekamy na zakończenie bieżącego wątku
         }
@@ -39,7 +39,7 @@ public class SimulationEngine {
         }
     }
 
-    public void runAsyncInThreadPool(){
+    public void runAsyncInThreadPool() {
         for (Simulation sim : sims) {
             threadsInPool.submit(sim);
         }

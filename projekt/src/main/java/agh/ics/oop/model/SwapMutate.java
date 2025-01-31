@@ -9,8 +9,8 @@ public class SwapMutate extends AbstractMutateGenome {
         super(minNumOfMutation, maxNumOfMutation);
     }
 
-    public SwapMutate(int minNumOfMutation, int maxNumOfMutation, int seedForRandom){
-        super(minNumOfMutation,maxNumOfMutation,seedForRandom);
+    public SwapMutate(int minNumOfMutation, int maxNumOfMutation, int seedForRandom) {
+        super(minNumOfMutation, maxNumOfMutation, seedForRandom);
     }
 
     @Override

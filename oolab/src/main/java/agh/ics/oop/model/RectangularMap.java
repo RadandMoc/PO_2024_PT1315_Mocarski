@@ -11,16 +11,16 @@ public class RectangularMap extends AbstractWorldMap {
     private final Vector2d lowerLeft;
     private final Vector2d upperRight;
 
-    public RectangularMap(int width, int height){
-        this(width,height,new Vector2d(0,0));
+    public RectangularMap(int width, int height) {
+        this(width, height, new Vector2d(0, 0));
     }
 
-    public RectangularMap(int width, int height, Vector2d lowerLeftPoint){
+    public RectangularMap(int width, int height, Vector2d lowerLeftPoint) {
         super();
         this.height = height;
         this.width = width;
         lowerLeft = lowerLeftPoint;
-        upperRight = new Vector2d(lowerLeft.getX() + width -1, lowerLeft.getY() + height -1);
+        upperRight = new Vector2d(lowerLeft.getX() + width - 1, lowerLeft.getY() + height - 1);
     }
 
     @Override
@@ -29,7 +29,7 @@ public class RectangularMap extends AbstractWorldMap {
     }
 
     @Override
-    public Boundary getCurrentBounds(){
-        return new Boundary(lowerLeft,upperRight);
+    public Boundary getCurrentBounds() {
+        return new Boundary(lowerLeft, upperRight);
     }
 }

@@ -1,12 +1,13 @@
 package agh.ics.oop.model;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 import org.junit.jupiter.api.Test;
 
 public class MapDirectionTest {
 
     @Test
-    public void forAllMapDirections_callNext_thenCheckIsProperlyDirection(){
+    public void forAllMapDirections_callNext_thenCheckIsProperlyDirection() {
         // Given
         MapDirection north = MapDirection.NORTH;
         MapDirection east = MapDirection.EAST;
@@ -22,7 +23,7 @@ public class MapDirectionTest {
     }
 
     @Test
-    public void forAllMapDirections_callPrevious_thenCheckIsProperlyDirection(){
+    public void forAllMapDirections_callPrevious_thenCheckIsProperlyDirection() {
         // Given
         MapDirection north = MapDirection.NORTH;
         MapDirection east = MapDirection.EAST;

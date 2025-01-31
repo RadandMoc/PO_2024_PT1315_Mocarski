@@ -10,12 +10,12 @@ public abstract class AbstractMutateGenome implements MutateGenome {
     protected final int maxMutation;
     protected final Random random;
 
-    public AbstractMutateGenome(int minNumOfMutation, int maxNumOfMutation){
-        this(minNumOfMutation,maxNumOfMutation, new Random().nextInt());
+    public AbstractMutateGenome(int minNumOfMutation, int maxNumOfMutation) {
+        this(minNumOfMutation, maxNumOfMutation, new Random().nextInt());
     }
 
-    public AbstractMutateGenome(int minNumOfMutation, int maxNumOfMutation, int seedForRandom)  {
-        if (maxNumOfMutation < minNumOfMutation){
+    public AbstractMutateGenome(int minNumOfMutation, int maxNumOfMutation, int seedForRandom) {
+        if (maxNumOfMutation < minNumOfMutation) {
             throw new IllegalArgumentException("maxNumOfMutation cannot be less than minNumOfMutation");
         }
         this.minMutation = minNumOfMutation;

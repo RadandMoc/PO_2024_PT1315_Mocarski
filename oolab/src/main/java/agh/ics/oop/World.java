@@ -6,11 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class World {
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         ConsoleMapDisplay listener = new ConsoleMapDisplay();
 
-        /*
+        /* // nie wykomentowujemy kodu - usuwamy
         try{
             //List<MoveDirection> directions = OptionsParser.whereMove(args);
             List<MoveDirection> directions = List.of(
@@ -40,13 +39,13 @@ public class World {
         }
         */
 
-        try{
+        try {
             //List<MoveDirection> directions = OptionsParser.whereMove(args);
             List<MoveDirection> directions = List.of(
                     MoveDirection.FORWARD, MoveDirection.FORWARD, MoveDirection.BACKWARD,
                     MoveDirection.FORWARD, MoveDirection.FORWARD, MoveDirection.BACKWARD,
                     MoveDirection.FORWARD, MoveDirection.FORWARD, MoveDirection.BACKWARD);
-            List<Vector2d> positions = List.of(new Vector2d(2,2), new Vector2d(3,4));
+            List<Vector2d> positions = List.of(new Vector2d(2, 2), new Vector2d(3, 4));
             GrassField map = new GrassField(10);
             map.addObserver(listener);
             Simulation simulation = new Simulation(positions, directions, map);
@@ -58,8 +57,8 @@ public class World {
                         MoveDirection.FORWARD, MoveDirection.FORWARD, MoveDirection.BACKWARD,
                         MoveDirection.FORWARD, MoveDirection.FORWARD, MoveDirection.BACKWARD,
                         MoveDirection.FORWARD, MoveDirection.FORWARD, MoveDirection.BACKWARD);
-                positions = List.of(new Vector2d(2,2), new Vector2d(3,4));
-                RectangularMap map2 = new RectangularMap(8,8);
+                positions = List.of(new Vector2d(2, 2), new Vector2d(3, 4));
+                RectangularMap map2 = new RectangularMap(8, 8);
                 map2.addObserver(listener);
                 sims.add(new Simulation(positions, directions, map2));
             }
@@ -71,35 +70,31 @@ public class World {
             eng.runAsyncInThreadPool();
             try {
                 eng.awaitSimulationsEnd();
-            } catch (InterruptedException ignored){
+            } catch (InterruptedException ignored) {
 
             }
-        }
-        catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             System.out.println(e);
         }
 
         System.out.println("Program zakończył działanie");
     }
 
-    private static void run(MoveDirection[] directions)
-    {
+    private static void run(MoveDirection[] directions) {
         String moves = "";
-        for(MoveDirection direct : directions)
-        {
+        for (MoveDirection direct : directions) {
             moves += World.whereAnimalMove(direct);
         }
         System.out.print(moves);
     }
 
-    private static String whereAnimalMove(MoveDirection directions)
-    {
+    private static String whereAnimalMove(MoveDirection directions) {
         String answer = switch (directions) {
             case MoveDirection.FORWARD -> "zwierzak idzie do przodu\n";
             case MoveDirection.BACKWARD -> "zwierzak idzie do tyłu\n";
             case MoveDirection.RIGHT -> "zwierzak skręca w prawo\n";
             case MoveDirection.LEFT -> "zwierzak skręca w lewo\n";
-            default ->  "";
+            default -> "";
         };
         return answer;
     }
