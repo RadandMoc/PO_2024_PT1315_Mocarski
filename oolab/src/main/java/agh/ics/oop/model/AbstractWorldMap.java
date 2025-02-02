@@ -2,6 +2,7 @@ package agh.ics.oop.model;
 
 import agh.ics.oop.model.util.IncorrectPositionException;
 import agh.ics.oop.model.util.MapVisualizer;
+import javafx.scene.control.skin.TextInputControlSkin;
 
 import java.util.*;
 
@@ -35,13 +36,19 @@ public abstract class AbstractWorldMap implements WorldMap {
     @Override
     public void move(Animal animal, MoveDirection direction) {
         final Vector2d prevPos = animal.getPosition();
+        final var prevDirection = animal.getOrientation();
         animal.move(direction, this);
         final Vector2d newPos = animal.getPosition();
+        final var newDirection = animal.getOrientation();
         if (!prevPos.equals(newPos)){
             animals.put(newPos, animal);
             animals.remove(prevPos);
             mapChanged("Poruszono zwierzę z pozycji %s na pozycję %s ".formatted(prevPos, newPos));
         }
+        else if(newDirection != prevDirection)
+            mapChanged("Zwierzę na pozycji %s obróciło się w stronę %s".formatted(prevPos, newDirection));
+        else
+            mapChanged("Zwierzę na pozycji %s jest zablokowane".formatted(prevPos));
     }
 
     @Override
