@@ -7,7 +7,7 @@ public class Animal implements WorldElement {
     private MapDirection orientation;
     private Vector2d position;
     private int energy;
-    private final List<Byte> genome;
+    private final List<Byte> genome; // nie przydałaby się na to klasa?
     private int turnOfAnimal = 0;
     private int genomeIdx;
     private final int turnOfBirth;
@@ -55,7 +55,7 @@ public class Animal implements WorldElement {
         this.changeEnergy(-consequences.energy());
     }
 
-    public boolean ableToWalk(int requiredEnergy, AnimalIOCalculator genomesListener) {
+    public boolean ableToWalk(int requiredEnergy, AnimalIOCalculator genomesListener) { // isAbleToWalk; albo lepiej Move, skoro to słowo jest używane gdzie indziej
         if (energy - requiredEnergy < 0) {
             isDead = true;
             if (genomesListener != null)
@@ -116,7 +116,7 @@ public class Animal implements WorldElement {
     }
 
     @Override
-    public void updateWorldElementBox(WorldElementBox fieldBox) {
+    public void updateWorldElementBox(WorldElementBox fieldBox) { // czy ta metoda coś wnosi?
         fieldBox.UpdateForAnimal(energy);
     }
 

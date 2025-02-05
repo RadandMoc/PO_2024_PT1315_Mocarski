@@ -1,6 +1,6 @@
 package agh.ics.oop.model;
 
-import java.util.*;
+import java.util.*; // import co?
 
 public class AnimalIOCalculator {
     private final HashMap<String, List<Animal>> activeAnimals = new HashMap<>();

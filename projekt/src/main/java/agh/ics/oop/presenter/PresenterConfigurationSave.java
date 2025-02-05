@@ -34,7 +34,7 @@ public record PresenterConfigurationSave(int heightValue,
         }
     }
 
-    public static PresenterConfigurationSave load(String path) throws IOException, ClassNotFoundException {
+    public static PresenterConfigurationSave load(String path) throws IOException, ClassNotFoundException { // założymy się, że ClassNotFoundException nie rzuca?
         try (FileInputStream fileIn = new FileInputStream(path);
              ObjectInputStream in = new ObjectInputStream(fileIn)) {
             return (PresenterConfigurationSave) in.readObject();

@@ -1,4 +1,4 @@
-package agh.ics.oop.fabric;
+package agh.ics.oop.fabric; // factory; fabric to nawet nie jest fabryka
 
 import agh.ics.oop.model.MutateGenome;
 import agh.ics.oop.model.MutationStrategy;

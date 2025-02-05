@@ -1,4 +1,4 @@
-package agh.ics.oop.model;
+package agh.ics.oop.model; // czy to model?
 
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;

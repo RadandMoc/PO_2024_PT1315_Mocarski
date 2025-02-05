@@ -3,6 +3,6 @@ package agh.ics.oop.model;
 import java.io.Serializable;
 import java.util.List;
 
-public interface ShowStatistics extends Serializable {
+public interface ShowStatistics extends Serializable { // nazwa
     List<String> show();
 }

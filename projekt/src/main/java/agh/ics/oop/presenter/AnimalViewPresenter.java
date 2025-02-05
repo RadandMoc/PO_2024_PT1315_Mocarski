@@ -12,9 +12,9 @@ import javafx.scene.image.ImageView;
 import java.util.Objects;
 
 public class AnimalViewPresenter implements SimTurnListener {
-    Animal animal;
+    Animal animal; // modyfikator dostępu?
     @FXML
-    Label genome;
+    Label genome; // jw.
     @FXML
     Label activateGenome;
     @FXML

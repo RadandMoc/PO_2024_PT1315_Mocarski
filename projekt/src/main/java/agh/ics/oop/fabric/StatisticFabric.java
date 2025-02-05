@@ -5,7 +5,7 @@ import agh.ics.oop.statistic.*;
 
 import java.util.List;
 
-public class StatisticFabric {
+public class StatisticFabric { // też Factory
 
     public static ShowStatistics CreateClassicalStatistics(MapDataProvider dataProvider) {
         AnimalGenomesStatistic animalGenomesStatistic = new AnimalGenomesStatistic(dataProvider);

@@ -19,19 +19,19 @@ public record Vector2d(int x, int y) {
         return new Vector2d(x + other.x(), y + other.y());
     }
 
-    Vector2d upperRight(Vector2d other) {
+    Vector2d upperRight(Vector2d other) { // modyfikator dostępu?
         return new Vector2d(Math.max(x, other.x()), Math.max(y, other.y()));
     }
 
-    Vector2d lowerLeft(Vector2d other) {
+    Vector2d lowerLeft(Vector2d other) { // modyfikator dostępu?
         return new Vector2d(Math.min(x, other.x()), Math.min(y, other.y()));
     }
 
-    Vector2d subtract(Vector2d other) {
+    Vector2d subtract(Vector2d other) { // modyfikator dostępu?
         return new Vector2d(x - other.x(), y - other.y());
     }
 
-    Vector2d opposite() {
+    Vector2d opposite() { // modyfikator dostępu?
         return new Vector2d(-x, -y);
     }
 

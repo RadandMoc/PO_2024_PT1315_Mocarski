@@ -217,7 +217,7 @@ public class ShowSimulationPresenter implements MapChangeListener, SimTurnListen
             } else {
                 showAlert("Wpisz liczbe wieksza od 0. (decysekundy to 1/10 sekundy)", Alert.AlertType.WARNING);
             }
-        } catch (NumberFormatException ignored) {
+        } catch (NumberFormatException ignored) { // ignored?
             showAlert("Musi to być liczba naturalna (int) większa od 0", Alert.AlertType.ERROR);
         }
     }
@@ -252,7 +252,7 @@ public class ShowSimulationPresenter implements MapChangeListener, SimTurnListen
             });
 
         } catch (IOException e) {
-            e.printStackTrace();
+            e.printStackTrace(); // czy to dobry wybór?
         }
     }
 

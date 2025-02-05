@@ -156,7 +156,7 @@ public class SimulationPresenter {
                         }
                     }
                     Platform.runLater(newStage::close);
-                });
+                }); // lambda w lambdzie
 
                 presenter.setSimulationThread(simulationThread);
 
@@ -174,7 +174,7 @@ public class SimulationPresenter {
             } catch (IOException ignored) {
 
             }
-        });
+        }); // to jest stanowczo za duże na lambdę
     }
 
 
@@ -252,7 +252,7 @@ public class SimulationPresenter {
             System.out.println(e.getMessage());
             showError(e.getMessage());
         }
-    }
+    } // ta metoda jest przerośnięta
 
     @FXML
     private void onSaveConfigClicked() {

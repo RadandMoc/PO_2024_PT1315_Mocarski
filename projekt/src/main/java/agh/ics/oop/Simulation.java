@@ -65,7 +65,7 @@ public class Simulation {
         this.observers.remove(turnListener);
     }
 
-    public void notifyObserver() {
+    public void notifyObserver() { // public? liczba pojedyncza?
         for (var observer : observers) {
             observer.onNewTurnChange(this);
         }
@@ -92,7 +92,7 @@ public class Simulation {
         }
     }
 
-    public void run() throws InterruptedException {
+    public void run() throws InterruptedException { // czy to throws to dobry wybór?
         map.clearDeathAnimal();
         map.movesAllAnimals();
         map.animalsConsume(strongestAnimalFinder);

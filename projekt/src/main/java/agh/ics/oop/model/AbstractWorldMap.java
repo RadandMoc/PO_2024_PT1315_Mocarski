@@ -1,6 +1,6 @@
 package agh.ics.oop.model;
 
-import java.util.*;
+import java.util.*; // import co?
 
 public abstract class AbstractWorldMap {
     protected final HashMap<Vector2d, HashSet<Animal>> animals = new HashMap<>();
@@ -92,7 +92,7 @@ public abstract class AbstractWorldMap {
         mapChanged("Ruszono zwierzakami");
     }
 
-    public void clearDeathAnimal() {
+    public void clearDeathAnimal() { // dead
         synchronized (animals) {
             animals.forEach((key, animalsInSquare) -> animalsInSquare.removeIf(animal ->
                     !animal.ableToWalk(energyLoss.howManyEnergyToWalk(animal), genomesListener)
@@ -105,7 +105,7 @@ public abstract class AbstractWorldMap {
 
     public abstract MoveResult animalMoveChanges(Animal animal);
 
-    public void animalsConsume(StrongestAnimalFinder strongestAnimalFinder) {
+    public void animalsConsume(StrongestAnimalFinder strongestAnimalFinder) { // nazwa
         synchronized (animals) {
             for (var pos : animals.keySet()) {
                 synchronized (plants) {

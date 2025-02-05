@@ -1,5 +1,5 @@
 package agh.ics.oop.statistic;
 
 public interface Statistic {
-    String getValue();
+    String getValue(); // getValue zwraca String'a - zgrzyt
 }
